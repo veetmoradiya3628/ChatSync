@@ -16,6 +16,11 @@ import { ContactsComponent } from './contacts/contacts.component';
 import { GroupsComponent } from './groups/groups.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ProfileComponent } from './profile/profile.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatCardModule } from '@angular/material/card';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -32,11 +37,16 @@ import { ProfileComponent } from './profile/profile.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     LayoutModule,
+    FlexLayoutModule,
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MatCardModule,
+    ScrollingModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

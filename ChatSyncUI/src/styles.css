@@ -1,4 +1,50 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.m-10 {
+    margin: 10px !important;
+}
+
+.ml-2 {
+    margin-left: 2px !important;
+}
+
+.m-2 {
+    margin: 2px !important;
+}
+
+.contact-tile {
+    background-color: rgb(88, 88, 88) !important;
+}
+
+.contact-tile:hover {
+    background-color: rgb(124, 120, 120) !important;
+}
+
+.contact-tile-image {
+    background-image: url('https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg');
+    background-size: cover;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+.chat-space-area{
+    height: 685px;
+    max-height: 685px;
+    background-color: rgb(92, 91, 91) !important;
+}
+
+.sent-message-area{
+    height: 65px;
+    max-height: 65px;
+}

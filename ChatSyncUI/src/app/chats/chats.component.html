@@ -1,1 +1,51 @@
-<p>chats works!</p>
+<div fxLayout="column" fxLayoutAlign="start stretch" class="m-10">
+    <div fxLayout="row" fxLayoutAlign="start start">
+        <div fxLayout="column" fxFlex="25">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Chats</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <!-- contact lists -->
+                    <div fxLayout="column">
+                        <mat-card class="m-2 contact-tile" *ngFor="let index of loopCounter">
+                            <mat-card-header>
+                                <div mat-card-avatar class="contact-tile-image"></div>
+                                <mat-card-title>Contact {{index}} </mat-card-title>
+                                <mat-card-subtitle>Contact Status</mat-card-subtitle>
+                            </mat-card-header>
+                            <!-- Chat content or recent messages -->
+                            <!-- <mat-card-content>
+                                <p>Last message or chat preview goes here...</p>
+                            </mat-card-content> -->
+                        </mat-card>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div fxLayout="column" fxFlex="75" class="ml-2">
+            <mat-card>
+                <div class="header-area">
+                    <mat-card-header>
+                        <div mat-card-avatar class="contact-tile-image"></div>
+                        <mat-card-title>Chat Thread</mat-card-title>
+                        <mat-card-subtitle>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste,
+                            ut.</mat-card-subtitle>
+                    </mat-card-header>
+                </div>
+                <div class="chat-space-area">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, sed?
+                </div>
+                <div class="sent-message-area">
+                    <form action="">
+                        <mat-form-field fxFill>
+                            <mat-icon matPrefix>attach_file</mat-icon>
+                            <input matInput placeholder="type your message here">
+                            <mat-icon matSuffix>send</mat-icon>
+                        </mat-form-field>
+                    </form>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+</div>
