@@ -1,0 +1,27 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
+    <mat-toolbar>Welcome</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item [routerLink]="'/chats'"> <mat-icon>chats</mat-icon> Chats</a>
+      <mat-nav-list nested>
+        <a mat-list-item [routerLink]="'/contacts'"> <mat-icon> contacts</mat-icon> Contacts</a>
+        <a mat-list-item [routerLink]="'/groups'"> <mat-icon>group</mat-icon> Groups</a>  
+      </mat-nav-list>
+      <a mat-list-item [routerLink]="'/settings'"> <mat-icon>settings</mat-icon> Settings</a>
+      <a mat-list-item [routerLink]="'/profile'"> <mat-icon>person</mat-icon> Profile</a>
+      <a mat-list-item href="#"> <mat-icon>exit_to_app</mat-icon> Logout</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+        *ngIf="true">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>ChatSync</span>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
