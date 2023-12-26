@@ -27,11 +27,10 @@ body {
 }
 
 .contact-tile:hover {
-    background-color: rgb(124, 120, 120) !important;
+    background-color: #707070 !important;
 }
 
 .contact-tile-image {
-    background-image: url('https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg');
     background-size: cover;
     height: 50px;
     width: 50px;
@@ -39,12 +38,61 @@ body {
 }
 
 .chat-space-area{
-    height: 685px;
-    max-height: 685px;
+    height: 645px;
+    max-height: 645px;
     background-color: rgb(92, 91, 91) !important;
 }
 
-.sent-message-area{
-    height: 65px;
-    max-height: 65px;
+
+/* Chat message UI styles */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+
+.message {
+    margin: 4px 4px;
+}
+
+.message-content {
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: larger;
+    max-width: 70%;
+}
+
+.message-content.sent {
+    background-color: #252525;
+    /* Sent message color */
+}
+
+.message-content.received {
+    background-color: #999999;
+    color: #000000;
+    /* Received message color */
+}
+
+.message-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 107px !important;
+}
+
+.message-input {
+    flex: 1;
+    color: black !important;
+    margin-top: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.attachment-button,
+.send-button {
+    margin-left: 5px;
+    color: white !important;
 }

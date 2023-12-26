@@ -21,6 +21,7 @@ import { MatCardModule } from '@angular/material/card';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { ChatMessageAreaComponent } from './chats/chat-message-area/chat-message-area.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { MatInputModule } from '@angular/material/input';
     ContactsComponent,
     GroupsComponent,
     SettingsComponent,
-    ProfileComponent
+    ProfileComponent,
+    ChatMessageAreaComponent
   ],
   imports: [
     BrowserModule,

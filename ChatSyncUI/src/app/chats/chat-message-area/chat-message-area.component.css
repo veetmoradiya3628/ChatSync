@@ -1,0 +1,13 @@
+.message-scroll-viewport {
+    height: 645px !important;
+    overflow-y: auto;
+    /* Show vertical scrollbar only when necessary */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+}
+
+.message-scroll-viewport::-webkit-scrollbar {
+    display: none;
+}
