@@ -22,6 +22,9 @@
                             <div class="message-content"
                                 [ngClass]="{'sent': message.sentBy === 'user', 'received': message.sentBy !== 'user'}">
                                 {{ message.text }}
+                                <div fxLayout="row" fxLayoutAlign="end end">
+                                    <p class="message-timestamp">12:43</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -31,6 +34,9 @@
                             <div class="message-content"
                                 [ngClass]="{'sent': message.sentBy === 'user', 'received': message.sentBy !== 'user'}">
                                 {{ message.text }}
+                                <div fxLayout="row" fxLayoutAlign="end end">
+                                    <p class="message-timestamp">12:43</p>
+                                </div>
                             </div>
                         </div>
                     </div>

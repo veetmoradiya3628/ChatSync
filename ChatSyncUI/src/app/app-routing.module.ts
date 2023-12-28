@@ -6,12 +6,17 @@ import { GroupsComponent } from './groups/groups.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ChatsComponent } from './chats/chats.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'chats',
     pathMatch: 'full'
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   },
   {
     path: 'chats',

@@ -9,7 +9,9 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-
+.ml-5{
+    margin-left: 5px !important;
+}
 .m-10 {
     margin: 10px !important;
 }
@@ -60,9 +62,17 @@ body {
 
 .message-content {
     border-radius: 8px;
-    padding: 8px 12px;
-    font-size: larger;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 4px;
+    font-size: 20px !important;
     max-width: 70%;
+}
+
+.message-timestamp {
+    font-size: small;
+    margin-top: 2px !important;
+    margin-bottom: 0px !important;
 }
 
 .message-content.sent {

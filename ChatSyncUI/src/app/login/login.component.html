@@ -1,0 +1,51 @@
+<div fxLayout="column">
+    <div>
+        <!-- <app-header></app-header> -->
+    </div>
+    <div fxLayout="row">
+        <div fxLayout="column" fxFlex="40" fxFlexOffset="30%">
+            <div fxLayout="column" fxFlexOffset="20%">
+                <mat-card>
+                    <form>
+                        <div class="m-10">
+                            <mat-card-header>
+                                <div fxLayout="row" fxFill fxLayoutAlign="center center">
+                                    <mat-card-title>Login</mat-card-title>
+                                </div>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <h4>Username</h4>
+                                <div fxLayout="row" fxLayoutAlign="start start">
+                                    <mat-form-field fxFill>
+                                        <input matInput placeholder="user@example.com" formControlName="username" required>
+                                        <mat-error *ngIf="loginForm.controls['username'].hasError('required')">
+                                            Username is required!!
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <h4>Password</h4>
+                                <div fxLayout="row" fxLayoutAlign="start start">
+                                    <mat-form-field fxFill>
+                                        <mat-label>Enter your password</mat-label>
+                                        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+                                        <mat-error *ngIf="loginForm.controls['password'].hasError('required')">
+                                            Password is required!!
+                                        </mat-error>
+                                        <button mat-icon-button matSuffix (click)="hide = !hide"
+                                            [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                        </button>
+                                    </mat-form-field>
+                                </div>
+                            </mat-card-content>
+                            <div fxLayout="row" fxLayoutAlign="center center">
+                                <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">Login</button>
+                                <button mat-raised-button color="secondary" class="ml-5">Clear</button>
+                            </div>
+                        </div>
+                    </form>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>

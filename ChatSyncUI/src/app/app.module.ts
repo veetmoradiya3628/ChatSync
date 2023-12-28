@@ -22,6 +22,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ChatMessageAreaComponent } from './chats/chat-message-area/chat-message-area.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ChatMessageAreaComponent } from './chats/chat-message-area/chat-message
     GroupsComponent,
     SettingsComponent,
     ProfileComponent,
-    ChatMessageAreaComponent
+    ChatMessageAreaComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
