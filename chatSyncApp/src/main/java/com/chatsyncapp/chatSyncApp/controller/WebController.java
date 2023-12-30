@@ -8,6 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 public class WebController {
 
@@ -34,7 +37,11 @@ public class WebController {
     @GetMapping(value = "/")
     public String index(Model model){
         model.addAttribute("page", "home");
-        model.addAttribute("message", "Hello, Thymeleaf!");
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < 50; i++) {
+            list.add(i);
+        }
+        model.addAttribute("messages", list);
         return "index";
     }
 

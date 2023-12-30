@@ -1,0 +1,28 @@
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.message-content {
+    height: 690px;
+    max-height: 690px;
+    overflow-y: auto;
+}
+
+.message-content::-webkit-scrollbar{
+    display: none;
+}
+
+.message-tile:hover{
+    background-color : #cfcfcf;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}

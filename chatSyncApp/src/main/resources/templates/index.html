@@ -3,22 +3,25 @@
 <head>
     <meta charset = "ISO-8859-1" />
     <title>Chat Sync Application</title>
+
+<!--  bootstrap cdn   -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<!--  bootstrap icon cdn  -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 <body>
 <th:block th:include="header :: header"></th:block>
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <h1 class="card-title" th:text="${message}"></h1>
-                </div>
+        <div class="col-md-4">
+            <div class="m-2">
+                <th:block th:include="chat-components :: chat-sidebar"></th:block>
             </div>
-
-            <form th:action="@{/logout}" method="post">
-                <input type="submit" value="Logout"/>
-            </form>
+        </div>
+        <div class="col-md-8">
+            <th:block th:include="chat-components :: chat-message-area"></th:block>
         </div>
     </div>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
