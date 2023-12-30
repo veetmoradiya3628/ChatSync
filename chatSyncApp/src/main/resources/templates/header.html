@@ -1,0 +1,31 @@
+<!-- header code -->
+<div th:fragment="header" xmlns:th="http://www.w3.org/1999/xhtml">
+    <nav class="navbar navbar-light bg-light navbar-expand-lg">
+        <!-- Navbar content -->
+        <a class="navbar-brand" th:href="@{/}">
+            <img th:src="@{/images/chat_sync_logo_light.png}" height="30" class="d-inline-block align-top width-auto" alt="">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item" th:class="${page == 'home' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{/}">Chats</a>
+                </li>
+                <li class="nav-item" th:class="${page == 'contacts' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{/contacts}">Contacts</a>
+                </li>
+                <li class="nav-item" th:class="${page == 'groups' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{/groups}">Groups</a>
+                </li>
+                <li class="nav-item" th:class="${page == 'settings' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{/settings}">Settings</a>
+                </li>
+                <li class="nav-item" th:class="${page == 'profile' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{/profile}">Profile</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
