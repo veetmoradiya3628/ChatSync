@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" data-bs-theme="dark">
 <head>
     <meta charset = "ISO-8859-1" />
     <title>Chat Sync Application</title>
@@ -21,7 +21,9 @@
             </div>
         </div>
         <div class="col-md-8">
-            <th:block th:include="chat-components :: chat-message-area"></th:block>
+            <div class="m-2">
+                <th:block th:include="chat-components :: chat-message-area"></th:block>
+            </div>
         </div>
     </div>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

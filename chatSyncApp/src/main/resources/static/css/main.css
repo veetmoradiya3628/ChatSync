@@ -26,3 +26,53 @@
     object-fit: cover;
     margin-right: 10px;
 }
+
+.message-area-header{
+    padding: 0.5rem !important;
+}
+
+.font-larger {
+  font-size: larger;
+}
+
+.message-area {
+    height: 727px;
+    max-height: 727px;
+    overflow-y: auto;
+}
+
+.message-area::-webkit-scrollbar{
+    display: none;
+}
+
+.m-0 {
+    margin: 0px !important;
+}
+
+.message-card {
+  max-width: 70%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.message-card > p {
+    margin: 0px !important
+}
+
+.sender-card {
+  background-color: #DCF8C6; /* Example color for sender card */
+  align-self: flex-start;
+}
+
+.receiver-card {
+  background-color: #E3E3E3; /* Example color for receiver card */
+  align-self: flex-end;
+}
+
+.timestamp {
+  font-size: 0.8rem;
+  color: #777;
+  text-align: right;
+}
