@@ -1,26 +1,60 @@
 package com.chatsyncapp.chatSyncApp.config;
 
+import com.chatsyncapp.chatSyncApp.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    @Autowired
+    private UserService userService;
 
     @Bean
-    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(authorizeRequests ->
-                authorizeRequests
-                        .requestMatchers("/login", "/css/**", "/images/**").permitAll()
-                        .anyRequest().authenticated()
-        ).formLogin(formLogin -> formLogin
-                .loginPage("/login")
-                .permitAll()
-        ).logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/login?logout").invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID"));
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
+        auth.setUserDetailsService(userService);
+        auth.setPasswordEncoder(passwordEncoder());
+        return auth;
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeRequests(authorizeRequests ->
+                        authorizeRequests
+                                .requestMatchers(
+                                        "/registration**",
+                                        "/js/**",
+                                        "/css/**",
+                                        "/img/**"
+                                ).permitAll()
+                                .anyRequest().authenticated()
+                )
+                .formLogin(loginConfigurer ->
+                        loginConfigurer
+                                .loginPage("/login")
+                                .permitAll()
+                )
+                .logout(logoutConfigurer ->
+                        logoutConfigurer
+                                .invalidateHttpSession(true)
+                                .clearAuthentication(true)
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                .logoutSuccessUrl("/login?logout")
+                                .permitAll()
+                );
         return http.build();
     }
 }
