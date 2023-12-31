@@ -42,8 +42,8 @@ public class SecurityConfig {
                                 ).permitAll()
                                 .anyRequest().authenticated()
                 )
-                .formLogin(loginConfigurer ->
-                        loginConfigurer
+                .formLogin(loginConfigure ->
+                        loginConfigure
                                 .loginPage("/login")
                                 .permitAll()
                 )

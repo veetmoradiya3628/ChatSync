@@ -73,4 +73,9 @@ public class WebController {
         return "profile";
     }
 
+    @GetMapping("/test-ws")
+    public String testWSPage(){
+        return "test-ws";
+    }
+
 }
