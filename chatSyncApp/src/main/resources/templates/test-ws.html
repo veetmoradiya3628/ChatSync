@@ -14,10 +14,13 @@
 
 <input type="text" id="message" placeholder="Enter message">
 <button onclick="sendMessage()">Send</button>
-<label for="connect">WebSocket connection:</label>
-<button id="connect" class="btn btn-default" type="submit">Connect</button>
-<button id="disconnect" class="btn btn-default" type="submit" >Disconnect
-</button>
+
+<div>
+    <button id="sendPrivateMessage" onclick="sendPrivateMessage();">Send Private</button>
+    <input type="text" id="privateText" placeholder="Private Message"/>
+    <input type="text" id="to" placeholder="To"/>
+</div>
+
 <div class="row">
     <div class="col-md-12">
         <table id="conversation" class="table table-striped">
