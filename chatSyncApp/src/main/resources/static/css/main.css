@@ -2,6 +2,10 @@
     margin-left: 2px !important;
 }
 
+.pl-10 {
+    padding-left: 10px !important;
+}
+
 .center-content {
     display: flex;
     justify-content: center;
@@ -20,7 +24,7 @@
 }
 
 .message-tile:hover{
-    background-color : #cfcfcf;
+    background-color : #efeded;
 }
 
 .avatar {
@@ -62,21 +66,21 @@
 }
 
 .message-card > p {
-    margin: 0px !important
+    margin: 0 !important
 }
 
 .sender-card {
-  background-color: #DCF8C6; /* Example color for sender card */
+  background-color: #e1e1e1; /* color for sender card */
   align-self: flex-start;
 }
 
 .receiver-card {
-  background-color: #E3E3E3; /* Example color for receiver card */
+  background-color: #b9b9b9; /* color for receiver card */
   align-self: flex-end;
 }
 
 .timestamp {
   font-size: 0.8rem;
-  color: #777;
+  color: #000;
   text-align: right;
 }
