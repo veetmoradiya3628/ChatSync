@@ -6,11 +6,20 @@
     padding-left: 10px !important;
 }
 
+
+.m-0 {
+    margin: 0 !important;
+}
+
 .center-content {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
+}
+
+.align-right {
+    align-self: flex-end;
 }
 
 .message-content {
@@ -23,8 +32,13 @@
     display: none;
 }
 
-.message-tile:hover{
-    background-color : #efeded;
+.message-tile {
+    border-bottom: 1px solid white;
+}
+
+.message-tile:hover {
+    background-color: #778da9;
+    border-radius: 10px;
 }
 
 .avatar {
@@ -43,6 +57,10 @@
   font-size: larger;
 }
 
+.font-medium {
+    font-size: medium;
+}
+
 .message-area {
     height: 727px;
     max-height: 727px;
@@ -53,9 +71,6 @@
     display: none;
 }
 
-.m-0 {
-    margin: 0px !important;
-}
 
 .message-card {
   max-width: 70%;
@@ -63,24 +78,29 @@
   margin-bottom: 5px;
   padding: 5px;
   border-radius: 10px;
+  /*color: #000;*/
 }
 
 .message-card > p {
     margin: 0 !important
 }
 
+.sender-avatar{
+    height: 20px;
+    width: 20px;
+}
+
 .sender-card {
-  background-color: #e1e1e1; /* color for sender card */
-  align-self: flex-start;
+  background-color: #0d1b2a; /* color for sender card */
+  align-self: flex-end;
 }
 
 .receiver-card {
-  background-color: #b9b9b9; /* color for receiver card */
-  align-self: flex-end;
+  background-color: #415a77; /* color for receiver card */
+  align-self: flex-start;
 }
 
 .timestamp {
   font-size: 0.8rem;
-  color: #000;
   text-align: right;
 }
