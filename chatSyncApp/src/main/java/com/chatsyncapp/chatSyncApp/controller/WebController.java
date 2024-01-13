@@ -48,7 +48,11 @@ public class WebController {
     @GetMapping("/contacts")
     public String contacts(Model model){
         model.addAttribute("page", "contacts");
-        model.addAttribute("message", "Hello, Contacts!");
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < 50; i++) {
+            list.add(i);
+        }
+        model.addAttribute("contacts", list);
         return "contacts";
     }
 

@@ -39,6 +39,7 @@
 .message-tile:hover {
     background-color: #778da9;
     border-radius: 10px;
+    color: black;
 }
 
 .avatar {
@@ -91,16 +92,46 @@
 }
 
 .sender-card {
-  background-color: #0d1b2a; /* color for sender card */
+  background-color: #5e646b; /* color for sender card */
   align-self: flex-end;
 }
 
 .receiver-card {
-  background-color: #415a77; /* color for receiver card */
+  background-color: #587ba3; /* color for receiver card */
   align-self: flex-start;
 }
 
 .timestamp {
   font-size: 0.8rem;
   text-align: right;
+}
+
+.contact-list-section {
+    height: calc(100vh - 155px);
+    max-height: calc(100vh - 155px);
+    overflow-y: auto;
+}
+.contact-list-section::-webkit-scrollbar {
+    display: none;
+}
+
+.contact-user-info-profile-image {
+    height: 400px;
+    width: 400px;
+}
+
+.online-status-badge {
+    background-color: #4caf50; /* Green color for online status */
+    color: #fff; /* White text color */
+    padding: 5px 10px; /* Adjust padding as needed */
+    border-radius: 20px; /* Curved corners */
+    display: inline-block;
+}
+
+.offline-status-badge {
+    background-color: #ff0000; /* Green color for online status */
+    color: #fff; /* White text color */
+    padding: 5px 10px; /* Adjust padding as needed */
+    border-radius: 20px; /* Curved corners */
+    display: inline-block;
 }
