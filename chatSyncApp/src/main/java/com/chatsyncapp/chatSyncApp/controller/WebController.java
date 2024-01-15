@@ -57,9 +57,18 @@ public class WebController {
     }
 
     @GetMapping("/groups")
-    public String groups(Model model){
+    public String groups(Model model) {
         model.addAttribute("page", "groups");
-        model.addAttribute("message", "Hello, Groups!");
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < 50; i++) {
+            list.add(i);
+        }
+        List<Integer> members = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            members.add(i);
+        }
+        model.addAttribute("groups", list);
+        model.addAttribute("members", members);
         return "groups";
     }
 

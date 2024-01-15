@@ -11,6 +11,10 @@
     margin: 0 !important;
 }
 
+.mr-5 {
+    margin-right: 5px !important;
+}
+
 .center-content {
     display: flex;
     justify-content: center;
@@ -118,6 +122,11 @@
 .contact-user-info-profile-image {
     height: 400px;
     width: 400px;
+}
+
+.group-info-image {
+    height: 300px;
+    width: 300px;
 }
 
 .online-status-badge {
