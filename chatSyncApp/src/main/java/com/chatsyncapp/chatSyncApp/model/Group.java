@@ -22,6 +22,9 @@ public class Group {
     @Column(name = "group_name")
     private String groupName;
 
+    @Column(name = "group_profile")
+    private String groupProfile;
+
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 

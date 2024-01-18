@@ -26,6 +26,11 @@ public class User {
 
     private String password;
 
+    private String profileImage;
+
+    @Column(columnDefinition = "BOOLEAN DEFAULT false")
+    private Boolean isActive;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "tbl_users_roles",

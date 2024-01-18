@@ -1,56 +1,3 @@
-<!-- chat sidebar area -->
-
-<div th:fragment="chat-sidebar" xmlns:th="http://www.w3.org/1999/xhtml">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="mt-1 mb-1">Chat Threads</h4>
-                </div>
-                <div class="card-body">
-                    <!-- search message  -->
-                    <div class="row">
-                        <div class="input-group mb-1">
-                            <div class="col-11">
-                                <input type="text" class="form-control" placeholder="Search ..." aria-label="Search"
-                                       aria-describedby="search-icon">
-                            </div>
-                            <div class="col-1" >
-                                <div class="center-content">
-                                    <button class="btn btn-outline-primary text-center" type="button" id="search-icon">
-                                        <i class="bi bi-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- messages list -->
-                    <div class="row">
-                        <div class="col-12 message-content">
-                            <!-- message tiles -->
-                            <div class="message-tile" th:each="message : ${messages}">
-                                <div class="row mt-1 p-1">
-                                    <div class="col-1">
-                                        <img src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png" alt="Avatar" class="avatar"> <!-- Avatar -->
-                                    </div>
-                                    <div class="col-11">
-                                        <div class="pl-10">
-                                            <strong>Contact Name </strong> <!-- Contact name -->
-                                            <p>Last message goes here</p> <!-- Last message content -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <!-- chat message area -->
 <div th:fragment="chat-message-area" xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="row">
@@ -64,7 +11,7 @@
                         <div class="col-11">
                             <strong class="font-larger">Veet Moradiya</strong>
                             <p class="m-0"> <strong class="text-success"> Online </strong></p>
-<!--                            <p class="m-0"> <strong class="text-danger"> Offline - </strong>  Last Active at 6:35 PM</p>-->
+                            <!--                            <p class="m-0"> <strong class="text-danger"> Offline - </strong>  Last Active at 6:35 PM</p>-->
                         </div>
                     </div>
                 </div>

@@ -39,7 +39,9 @@ public class SecurityConfig {
                                         "/js/**",
                                         "/css/**",
                                         "/img/**",
-                                        "/webjars/**"
+                                        "/webjars/**",
+                                        "/checkSession/**",  // added to test user session is active or not
+                                        "/api/v1/**"
                                 ).permitAll()
                                 .anyRequest().authenticated()
                 )

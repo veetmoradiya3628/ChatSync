@@ -15,6 +15,10 @@
     margin-right: 5px !important;
 }
 
+.font-13 {
+    font-size: 13px;
+}
+
 .center-content {
     display: flex;
     justify-content: center;
@@ -41,9 +45,7 @@
 }
 
 .message-tile:hover {
-    background-color: #778da9;
-    border-radius: 10px;
-    color: black;
+    background-color: #171717bd;
 }
 
 .avatar {
