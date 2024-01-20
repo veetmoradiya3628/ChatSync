@@ -138,7 +138,7 @@
         <div class="row mt-2">
             <div class="col-6 contact-list-section">
                 <!-- Your contact list items go here -->
-                <div th:each="contact : ${contacts}">
+                <div th:each="user : ${all_users}">
                     <div class="row mt-1 p-1">
                         <div class="col-2">
                             <input class="form-check-input" id="flexCheckIndeterminate" type="checkbox" value="">
@@ -147,7 +147,7 @@
                         <div class="col-6">
                             <div class="pl-10">
                                 <!--  icon for offline user <i class="fas fa-circle text-danger"></i>-->
-                                <strong>Contact Name <i class="fas fa-circle text-success"></i> </strong>
+                                <strong th:text="${user.firstName +' '+ user.lastName}"><i class="fas fa-circle text-success"></i> </strong>
                                 <p>Last message goes here</p> <!-- Last message content -->
                             </div>
                         </div>

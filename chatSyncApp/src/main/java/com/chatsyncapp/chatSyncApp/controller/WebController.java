@@ -63,11 +63,15 @@ public class WebController {
 
     @GetMapping("/contacts")
     public String contacts(Model model){
-        String requestedUser = this.userServiceImpl.getLoggedInUsername();
-        logger.info("requestedUser : " + requestedUser);
-        
+        String username = this.userServiceImpl.getLoggedInUsername();
+        logger.info("requested user : " + username);
+
+        List<UserDTO> contactUsers = this.contactsServiceImpl.getContactUsers(username);
+
         model.addAttribute("page", "contacts");
-        List<UserDTO> users = contactsServiceImpl.getAllActiveAnd();
+        List<UserDTO> allUsers = this.contactsServiceImpl.getAllActiveUserExpectRequestedUser(username);
+        logger.info("All Users : " + allUsers);
+        model.addAttribute("all_users", allUsers);
         return "contacts";
     }
 

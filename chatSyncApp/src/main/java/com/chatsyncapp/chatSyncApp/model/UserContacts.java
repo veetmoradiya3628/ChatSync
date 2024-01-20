@@ -1,6 +1,7 @@
 package com.chatsyncapp.chatSyncApp.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -13,6 +14,7 @@ import java.util.Date;
 @Table(name = "tbl_user_contacts")
 @Setter
 @Getter
+@AllArgsConstructor
 public class UserContacts {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -36,4 +38,10 @@ public class UserContacts {
     private LocalDateTime updatedAt;
 
     public UserContacts(){}
+
+    public UserContacts(User user,
+                        User contactUser){
+        this.userId = user;
+        this.contactUserId = contactUser;
+    }
 }
