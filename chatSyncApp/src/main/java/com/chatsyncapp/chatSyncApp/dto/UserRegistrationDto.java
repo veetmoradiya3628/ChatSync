@@ -10,9 +10,9 @@ public class UserRegistrationDto {
     private String lastName;
     private String email;
     private String password;
+    private Boolean isActive;
 
     public UserRegistrationDto(){
-
     }
 
     public UserRegistrationDto(String firstName, String lastName, String email, String password) {
@@ -21,6 +21,7 @@ public class UserRegistrationDto {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.isActive = true;
     }
 
 }

@@ -1,8 +1,16 @@
 package com.chatsyncapp.chatSyncApp.controller;
 
+import com.chatsyncapp.chatSyncApp.dto.UserDTO;
+import com.chatsyncapp.chatSyncApp.model.User;
+import com.chatsyncapp.chatSyncApp.service.impl.ContactsServiceImpl;
+import com.chatsyncapp.chatSyncApp.service.impl.UserServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +21,14 @@ import java.util.List;
 
 @Controller
 public class WebController {
+    private static final String LOGGER_TAG = "WebController : ";
+    Logger logger = LoggerFactory.getLogger(WebController.class);
+
+    @Autowired
+    private ContactsServiceImpl contactsServiceImpl;
+
+    @Autowired
+    private UserServiceImpl userServiceImpl;
 
     @GetMapping("/login")
     public String showLoginPage(){
@@ -47,12 +63,11 @@ public class WebController {
 
     @GetMapping("/contacts")
     public String contacts(Model model){
+        String requestedUser = this.userServiceImpl.getLoggedInUsername();
+        logger.info("requestedUser : " + requestedUser);
+        
         model.addAttribute("page", "contacts");
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
-            list.add(i);
-        }
-        model.addAttribute("contacts", list);
+        List<UserDTO> users = contactsServiceImpl.getAllActiveAnd();
         return "contacts";
     }
 

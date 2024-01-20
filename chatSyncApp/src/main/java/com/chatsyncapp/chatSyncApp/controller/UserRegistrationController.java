@@ -30,6 +30,7 @@ public class UserRegistrationController {
 
     @PostMapping
     public String registerUserAccount(@ModelAttribute("user") UserRegistrationDto registrationDto) {
+        registrationDto.setIsActive(true); // active for all users right now.
         userService.save(registrationDto);
         return "redirect:/registration?success";
     }
