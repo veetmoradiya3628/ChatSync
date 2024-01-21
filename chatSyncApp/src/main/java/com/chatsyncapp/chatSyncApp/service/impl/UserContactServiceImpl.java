@@ -54,7 +54,9 @@ public class UserContactServiceImpl implements UserContactService {
                     savedUserContacts);
         }catch (Exception e){
             logger.info(LOGGER_TAG + " Exception occurred in addUserContact : " + e.getMessage());
-            return null;
+            return ResponseHandler.generateResponse("Exception occurred in addUserContact " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    null);
         }
     }
 }
