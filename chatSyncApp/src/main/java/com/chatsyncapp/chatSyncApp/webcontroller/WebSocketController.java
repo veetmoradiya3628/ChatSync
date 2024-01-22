@@ -1,4 +1,4 @@
-package com.chatsyncapp.chatSyncApp.controller;
+package com.chatsyncapp.chatSyncApp.webcontroller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;

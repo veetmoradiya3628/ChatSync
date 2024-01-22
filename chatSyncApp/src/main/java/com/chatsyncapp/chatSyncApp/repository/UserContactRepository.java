@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface UserContactRepository extends JpaRepository<UserContacts, String> {
-    List<UserContacts> findByUserId(User userId);
+    List<UserContacts> findByUserId(User user);
 }

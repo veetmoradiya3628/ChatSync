@@ -8,4 +8,6 @@ public interface UserService extends UserDetailsService {
     void save(UserRegistrationDto registrationDto);
 
     ResponseEntity<?> getAllUsers();
+
+    boolean isUserPresent(String userId);
 }

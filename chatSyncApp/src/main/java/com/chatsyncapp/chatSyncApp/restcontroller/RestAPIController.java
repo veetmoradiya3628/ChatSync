@@ -1,4 +1,4 @@
-package com.chatsyncapp.chatSyncApp.controller;
+package com.chatsyncapp.chatSyncApp.restcontroller;
 
 import com.chatsyncapp.chatSyncApp.dto.UserContactMap;
 import com.chatsyncapp.chatSyncApp.service.impl.UserContactServiceImpl;
@@ -7,9 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequestMapping("/api/v1")
 public class RestAPIController {
     private static final String LOGGER_TAG = "RestAPIController ";
@@ -30,7 +31,19 @@ public class RestAPIController {
     @PostMapping( "/add-contact")
     public ResponseEntity<?> addContactUser(@RequestBody UserContactMap userContactMap){
         logger.info(LOGGER_TAG + " addContactUser called");
-        return userContactService.addUserContact(userContactMap);
+        return userContactService.addUserContactAPI(userContactMap);
+    }
+
+    @GetMapping("/get-contacts/{userId}")
+    public ResponseEntity<?> getContacts(@PathVariable("userId") String userId){
+        logger.info(LOGGER_TAG + " getContacts called with userId : " +userId);
+        return userContactService.getUserContactsAPI(userId);
+    }
+
+    @GetMapping("/get-global-contacts/{userId}")
+    public ResponseEntity<?> getGlobalContactsForUser(@PathVariable("userId") String userId){
+        logger.info(LOGGER_TAG + " getContacts called with userId : " +userId);
+        return userContactService.getGlobalUsersAPI(userId);
     }
 
 }

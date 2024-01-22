@@ -1,8 +1,7 @@
-package com.chatsyncapp.chatSyncApp.controller;
+package com.chatsyncapp.chatSyncApp.webcontroller;
 
-import com.chatsyncapp.chatSyncApp.dto.UserDTO;
-import com.chatsyncapp.chatSyncApp.model.User;
 import com.chatsyncapp.chatSyncApp.service.impl.ContactsServiceImpl;
+import com.chatsyncapp.chatSyncApp.service.impl.UserContactServiceImpl;
 import com.chatsyncapp.chatSyncApp.service.impl.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +27,9 @@ public class WebController {
 
     @Autowired
     private UserServiceImpl userServiceImpl;
+
+    @Autowired
+    private UserContactServiceImpl userContactService;
 
     @GetMapping("/login")
     public String showLoginPage(){
@@ -63,15 +64,9 @@ public class WebController {
 
     @GetMapping("/contacts")
     public String contacts(Model model){
-        String username = this.userServiceImpl.getLoggedInUsername();
-        logger.info("requested user : " + username);
-
-        List<UserDTO> contactUsers = this.contactsServiceImpl.getContactUsers(username);
-
-        model.addAttribute("page", "contacts");
-        List<UserDTO> allUsers = this.contactsServiceImpl.getAllActiveUserExpectRequestedUser(username);
-        logger.info("All Users : " + allUsers);
-        model.addAttribute("all_users", allUsers);
+        String userId = this.userServiceImpl.getLoggedInUserId();
+        logger.info("requested userId : " + userId);
+        model.addAttribute("contacts", this.userContactService.getUserContacts(userId).getContacts());
         return "contacts";
     }
 

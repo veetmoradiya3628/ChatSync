@@ -1,4 +1,4 @@
-package com.chatsyncapp.chatSyncApp.controller;
+package com.chatsyncapp.chatSyncApp.webcontroller;
 
 import com.chatsyncapp.chatSyncApp.dto.UserRegistrationDto;
 import com.chatsyncapp.chatSyncApp.service.UserService;

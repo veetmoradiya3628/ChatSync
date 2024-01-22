@@ -33,8 +33,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests(authorizeRequests ->
-                        authorizeRequests
-                                .requestMatchers(
+                        authorizeRequests.requestMatchers(
                                         "/registration**",
                                         "/js/**",
                                         "/css/**",
@@ -42,8 +41,7 @@ public class SecurityConfig {
                                         "/webjars/**",
                                         "/checkSession/**",  // added to test user session is active or not
                                         "/api/v1/**"
-                                ).permitAll()
-                                .anyRequest().authenticated()
+                                ).permitAll().anyRequest().authenticated()
                 )
                 .formLogin(loginConfigure ->
                         loginConfigure

@@ -89,6 +89,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean isUserPresent(String userId) {
+        return this.userRepository.findById(userId).isPresent();
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         User user = userRepository.findByEmail(username);
@@ -103,11 +108,19 @@ public class UserServiceImpl implements UserService {
     }
 
     public String getLoggedInUsername(){
+        logger.info(LOGGER_TAG + " inside getLoggedInUsername");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         org.springframework.security.core.userdetails.User userInfo = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
         logger.info(" userinfo : " + userInfo.toString());
         return userInfo.getUsername();
     }
 
-
+    public String getLoggedInUserId(){
+        logger.info(LOGGER_TAG + " inside getLoggedInUserId");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        org.springframework.security.core.userdetails.User userInfo = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+        logger.info(" userinfo : " + userInfo.toString());
+        User u = this.userRepository.findByEmail(userInfo.getUsername());
+        return u.getId();
+    }
 }

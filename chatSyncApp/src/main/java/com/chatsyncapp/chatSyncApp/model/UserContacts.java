@@ -31,7 +31,7 @@ public class UserContacts {
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
     @Column(name = "updated_at")
@@ -43,5 +43,7 @@ public class UserContacts {
                         User contactUser){
         this.userId = user;
         this.contactUserId = contactUser;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 }

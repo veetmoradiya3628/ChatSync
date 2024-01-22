@@ -2,11 +2,8 @@ package com.chatsyncapp.chatSyncApp.service.impl;
 
 import com.chatsyncapp.chatSyncApp.dto.UserDTO;
 import com.chatsyncapp.chatSyncApp.model.User;
-import com.chatsyncapp.chatSyncApp.model.UserContacts;
-import com.chatsyncapp.chatSyncApp.repository.UserContactRepository;
 import com.chatsyncapp.chatSyncApp.repository.UserRepository;
 import com.chatsyncapp.chatSyncApp.service.ContactsService;
-import com.chatsyncapp.chatSyncApp.service.UserContactService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,21 +45,6 @@ public class ContactsServiceImpl implements ContactsService {
             return respUsers;
         }catch (Exception e){
             logger.info(LOGGER_TAG + " Exception occurred in getAllActiveUserExpectRequestedUser : " + e.getMessage());
-            return null;
-        }
-    }
-
-    @Override
-    public List<UserDTO> getContactUsers(String username) {
-        try{
-            logger.info(LOGGER_TAG + " method getContactUsers called with username : " + username);
-
-            User user = this.userRepository.findByEmail(username);
-            List<UserContacts> listOfContacts = this.userContactService.getUserContacts(user.getId());
-            List<UserDTO> respUsers = new ArrayList<>();
-            return respUsers;
-        }catch (Exception e){
-            logger.info(LOGGER_TAG + " Exception occurred in getContactUsers : " + e.getMessage());
             return null;
         }
     }

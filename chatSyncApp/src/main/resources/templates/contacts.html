@@ -66,7 +66,7 @@
                         <div class="col-5">
                             <div class="pl-10">
                                 <!--  icon for offline user <i class="fas fa-circle text-danger"></i>-->
-                                <strong>Contact Name <i class="fas fa-circle text-success"></i> </strong>
+                                <strong th:text="${contact.firstName + ' ' + contact.lastName}"> <i class="fas fa-circle text-success"></i> </strong>
                                 <p>Last message goes here</p> <!-- Last message content -->
                             </div>
                         </div>
