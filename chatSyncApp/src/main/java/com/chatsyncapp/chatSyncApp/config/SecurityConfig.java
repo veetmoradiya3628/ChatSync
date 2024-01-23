@@ -1,12 +1,15 @@
 package com.chatsyncapp.chatSyncApp.config;
 
 import com.chatsyncapp.chatSyncApp.service.UserService;
+import com.chatsyncapp.chatSyncApp.service.impl.UserServiceImpl;
+import jakarta.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -15,7 +18,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig {
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -46,6 +49,12 @@ public class SecurityConfig {
                 .formLogin(loginConfigure ->
                         loginConfigure
                                 .loginPage("/login")
+                                .successHandler((request, response, authentication) -> {
+                                    User user = (User) authentication.getPrincipal();
+                                    response.addCookie(new Cookie("loggedInUsername", user.getUsername()));
+                                    response.addCookie(new Cookie("loggedInUserId", this.userService.getLoggedInUserId()));
+                                    response.sendRedirect("/ChatSync/");
+                                })
                                 .permitAll()
                 )
                 .logout(logoutConfigurer ->

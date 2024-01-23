@@ -2,6 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org" data-bs-theme="dark" lang="en">
 <head>
     <meta charset = "ISO-8859-1" />
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
     <title>Chat Sync Application</title>
     <!--  for bootstrap fonts -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -33,6 +36,12 @@
                 </div>
             </div>
         </div>
+        <div>
+            CSRF Token: <span th:text="${_csrf.token}"></span>
+        </div>
+        <div>
+            Logged-in Username: <span th:text="${#authentication.principal.username}"></span>
+        </div>
         <div class="row mt-2">
             <div class="col-8">
                 <div class="input-group mb-1">
@@ -50,8 +59,8 @@
                 </div>
             </div>
             <div class="col-4 text-right">
-                <button class="btn btn-success">Online</button>
-                <button class="btn btn-danger">Offline</button>
+                <button class="btn btn-success" onclick="filterContacts('online')">Online</button>
+                <button class="btn btn-danger" onclick="filterContacts('offline')">Offline</button>
                 <button class="btn btn-primary" id="addContactButton">Add Contact</button>
             </div>
         </div>
