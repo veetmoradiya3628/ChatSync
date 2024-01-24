@@ -15,4 +15,6 @@ public interface UserContactService {
     ResponseEntity<?> getUserContactsAPI(String userId);
 
     ResponseEntity<?> getGlobalUsersAPI(String userId);
+
+    ResponseEntity<?> getUserInfo(String userId);
 }

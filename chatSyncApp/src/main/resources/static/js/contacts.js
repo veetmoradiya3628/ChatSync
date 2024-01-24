@@ -5,10 +5,19 @@ const btnCancelContactAdditionSelector = "#cancelContactAdditionButton";
 const globalUsersListContainerRef = "#global-users-container";
 const userContactsListContainerRef = "#user-contacts-container";
 
+// globalUserInfo
+const globalUserInfoSectionRef = "#globalUserInfoSection";
+const globalUserInfoProfileImageRef = "#globalUserInfoProfileImage";
+const globalUserInfoStatusRef = "#globalUserInfoStatus";
+const globalUserInfoEmailRef = "#globalUserInfoEmail";
+const globalUserInfoFirstNameRef = "#globalUserInfoFirstName";
+const globalUserInfoLastNameRef = "#globalUserInfoLastName";
+
 const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
 
 let globalUser = [];
 let userContacts = [];
+let selectedGlobalUser = null;
 
 /* function will call when document will be loaded completely */
 $(document).ready(function() {
@@ -23,6 +32,7 @@ async function addContacts() {
     console.log("addContactButton clicked...")
     console.log(csrfToken);
     $(contactListSelector).hide();
+    $(globalUserInfoSectionRef).hide();
 
     await fetchGlobalUsersDataForLoggedInUser();
     renderGlobalUsersOnUI();
@@ -41,18 +51,7 @@ function renderGlobalUsersOnUI() {
         $(globalUsersListContainerRef).append($('<p>No Users Data to Show</p>'))
     }
 }
-async function fetchGlobalUsersDataForLoggedInUser(){
-    try {
-        let userId = getCookie('loggedInUserId');
-        await $.get('/ChatSync/api/v1/get-global-contacts/' + userId, function (data){
-            console.log(JSON.stringify(data));
-            globalUser = data.data;
-            console.log(globalUser);
-        })
-    }catch (error){
-        console.log(error)
-    }
-}
+
 async function showContactsList(){
     console.log("cancelContactAdditionButton clicked...")
     $(addContactListSelector).hide()
@@ -63,18 +62,7 @@ async function showContactsList(){
     $(contactListSelector).show()
 }
 
-async function fetchContactUsersDataForLoggedInUser(){
-    try {
-        let userId = getCookie('loggedInUserId');
-        await $.get('/ChatSync/api/v1/get-contacts/' + userId, function (data){
-            console.log(JSON.stringify(data));
-            userContacts = data.data.contacts;
-            console.log(userContacts);
-        })
-    }catch (error){
-        console.log(error)
-    }
-}
+
 
 function renderUserContactsOnUI() {
     let userContactsListContainer = document.querySelector(userContactsListContainerRef);
@@ -93,11 +81,48 @@ function filterContacts(presenceStatus) {
     console.log(`filterContacts called with ${presenceStatus}`);
 }
 
-function globalUserInfoClickHandler(buttonId)
+async function globalUserInfoClickHandler(buttonId)
 {
     console.log(`userInfo button called for ${buttonId}`)
+    let userId = buttonId.split("_")[1]
+    console.log(`function called with userId : ${userId}`)
+    if(selectedGlobalUser === null || (selectedGlobalUser && selectedGlobalUser.id !== userId)){
+        await getUserInfo(userId);
+    }
+    renderGlobalUserInfoOnUI()
+}
+function renderGlobalUserInfoOnUI(){
+    console.log(selectedGlobalUser);
+    if(selectedGlobalUser){
+        let imgRef = $(globalUserInfoProfileImageRef)
+        if(selectedGlobalUser.profileImage){
+            imgRef.attr('src', selectedGlobalUser.profileImage);
+        }else{
+            imgRef.attr('src', 'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png')
+        }
+
+        // for status default online as of now
+        $(globalUserInfoStatusRef).html(`${selectedGlobalUser.firstName} ${selectedGlobalUser.lastName} <span class="online-status-badge">Online</span>`)
+        $(globalUserInfoEmailRef).html(`<b>E-mail : </b> ${selectedGlobalUser.email}`)
+        $(globalUserInfoFirstNameRef).html(`<b>First Name : </b> ${selectedGlobalUser.firstName}`)
+        $(globalUserInfoLastNameRef).html(`<b>Last Name : </b> ${selectedGlobalUser.lastName}`)
+        
+        $(globalUserInfoSectionRef).show();
+    }else{
+        // get userInfo failed
+    }
 }
 
-function addUserClickHandler(buttonId){
-    console.log(`userInfo button called for ${buttonId}`)
+async function addUserClickHandler(buttonId){
+    console.log(`add User button called for ${buttonId}`)
+    let userId = buttonId.split("_")[1]
+    console.log(`function called with userId : ${userId}`)
+
+    let reqObject = {
+        userId: getCookie("loggedInUserId"),
+        contactId: userId
+    }
+
+    console.log(JSON.stringify(reqObject))
+    await addContactAPI(reqObject, csrfToken)
 }

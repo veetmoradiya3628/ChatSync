@@ -19,6 +19,7 @@
 
     <link rel="stylesheet" th:href="@{/css/main.css}">
 
+    <script type="text/javascript" th:src="@{/js/api_utils.js}"></script>
     <script type="text/javascript" th:src="@{/js/html_components.js}"></script>
     <script type="text/javascript" th:src="@{/js/common_utils.js}"></script>
     <script type="text/javascript" th:src="@{/js/contacts.js}"></script>
@@ -151,23 +152,23 @@
             <div id="global-users-container" class="col-6 contact-list-section">
                 <!-- Your contact list items go here -->
             </div>
-            <div class="col-6">
+            <div class="col-6" id="globalUserInfoSection">
                 <div class="row">
                     <div class="col-6">
                         <h3>User Information</h3>
-                        <img src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png" alt="Avatar"
+                        <img id="globalUserInfoProfileImage"  src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png" alt="Avatar"
                              class="contact-user-info-profile-image mt-2"> <!-- Avatar -->
-                        <div class="mt-1">
+                        <div class="mt-1" id="globalUserInfoStatus">
                             Veet Moradiya is <span class="online-status-badge">Online</span>
                             <!--                        Dhruvi Moradiya is <span class="offline-status-badge">Offline</span>-->
                         </div>
-                        <div class="mt-1">
+                        <div class="mt-1" id="globalUserInfoEmail">
                             <b>E-mail : </b> veet.moradiya@gmail.com
                         </div>
-                        <div class="mt-1">
+                        <div class="mt-1" id="globalUserInfoFirstName">
                             <b>First Name : </b> Veet
                         </div>
-                        <div class="mt-1">
+                        <div class="mt-1" id="globalUserInfoLastName">
                             <b>Last Name : </b> Moradiya
                         </div>
                     </div>
@@ -176,6 +177,7 @@
         </div>
     </div>
 </div>
+
 </body>
 </html>
 

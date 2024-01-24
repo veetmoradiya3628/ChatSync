@@ -46,4 +46,10 @@ public class RestAPIController {
         return userContactService.getGlobalUsersAPI(userId);
     }
 
+    @GetMapping("/userInfo/{userId}")
+    public ResponseEntity<?> getUserInfoController(@PathVariable("userId") String userId){
+        logger.info(LOGGER_TAG + " getUserInfoController called with userId : " +userId);
+        return userContactService.getUserInfo(userId);
+    }
+
 }

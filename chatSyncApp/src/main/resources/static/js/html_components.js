@@ -18,8 +18,8 @@ function globalContactTileGenerator(contactData){
 
     const actionElement = document.createElement('div');
     actionElement.className = 'col-4 text-right';
-    actionElement.innerHTML = '<button id="btnGlobalUserInfo_'+ contactData.id +'" onclick="globalUserInfoClickHandler(id)" class="btn btn-info"><i class="bi bi-info-circle-fill mr-5"></i>Info</button>' +
-        '<button class="btn btn-primary" id="btnUserAdd_'+ contactData.id +'" onclick="addUserClickHandler(id)"><i class="bi bi-person-fill-add mr-5"></i>Add</button>';
+    actionElement.innerHTML = '<button id="btnGlobalUserInfo_'+contactData.id+'" onclick="globalUserInfoClickHandler(id)" class="btn btn-info"><i class="bi bi-info-circle-fill mr-5"></i>Info</button>' +
+        '<button id="btnAddUser_'+contactData.id+'" class="btn btn-primary" onclick="addUserClickHandler(id)"><i class="bi bi-person-fill-add mr-5"></i>Add</button>';
 
     // Append columns to the row
     row.appendChild(avatarElement);

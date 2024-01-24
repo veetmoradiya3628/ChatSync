@@ -37,7 +37,7 @@ public class UserContactServiceImpl implements UserContactService {
 
     @Override
     public UserContactsDTO getUserContacts(String userId) {
-        try{
+        try {
             User user = this.userRepository.findById(userId).get();
             List<UserContacts> userContacts = this.userContactRepository.findByUserId(user);
             List<UserDTO> userContactsResp = new ArrayList<>();
@@ -56,7 +56,7 @@ public class UserContactServiceImpl implements UserContactService {
                     .userId(userId)
                     .username(user.getEmail())
                     .contacts(userContactsResp).build();
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.info(LOGGER_TAG + " Exception occurred in getUserContacts : " + e.getMessage());
             return null;
         }
@@ -64,7 +64,7 @@ public class UserContactServiceImpl implements UserContactService {
 
     @Override
     public ResponseEntity<?> addUserContactAPI(UserContactMap userContactMap) {
-        try{
+        try {
             logger.info(LOGGER_TAG + " method addUserContact called");
             // validation of request body
             UserContacts userContacts = new UserContacts(
@@ -75,7 +75,7 @@ public class UserContactServiceImpl implements UserContactService {
             return ResponseHandler.generateResponse("User contact added successfully",
                     HttpStatus.OK,
                     savedUserContacts);
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.info(LOGGER_TAG + " Exception occurred in addUserContact : " + e.getMessage());
             return ResponseHandler.generateResponse("Exception occurred in addUserContact " + e.getMessage(),
                     HttpStatus.INTERNAL_SERVER_ERROR,
@@ -85,15 +85,15 @@ public class UserContactServiceImpl implements UserContactService {
 
     @Override
     public ResponseEntity<?> getUserContactsAPI(String userId) {
-        try{
+        try {
             logger.info(LOGGER_TAG + " method getUserContactsAPI called with userId : " + userId);
-            if (this.userService.isUserPresent(userId)){
+            if (this.userService.isUserPresent(userId)) {
                 logger.info(String.format(LOGGER_TAG + " user with userId : %s exists", userId));
                 return ResponseHandler.generateResponse("", HttpStatus.OK, this.getUserContacts(userId));
             }
             logger.info(String.format(LOGGER_TAG + " user with userId : %s not exists", userId));
             return ResponseHandler.generateResponse(String.format("User with userId : %s not exists", userId), HttpStatus.NOT_FOUND, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.info(LOGGER_TAG + " Exception occurred in getUserContactsAPI : " + e.getMessage());
             return ResponseHandler.generateResponse("Exception occurred " + e.getMessage(),
                     HttpStatus.INTERNAL_SERVER_ERROR,
@@ -138,6 +138,31 @@ public class UserContactServiceImpl implements UserContactService {
             return ResponseHandler.generateResponse("Exception occurred " + e.getMessage(),
                     HttpStatus.INTERNAL_SERVER_ERROR,
                     null);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> getUserInfo(String userId) {
+        try {
+            logger.info(LOGGER_TAG + " method getUserInfo called with userId : " + userId);
+            if (this.userService.isUserPresent(userId)) {
+                User user = this.userRepository.findById(userId).get();
+
+                UserDTO userDTO = UserDTO.builder()
+                        .id(user.getId())
+                        .email(user.getEmail())
+                        .firstName(user.getFirstName())
+                        .lastName(user.getLastName())
+                        .profileImage(user.getProfileImage())
+                        .build();
+
+                return ResponseHandler.generateResponse("User details found!!", HttpStatus.OK, userDTO);
+            }
+            logger.info(String.format(LOGGER_TAG + " user with userId : %s not exists", userId));
+            return ResponseHandler.generateResponse(String.format("User with userId : %s not exists", userId), HttpStatus.NOT_FOUND, null);
+        } catch (Exception e) {
+            logger.info(LOGGER_TAG + " Exception occurred in getGlobalUsersAPI : " + e.getMessage());
+            return ResponseHandler.generateResponse("Exception occurred " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
         }
     }
 
