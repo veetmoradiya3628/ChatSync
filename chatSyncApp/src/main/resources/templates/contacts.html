@@ -19,6 +19,7 @@
 
     <link rel="stylesheet" th:href="@{/css/main.css}">
 
+    <script type="text/javascript" th:src="@{/js/html_components.js}"></script>
     <script type="text/javascript" th:src="@{/js/common_utils.js}"></script>
     <script type="text/javascript" th:src="@{/js/contacts.js}"></script>
 
@@ -76,6 +77,7 @@
                         <div class="col-5">
                             <div class="pl-10">
                                 <!--  icon for offline user <i class="fas fa-circle text-danger"></i>-->
+                                <i class="fas fa-circle text-success"></i>
                                 <strong th:text="${contact.firstName + ' ' + contact.lastName}"> <i class="fas fa-circle text-success"></i> </strong>
                                 <p>Last message goes here</p> <!-- Last message content -->
                             </div>
