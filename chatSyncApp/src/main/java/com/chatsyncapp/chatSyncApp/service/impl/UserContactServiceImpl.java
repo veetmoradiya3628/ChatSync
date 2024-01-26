@@ -166,4 +166,27 @@ public class UserContactServiceImpl implements UserContactService {
         }
     }
 
+    @Override
+    public ResponseEntity<?> deleteUserContactAPI(UserContactMap userContactMap) {
+        try {
+            logger.info(LOGGER_TAG + " method getUserInfo called with userContactMap : " + userContactMap.toString());
+            if (isUserContactExists(userContactMap.getUserId(), userContactMap.getContactId())) {
+                List<UserContacts> userContactInfo = this.userContactRepository.findByUserIdAndContactUserId(new User(userContactMap.getUserId()),
+                        new User(userContactMap.getContactId()));
+                this.userContactRepository.deleteById(userContactInfo.get(0).userContactId);
+                return ResponseHandler.generateResponse("contact removed from contacts for provided user!!", HttpStatus.OK, null);
+            }
+            logger.info(LOGGER_TAG + " userContact not found for requested userId and contactId");
+            return ResponseHandler.generateResponse("user contact not found!!", HttpStatus.NOT_FOUND, null);
+        } catch (Exception e) {
+            logger.info(LOGGER_TAG + " Exception occurred in deleteUserContact : " + e.getMessage());
+            return ResponseHandler.generateResponse("Exception occurred " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+        }
+    }
+
+    public boolean isUserContactExists(String userId, String contactId){
+        List<UserContacts> resp = this.userContactRepository.findByUserIdAndContactUserId(new User(userId), new User(contactId));
+        return !resp.isEmpty();
+    }
+
 }

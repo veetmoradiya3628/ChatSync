@@ -17,4 +17,6 @@ public interface UserContactService {
     ResponseEntity<?> getGlobalUsersAPI(String userId);
 
     ResponseEntity<?> getUserInfo(String userId);
+
+    ResponseEntity<?> deleteUserContactAPI(UserContactMap userContactMap);
 }

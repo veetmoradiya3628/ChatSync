@@ -52,4 +52,10 @@ public class RestAPIController {
         return userContactService.getUserInfo(userId);
     }
 
+    @PostMapping("/delete-contact")
+    public ResponseEntity<?> deleteContact(@RequestBody UserContactMap userContactMap)
+    {
+        logger.info(LOGGER_TAG + " deleteContact called with requestBody : " + userContactMap.toString());
+        return userContactService.deleteUserContactAPI(userContactMap);
+    }
 }

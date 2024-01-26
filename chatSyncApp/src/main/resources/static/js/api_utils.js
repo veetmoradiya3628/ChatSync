@@ -26,10 +26,9 @@ async function fetchContactUsersDataForLoggedInUser(){
 
 async function getUserInfo(userId) {
     try {
-        await $.get('/ChatSync/api/v1/userInfo/' + userId, function (res){
+        return await $.get('/ChatSync/api/v1/userInfo/' + userId, function (res) {
             console.log(JSON.stringify(res));
-            selectedGlobalUser = res.data;
-        })
+        });
     }catch (error){
         console.log(error)
     }
@@ -53,6 +52,34 @@ async function addContactAPI(reqObject, csrfToken) {
             error: function(error) {
                 // Handle error
                 console.error('POST request for addContact failed:', error);
+            }
+        })
+    }catch (error){
+        console.log(error)
+    }
+}
+
+async function deleteUserContact(userId, contactId){
+    try{
+        $.ajax({
+            url: '/ChatSync/api/v1/delete-contact',
+            type: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify({
+                userId: userId,
+                contactId: contactId
+            }),
+            success: function(response) {
+                // Handle success
+                console.log('POST request for deleteContact successful:', response);
+                showContactsList();
+            },
+            error: function(error) {
+                // Handle error
+                console.error('POST request for deleteContact failed:', error);
             }
         })
     }catch (error){

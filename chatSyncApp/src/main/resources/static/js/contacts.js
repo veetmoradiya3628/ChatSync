@@ -7,17 +7,14 @@ const userContactsListContainerRef = "#user-contacts-container";
 
 // globalUserInfo
 const globalUserInfoSectionRef = "#globalUserInfoSection";
-const globalUserInfoProfileImageRef = "#globalUserInfoProfileImage";
-const globalUserInfoStatusRef = "#globalUserInfoStatus";
-const globalUserInfoEmailRef = "#globalUserInfoEmail";
-const globalUserInfoFirstNameRef = "#globalUserInfoFirstName";
-const globalUserInfoLastNameRef = "#globalUserInfoLastName";
+const userInfoSectionRef = "#userDetailInfo";
 
 const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
 
 let globalUser = [];
 let userContacts = [];
 let selectedGlobalUser = null;
+let selectedUser = null;
 
 /* function will call when document will be loaded completely */
 $(document).ready(function() {
@@ -55,14 +52,10 @@ function renderGlobalUsersOnUI() {
 async function showContactsList(){
     console.log("cancelContactAdditionButton clicked...")
     $(addContactListSelector).hide()
-
     await fetchContactUsersDataForLoggedInUser();
     renderUserContactsOnUI();
-
     $(contactListSelector).show()
 }
-
-
 
 function renderUserContactsOnUI() {
     let userContactsListContainer = document.querySelector(userContactsListContainerRef);
@@ -87,29 +80,40 @@ async function globalUserInfoClickHandler(buttonId)
     let userId = buttonId.split("_")[1]
     console.log(`function called with userId : ${userId}`)
     if(selectedGlobalUser === null || (selectedGlobalUser && selectedGlobalUser.id !== userId)){
-        await getUserInfo(userId);
+        const res = await getUserInfo(userId);
+        console.log(res);
+        selectedGlobalUser = res.data;
     }
-    renderGlobalUserInfoOnUI()
+    renderGlobalUserInfoOnUI();
 }
+
+async function showContactInfo(userId){
+    console.log(`showUserInfo called with userId : ${userId}`);
+    if(selectedUser === null || (selectedUser && selectedUser.id !== userId)){
+        const res = await getUserInfo(userId);
+        console.log(res);
+        selectedUser = res.data;
+    }
+    renderSelectedUserInfoOnUI();
+}
+
 function renderGlobalUserInfoOnUI(){
     console.log(selectedGlobalUser);
     if(selectedGlobalUser){
-        let imgRef = $(globalUserInfoProfileImageRef)
-        if(selectedGlobalUser.profileImage){
-            imgRef.attr('src', selectedGlobalUser.profileImage);
-        }else{
-            imgRef.attr('src', 'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png')
-        }
-
-        // for status default online as of now
-        $(globalUserInfoStatusRef).html(`${selectedGlobalUser.firstName} ${selectedGlobalUser.lastName} <span class="online-status-badge">Online</span>`)
-        $(globalUserInfoEmailRef).html(`<b>E-mail : </b> ${selectedGlobalUser.email}`)
-        $(globalUserInfoFirstNameRef).html(`<b>First Name : </b> ${selectedGlobalUser.firstName}`)
-        $(globalUserInfoLastNameRef).html(`<b>Last Name : </b> ${selectedGlobalUser.lastName}`)
-        
+        generateUserInformation(selectedGlobalUser, globalUserInfoSectionRef);
         $(globalUserInfoSectionRef).show();
     }else{
         // get userInfo failed
+    }
+}
+
+function renderSelectedUserInfoOnUI(){
+    console.log(selectedUser)
+    if (selectedUser){
+        generateUserInformation(selectedUser, userInfoSectionRef);
+        $(userInfoSectionRef).show();
+    }else{
+        // no user to show
     }
 }
 
@@ -118,11 +122,29 @@ async function addUserClickHandler(buttonId){
     let userId = buttonId.split("_")[1]
     console.log(`function called with userId : ${userId}`)
 
-    let reqObject = {
-        userId: getCookie("loggedInUserId"),
-        contactId: userId
-    }
+    let userResp = window.confirm('Are you sure want to add contact to you contact list ?');
+    if (userResp){
+        let reqObject = {
+            userId: getCookie("loggedInUserId"),
+            contactId: userId
+        }
 
-    console.log(JSON.stringify(reqObject))
-    await addContactAPI(reqObject, csrfToken)
+        console.log(JSON.stringify(reqObject))
+        await addContactAPI(reqObject, csrfToken)
+    }else{
+        console.log('user contact addition cancelled by user!!');
+    }
+}
+
+async function deleteContact(contactId) {
+    console.log('delete contact function called with contactID : ' + contactId);
+
+    let userResp = window.confirm('Are you sure want to delete contact from you contact list ?');
+    if (userResp) {
+        console.log('user selected true for user contact remove operation, processing for user contact delete');
+        let userId = getCookie("loggedInUserId");
+        await deleteUserContact(userId, contactId);
+    } else {
+        console.log('cancelled user contact remove operation!!')
+    }
 }

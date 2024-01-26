@@ -61,9 +61,10 @@ function userContactsTileGenerator(userData){
     // Column 3: Buttons (Chat, Info, Delete)
     const userAction = document.createElement('div');
     userAction.className = 'col-6 text-right';
-    const chatButton = createButton('btn btn-light', 'bi bi-chat-left-fill mr-5', 'Chat');
-    const infoButton = createButton('btn btn-info', 'bi bi-info-circle-fill mr-5', 'Info');
-    const deleteButton = createButton('btn btn-danger', 'bi bi-trash-fill mr-5', 'Delete');
+    const chatButton = createButton(userData.id, 'btn btn-light', 'bi bi-chat-left-fill mr-5', 'Chat');
+    const infoButton = createButton(userData.id, 'btn btn-info', 'bi bi-info-circle-fill mr-5', 'Info');
+    const deleteButton = createButton(userData.id, 'btn btn-danger', 'bi bi-trash-fill mr-5', 'Delete');
+
     userAction.appendChild(chatButton);
     userAction.appendChild(infoButton);
     userAction.appendChild(deleteButton);
@@ -76,12 +77,71 @@ function userContactsTileGenerator(userData){
     return row;
 }
 
-function createButton(className, iconClass, text) {
+function createButton(id, className, iconClass, text) {
     const button = document.createElement('button');
     button.className = className;
     const icon = document.createElement('i');
     icon.className = iconClass;
     button.appendChild(icon);
     button.innerHTML += text;
+
+    if(text === 'Delete'){
+        button.onclick = function (){
+            deleteContact(id).then(r => {});
+        }
+    }else if (text === 'Info'){
+        button.onclick = function (){
+            showContactInfo(id).then(r => {});
+        }
+    }else if (text === 'Chat'){
+
+    }
+
     return button;
+}
+
+function generateUserInformation(userData, containerRef) {
+    const container = document.querySelector(containerRef);
+    $(container).empty();
+
+    const userInformationDiv = document.createElement("div");
+    userInformationDiv.className = "col-6";
+
+    const heading = document.createElement("h3");
+    heading.textContent = "User Information";
+    userInformationDiv.appendChild(heading);
+
+    const avatarImg = document.createElement("img");
+    avatarImg.src = userData.profileImage ? userData.profileImage : 'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png';
+    avatarImg.alt = "Avatar";
+    avatarImg.className = "contact-user-info-profile-image mt-2";
+    userInformationDiv.appendChild(avatarImg);
+
+    const statusBadge = document.createElement("span");
+    statusBadge.className = 1 === 1 ? "online-status-badge" : "offline-status-badge";
+    statusBadge.textContent = 1 === 1 ? "Online" : "Offline";
+    userInformationDiv.appendChild(document.createTextNode(`${userData.firstName} ${userData.lastName} is `));
+    userInformationDiv.appendChild(statusBadge);
+
+    const emailDiv = createInfoDiv("E-mail", userData.email);
+    userInformationDiv.appendChild(emailDiv);
+
+    const firstNameDiv = createInfoDiv("First Name", userData.firstName);
+    userInformationDiv.appendChild(firstNameDiv);
+
+    const lastNameDiv = createInfoDiv("Last Name", userData.lastName);
+    userInformationDiv.appendChild(lastNameDiv);
+
+    container.appendChild(userInformationDiv);
+}
+
+// Helper function to create information divs
+function createInfoDiv(label, value) {
+    const infoDiv = document.createElement("div");
+    infoDiv.className = "mt-1";
+    const labelElement = document.createElement("b");
+    labelElement.textContent = `${label} : `;
+    infoDiv.appendChild(labelElement);
+    infoDiv.appendChild(document.createTextNode(value));
+    return infoDiv;
 }

@@ -39,12 +39,12 @@
                 </div>
             </div>
         </div>
-        <div>
-            CSRF Token: <span th:text="${_csrf.token}"></span>
-        </div>
-        <div>
-            Logged-in Username: <span th:text="${#authentication.principal.username}"></span>
-        </div>
+<!--        <div>-->
+<!--            CSRF Token: <span th:text="${_csrf.token}"></span>-->
+<!--        </div>-->
+<!--        <div>-->
+<!--            Logged-in Username: <span th:text="${#authentication.principal.username}"></span>-->
+<!--        </div>-->
         <div class="row mt-2">
             <div class="col-8">
                 <div class="input-group mb-1">
@@ -85,33 +85,14 @@
                         </div>
                         <div class="col-6 text-right">
                             <button class="btn btn-light"><i class="bi bi-chat-left-fill mr-5"></i>Chat</button>
-                            <button class="btn btn-info"><i class="bi bi-info-circle-fill mr-5"></i>Info</button>
-                            <button class="btn btn-danger"><i class="bi bi-trash-fill mr-5"></i>Delete</button>
+                            <button class="btn btn-info" th:attr="onclick='showContactInfo(\'' + ${contact.id} + '\')'"><i class="bi bi-info-circle-fill mr-5"></i>Info</button>
+                            <button class="btn btn-danger" th:attr="onclick='deleteContact(\'' + ${contact.id} + '\')'"><i class="bi bi-trash-fill mr-5"></i>Delete</button>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-6">
-                <div class="row">
-                    <div class="col-6">
-                        <h3>User Information</h3>
-                        <img src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png" alt="Avatar"
-                             class="contact-user-info-profile-image mt-2"> <!-- Avatar -->
-                        <div class="mt-1">
-                            Veet Moradiya is <span class="online-status-badge">Online</span>
-                            <!--                        Dhruvi Moradiya is <span class="offline-status-badge">Offline</span>-->
-                        </div>
-                        <div class="mt-1">
-                            <b>E-mail : </b> veet.moradiya@gmail.com
-                        </div>
-                        <div class="mt-1">
-                            <b>First Name : </b> Veet
-                        </div>
-                        <div class="mt-1">
-                            <b>Last Name : </b> Moradiya
-                        </div>
-                    </div>
-                </div>
+                <div class="row" id="userDetailInfo"></div>
             </div>
         </div>
     </div>
@@ -152,32 +133,11 @@
             <div id="global-users-container" class="col-6 contact-list-section">
                 <!-- Your contact list items go here -->
             </div>
-            <div class="col-6" id="globalUserInfoSection">
-                <div class="row">
-                    <div class="col-6">
-                        <h3>User Information</h3>
-                        <img id="globalUserInfoProfileImage"  src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png" alt="Avatar"
-                             class="contact-user-info-profile-image mt-2"> <!-- Avatar -->
-                        <div class="mt-1" id="globalUserInfoStatus">
-                            Veet Moradiya is <span class="online-status-badge">Online</span>
-                            <!--                        Dhruvi Moradiya is <span class="offline-status-badge">Offline</span>-->
-                        </div>
-                        <div class="mt-1" id="globalUserInfoEmail">
-                            <b>E-mail : </b> veet.moradiya@gmail.com
-                        </div>
-                        <div class="mt-1" id="globalUserInfoFirstName">
-                            <b>First Name : </b> Veet
-                        </div>
-                        <div class="mt-1" id="globalUserInfoLastName">
-                            <b>Last Name : </b> Moradiya
-                        </div>
-                    </div>
-                </div>
+            <div class="col-6 row" id="globalUserInfoSection">
             </div>
         </div>
     </div>
 </div>
-
 </body>
 </html>
 
