@@ -81,8 +81,13 @@ public class WebController {
         for (int i = 0; i < 20; i++) {
             members.add(i);
         }
+        List<Integer> globalMembers = new ArrayList<>();
+        for (int i = 0; i < 50; i++) {
+            globalMembers.add(i);
+        }
         model.addAttribute("groups", list);
         model.addAttribute("members", members);
+        model.addAttribute("globalMembers", globalMembers);
         return "groups";
     }
 

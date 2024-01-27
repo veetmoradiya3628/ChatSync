@@ -19,9 +19,9 @@
 
     <link rel="stylesheet" th:href="@{/css/main.css}">
 
-    <script type="text/javascript" th:src="@{/js/api_utils.js}"></script>
-    <script type="text/javascript" th:src="@{/js/html_components.js}"></script>
-    <script type="text/javascript" th:src="@{/js/common_utils.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common/api_utils.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common/html_components.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common/common_utils.js}"></script>
     <script type="text/javascript" th:src="@{/js/contacts.js}"></script>
 
 </head>
@@ -48,17 +48,17 @@
         <div class="row mt-2">
             <div class="col-8">
                 <div class="input-group mb-1">
-                    <div class="col-11">
-                        <input type="text" class="form-control" placeholder="Search User" aria-label="Search"
+                    <div class="col-12">
+                        <input type="text" id="searchContact" oninput="searchContact()" class="form-control" placeholder="Search User" aria-label="Search"
                                aria-describedby="search-icon">
                     </div>
-                    <div class="col-1" >
-                        <div class="center-content">
-                            <button class="btn btn-outline-primary text-center" type="button" id="search-icon">
-                                <i class="bi bi-search"></i>
-                            </button>
-                        </div>
-                    </div>
+<!--                    <div class="col-1" >-->
+<!--                        <div class="center-content">-->
+<!--                            <button class="btn btn-outline-primary text-center" type="button" id="search-icon">-->
+<!--                                <i class="bi bi-search"></i>-->
+<!--                            </button>-->
+<!--                        </div>-->
+<!--                    </div>-->
                 </div>
             </div>
             <div class="col-4 text-right">

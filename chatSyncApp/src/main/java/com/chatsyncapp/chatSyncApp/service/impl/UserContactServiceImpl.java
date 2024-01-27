@@ -184,7 +184,7 @@ public class UserContactServiceImpl implements UserContactService {
         }
     }
 
-    public boolean isUserContactExists(String userId, String contactId){
+    public boolean isUserContactExists(String userId, String contactId) {
         List<UserContacts> resp = this.userContactRepository.findByUserIdAndContactUserId(new User(userId), new User(contactId));
         return !resp.isEmpty();
     }

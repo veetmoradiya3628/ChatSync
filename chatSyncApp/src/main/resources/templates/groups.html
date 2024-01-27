@@ -15,101 +15,156 @@
     <script src="/ChatSync/webjars/stomp-websocket/stomp.min.js"></script>
 
     <link rel="stylesheet" th:href="@{/css/main.css}">
+
+    <script type="text/javascript" th:src="@{/js/common/api_utils.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common/html_components.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common/common_utils.js}"></script>
+    <script type="text/javascript" th:src="@{/js/groups.js}"></script>
 </head>
 <body>
 <th:block th:include="header :: header"></th:block>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="row">
-                <div class="col-2">
-                    <h4>Groups</h4>
+    <!-- group info tab -->
+    <div id="group-info-area">
+        <div class="row">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-2">
+                        <h4>Groups</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-8">
+                <div class="input-group mb-1">
+                    <div class="col-11">
+                        <input type="text" class="form-control" placeholder="Search Group" aria-label="Search"
+                               aria-describedby="search-icon">
+                    </div>
+                    <div class="col-1" >
+                        <div class="center-content">
+                            <button class="btn btn-outline-primary text-center" type="button" id="search-icon">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 text-right">
+                <button class="btn btn-primary" onclick="createGroupBtnHandler()">Create New Group</button>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-4 contact-list-section">
+                <!-- Your contact list items go here -->
+                <div th:each="group : ${groups}">
+                    <div class="row mt-1 p-1">
+                        <div class="col-2">
+                            <img src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png" alt="Avatar" class="avatar"> <!-- Avatar -->
+                        </div>
+                        <div class="col-4">
+                            <!--  icon for offline user <i class="fas fa-circle text-danger"></i>-->
+                            <strong>Group Name </strong> <br>
+                            <p><b>Members : </b> 100 </p>   <!-- Last message content -->
+                        </div>
+                        <div class="col-6 text-right">
+                            <button class="btn btn-light"><i class="bi bi-chat-left-fill"></i>Chat</button>
+                            <button class="btn btn-info"><i class="bi bi-info-circle-fill"></i>Info</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="row">
+                    <div class="col-12">
+                        <h3>Group Information</h3>
+                        <div class="text-center">
+                            <img src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png" alt="Avatar"
+                                 class="group-info-image mt-2">
+                        </div>
+                        <div class="mt-1">
+                            <b>Group name : </b> veet.moradiya@gmail.com
+                        </div>
+                        <div class="mt-1">
+                            <b>Create At : </b> 2017-11-02 02:04:03
+                        </div>
+                        <div class="mt-1">
+                            <b>Members : </b> 102
+                        </div>
+                        <div class="mt-1 text-center">
+                            <button class="btn btn-warning"><i class="bi bi-eye-fill mr-5"></i>Show Members</button>
+                            <button class="btn btn-primary"><i class="bi bi-plus mr-5"></i>Add Members</button>
+                            <button class="btn btn-secondary"><i class="bi bi-trash-fill mr-5"></i>Leave Group</button>
+                            <button class="btn btn-danger"><i class="bi bi-trash-fill mr-5"></i>Delete Group</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 contact-list-section">
+                <!-- Your contact list items go here -->
+                <div th:each="member : ${members}">
+                    <div class="row mt-1 p-1">
+                        <div class="col-2">
+                            <img src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png" alt="Avatar" class="avatar"> <!-- Avatar -->
+                        </div>
+                        <div class="col-4">
+                            <strong>Member Name </strong> <br>
+                        </div>
+                        <div class="col-6 text-right">
+                            <button class="btn btn-light"><i class="bi bi-chat-left-fill mr-5"></i>Chat</button>
+                            <button class="btn btn-danger"><i class="bi bi-trash-fill mr-5"></i>Remove</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row mt-2">
-        <div class="col-8">
-            <div class="input-group mb-1">
-                <div class="col-11">
-                    <input type="text" class="form-control" placeholder="Search Group" aria-label="Search"
-                           aria-describedby="search-icon">
+
+    <!--  Add Group Tab  -->
+    <div id="add-group-section">
+        <div class="row">
+            <div class="col-10">
+                <h4>Create New Group</h4>
+            </div>
+            <div class="col-2">
+                <button class="btn btn-primary">Create Group</button>
+                <button class="btn btn-secondary" onclick="cancelGroupCreationHandler()">Cancel</button>
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-6 group-info-input-section">
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text">Group Name</span>
+                    <input type="text" class="form-control">
                 </div>
-                <div class="col-1" >
-                    <div class="center-content">
-                        <button class="btn btn-outline-primary text-center" type="button" id="search-icon">
-                            <i class="bi bi-search"></i>
-                        </button>
+                <div class="font-medium mt-2 ml-2">
+                    Selected Group Members Count : 10
+                </div>
+            </div>
+            <div class="col-6">
+                <h4>Global Contacts</h4>
+                <div class="group-member-input-section">
+                    <div th:each="member : ${globalMembers}" class="">
+                        <div class="row mt-1 p-1">
+                            <div class="col-1">
+                                <img src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png" alt="Avatar" class="avatar"> <!-- Avatar -->
+                            </div>
+                            <div class="col-6">
+                                <strong th:text="'Global Contact : ' + ${member}"></strong> <br>
+                            </div>
+                            <div class="col-5 text-right">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="check1" value="something" checked>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-4 text-right">
-            <button class="btn btn-primary">Create New Group</button>
-        </div>
-    </div>
-    <div class="row mt-2">
-        <div class="col-4 contact-list-section">
-            <!-- Your contact list items go here -->
-            <div th:each="group : ${groups}">
-                <div class="row mt-1 p-1">
-                    <div class="col-2">
-                        <img src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png" alt="Avatar" class="avatar"> <!-- Avatar -->
-                    </div>
-                    <div class="col-6">
-                        <!--  icon for offline user <i class="fas fa-circle text-danger"></i>-->
-                        <strong>Group Name </strong> <br>
-                        <p><b>Members : </b> 100 </p>   <!-- Last message content -->
-                    </div>
-                    <div class="col-4 text-right">
-                        <button class="btn btn-light"><i class="bi bi-chat-left-fill mr-5"></i>Chat</button>
-                        <button class="btn btn-info"><i class="bi bi-info-circle-fill mr-5"></i>Info</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="row">
-                <div class="col-12">
-                    <h3>Group Information</h3>
-                    <div class="text-center">
-                        <img src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png" alt="Avatar"
-                             class="group-info-image mt-2">
-                    </div>
-                    <div class="mt-1">
-                        <b>Group name : </b> veet.moradiya@gmail.com
-                    </div>
-                    <div class="mt-1">
-                        <b>Create At : </b> 2017-11-02 02:04:03
-                    </div>
-                    <div class="mt-1">
-                        <b>Members : </b> 102
-                    </div>
-                    <div class="mt-1 text-center">
-                        <button class="btn btn-warning"><i class="bi bi-eye-fill mr-5"></i>Show Members</button>
-                        <button class="btn btn-secondary"><i class="bi bi-trash-fill mr-5"></i>Leave Group</button>
-                        <button class="btn btn-danger"><i class="bi bi-trash-fill mr-5"></i>Delete Group</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-4 contact-list-section">
-            <!-- Your contact list items go here -->
-            <div th:each="member : ${members}">
-                <div class="row mt-1 p-1">
-                    <div class="col-2">
-                        <img src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/default-profile-picture-grey-male-icon.png" alt="Avatar" class="avatar"> <!-- Avatar -->
-                    </div>
-                    <div class="col-4">
-                        <strong>Member Name </strong> <br>
-                    </div>
-                    <div class="col-6 text-right">
-                        <button class="btn btn-light"><i class="bi bi-chat-left-fill mr-5"></i>Chat</button>
-                        <button class="btn btn-danger"><i class="bi bi-trash-fill mr-5"></i>Remove</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
 </div>
 </body>

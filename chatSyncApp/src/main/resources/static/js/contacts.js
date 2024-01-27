@@ -16,6 +16,8 @@ let userContacts = [];
 let selectedGlobalUser = null;
 let selectedUser = null;
 
+const searchUserRef = "#searchContact";
+
 /* function will call when document will be loaded completely */
 $(document).ready(function() {
     console.log("contact.js loaded ...")
@@ -147,4 +149,27 @@ async function deleteContact(contactId) {
     } else {
         console.log('cancelled user contact remove operation!!')
     }
+}
+
+/*
+ function to handle user search for contacts
+ */
+function searchContact(){
+    const value = $(searchUserRef).val();
+    if (value.length > 2){
+        console.log(value);
+
+        let filteredContacts = filterContact(value.toLowerCase());
+        console.log(filteredContacts);
+    }
+}
+
+function filterContact(value) {
+    let filteredUser = []
+    userContacts.forEach(user => {
+        if (user.firstName.toLowerCase().includes(value) || user.lastName.toLowerCase().includes(value)){
+            filteredUser.push(user)
+        }
+    })
+    return filteredUser;
 }

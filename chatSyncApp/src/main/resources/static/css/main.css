@@ -146,3 +146,12 @@
     border-radius: 20px; /* Curved corners */
     display: inline-block;
 }
+
+.group-member-input-section {
+    height: calc(100vh - 140px);
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+}
+.group-member-input-section::-webkit-scrollbar {
+    display: none;
+}
