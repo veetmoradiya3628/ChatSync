@@ -167,7 +167,7 @@ function searchContact(){
 function filterContact(value) {
     let filteredUser = []
     userContacts.forEach(user => {
-        if (user.firstName.toLowerCase().includes(value) || user.lastName.toLowerCase().includes(value)){
+        if (user.firstName.toLowerCase().includes(value) || user.lastName.toLowerCase().includes(value)) {
             filteredUser.push(user)
         }
     })
