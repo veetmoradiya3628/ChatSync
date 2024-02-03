@@ -1,0 +1,18 @@
+.chats-title {
+    font-size: x-large;
+    margin-bottom: 10px;
+}
+.contacts-scroll-viewport {
+    height: 750px !important;
+    overflow-y: auto;
+    /* Show vertical scrollbar only when necessary */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+}
+
+.contacts-scroll-viewport::-webkit-scrollbar {
+    display: none;
+    /* Hide the scrollbar for WebKit browsers (Chrome, Safari, etc.) */
+}

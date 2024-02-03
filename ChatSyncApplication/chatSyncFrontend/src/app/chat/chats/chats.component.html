@@ -1,1 +1,35 @@
-<p>chats works!</p>
+<div fxLayout="column" fxLayoutAlign="start stretch" class="m-10">
+    <div fxLayout="row" fxLayoutAlign="start start">
+        <div fxLayout="column" fxFlex="25">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title class="chats-title">Chats</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <!-- contact lists -->
+                    <div fxLayout="column">
+                        <cdk-virtual-scroll-viewport itemSize="10" class="contacts-scroll-viewport">
+                            <mat-card class="m-2 contact-tile" *cdkVirtualFor="let index of loopCounter">
+                                <mat-card-header>
+                                    <div mat-card-avatar>
+                                        <img class="contact-tile-image"
+                                            src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
+                                    </div>
+                                    <mat-card-title>Contact {{index}} </mat-card-title>
+                                    <mat-card-subtitle>Contact Status</mat-card-subtitle>
+                                </mat-card-header>
+                                <!-- Chat content or recent messages -->
+                                <!-- <mat-card-content>
+                                <p>Last message or chat preview goes here...</p>
+                            </mat-card-content> -->
+                            </mat-card>
+                        </cdk-virtual-scroll-viewport>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div fxLayout="column" fxFlex="75" class="ml-2">
+            <app-chat-thread></app-chat-thread>
+        </div>
+    </div>
+</div>

@@ -1,20 +1,32 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AppComponent } from './app.component';
 import { ChatsComponent } from './chat/chats/chats.component';
 import { GroupsComponent } from './group/groups/groups.component';
 import { ContactsComponent } from './contact/contacts/contacts.component';
 import { ProfileComponent } from './common/profile/profile.component';
 import { LogoutComponent } from './common/logout/logout.component';
+import { LoginComponent } from './common/login/login.component';
+import { RegisterComponent } from './common/register/register.component';
+import { HomePageComponent } from './common/home-page/home-page.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/chat',
+    component: HomePageComponent,
     pathMatch: 'full'
   },
   {
-    path: 'chat',
+    path: 'login',
+    component: LoginComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'chats',
     component: ChatsComponent,
     children: []
   },
@@ -36,7 +48,6 @@ const routes: Routes = [
   {
     path: 'logout',
     component: LogoutComponent,
-    children: []
   }
 ];
 

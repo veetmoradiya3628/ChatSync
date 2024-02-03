@@ -2,3 +2,90 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.m-10 {
+    margin: 10px !important;
+}
+
+.ml-2 {
+    margin-left: 2px !important;
+}
+
+.m-2 {
+    margin: 2px !important;
+}
+
+.contact-tile {
+    background-color: rgb(88, 88, 88) !important;
+}
+
+.contact-tile:hover {
+    background-color: #707070 !important;
+}
+
+.contact-tile-image {
+    background-size: cover;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+.chat-space-area{
+    height: 645px;
+    max-height: 645px;
+    background-color: rgb(92, 91, 91) !important;
+}
+
+
+/* Chat message UI styles */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+
+.message {
+    margin: 4px 4px;
+}
+
+.message-content {
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: larger;
+    max-width: 70%;
+}
+
+.message-content.sent {
+    background-color: #252525;
+    /* Sent message color */
+}
+
+.message-content.received {
+    background-color: #999999;
+    color: #000000;
+    /* Received message color */
+}
+
+.message-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 107px !important;
+}
+
+.message-input {
+    flex: 1;
+    color: black !important;
+    margin-top: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.attachment-button,
+.send-button {
+    margin-left: 5px;
+    color: white !important;
+}
