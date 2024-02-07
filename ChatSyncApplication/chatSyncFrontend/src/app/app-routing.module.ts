@@ -16,16 +16,6 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'login',
-    component: LoginComponent,
-    pathMatch: 'full'
-  },
-  {
-    path: 'register',
-    component: RegisterComponent,
-    pathMatch: 'full'
-  },
-  {
     path: 'chats',
     component: ChatsComponent,
     children: []
