@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ChatsComponent } from './chat/chats/chats.component';
-import { GroupsComponent } from './group/groups/groups.component';
-import { ContactsComponent } from './contact/contacts/contacts.component';
-import { ProfileComponent } from './common/profile/profile.component';
-import { LogoutComponent } from './common/logout/logout.component';
+import { HomePageComponent } from './common/home-page/home-page.component';
 import { LoginComponent } from './common/login/login.component';
 import { RegisterComponent } from './common/register/register.component';
-import { HomePageComponent } from './common/home-page/home-page.component';
+import { UserHomePageComponent } from './user/user-home-page/user-home-page.component';
+import { UserChatComponent } from './user/user-chat/user-chat.component';
+import { UserGroupsComponent } from './user/user-groups/user-groups.component';
+import { UserContactComponent } from './user/user-contact/user-contact.component';
+import { UserProfileComponent } from './user/user-profile/user-profile.component';
 
 const routes: Routes = [
   {
@@ -16,28 +16,24 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'chats',
-    component: ChatsComponent,
-    children: []
+    path: 'login',
+    component: LoginComponent,
+    pathMatch: 'full'
   },
   {
-    path: 'group',
-    component: GroupsComponent,
-    children: []
+    path: 'registration',
+    component: RegisterComponent,
+    pathMatch: 'full'
   },
   {
-    path: 'contact',
-    component: ContactsComponent,
-    children: []
-  },
-  {
-    path: 'profile',
-    component: ProfileComponent,
-    children: []
-  },
-  {
-    path: 'logout',
-    component: LogoutComponent,
+    path: 'user',
+    component: UserHomePageComponent,
+    children: [
+      { path: 'chat', component: UserChatComponent },
+      { path: 'contact', component: UserContactComponent },
+      { path: 'group', component: UserGroupsComponent },
+      { path: 'profile', component: UserProfileComponent },
+    ]
   }
 ];
 

@@ -12,16 +12,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     margin-left: 2px !important;
 }
 
+.ml-5 {
+    margin-left: 5px;
+}
+
 .m-2 {
     margin: 2px !important;
 }
 
 .contact-tile {
-    background-color: rgb(88, 88, 88) !important;
 }
 
 .contact-tile:hover {
-    background-color: #707070 !important;
+    background-color: #d1d1d1 !important;
 }
 
 .contact-tile-image {
@@ -34,7 +37,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .chat-space-area{
     height: 645px;
     max-height: 645px;
-    background-color: rgb(92, 91, 91) !important;
 }
 
 
@@ -60,12 +62,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .message-content.sent {
-    background-color: #252525;
+    background-color: #dbe7fb;
     /* Sent message color */
 }
 
 .message-content.received {
-    background-color: #999999;
+    background-color: #f2f2f2;
     color: #000000;
     /* Received message color */
 }
