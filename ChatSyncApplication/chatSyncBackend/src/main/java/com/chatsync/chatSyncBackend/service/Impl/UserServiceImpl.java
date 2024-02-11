@@ -36,6 +36,10 @@ public class UserServiceImpl implements UserService {
     private RoleService roleService;
 
     @Autowired
+    private EmailService emailService;
+
+
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
@@ -49,11 +53,11 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public ResponseEntity<?> createNewUserAccount(UserDto userDto) {
-        try{
+        try {
             logger.info(LOG_TAG + " createNewUserAccount with " + userDto.toString());
 
             // check for user already exists or not (username, email)
-            if (!isUserExists(userDto.getUsername(), userDto.getEmail())){
+            if (!isUserExists(userDto.getUsername(), userDto.getEmail())) {
                 // validate required parameters - later
                 // profile picture upload and url addition - later
                 // mail for verification token and verification link - later
@@ -61,7 +65,7 @@ public class UserServiceImpl implements UserService {
 
                 // user roles validation - as of now one role in the request and also it can be ROLE_USER, ROLE_ADMIN
                 String reqRole = userDto.getRoles().get(0).toUpperCase();
-                if (!reqRole.equals("ROLE_USER") && !reqRole.equals("ROLE_ADMIN")){
+                if (!reqRole.equals("ROLE_USER") && !reqRole.equals("ROLE_ADMIN")) {
                     logger.info("Invalid user role passed as " + reqRole);
                     return ResponseHandler.generateResponse("Invalid user role passed!", HttpStatus.NOT_ACCEPTABLE, null);
                 }
@@ -99,25 +103,77 @@ public class UserServiceImpl implements UserService {
 
             }
             return ResponseHandler.generateResponse("User already exists with username or email", HttpStatus.NOT_ACCEPTABLE, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.info("Exception occurred in the function resetUserPassword : " + e.getMessage());
             return ResponseHandler.generateResponse("Exception : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
         }
     }
 
-    protected boolean isUserExists(String username, String email){
+    /*
+        requestActivationDetails: emailId - user mail for whom activation details is requested.
+     */
+    @Override
+    public ResponseEntity<?> requestActivationDetails(String emailId) {
+        try{
+            if(this.userRepository.existsByEmail(emailId)){
+                User user = this.userRepository.findByEmail(emailId);
+                logger.info("user details : " + user.toString());
+
+                // activation details mail sent logic
+
+                String mailSubject = "Chat Sync Activation & Verification Mail";
+                String content = "Hi " + user.getUsername() + ",\nThanks for registering your self on ChatSync, below is link to active your account."
+                        + "\n\nActivation link : http://localhost:4200/activate-account/" + user.getEmail() + "/" + user.getVerificationToken();
+
+                emailService.sendEmail(emailId, mailSubject, content);
+
+                return ResponseHandler.generateResponse("Activation details sent to registered mailId", HttpStatus.OK, null);
+
+            }
+            logger.info("user with provided email id not exists!! : " + emailId);
+            return ResponseHandler.generateResponse("User with provided email id not exists!!", HttpStatus.NOT_FOUND, null);
+
+        } catch (Exception e) {
+            logger.info("Exception occurred in the function requestActivationDetails : " + e.getMessage());
+            return ResponseHandler.generateResponse("Exception : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+        }
+    }
+
+
+    /*
+        activateUserAccount: emailId - user mail for whom have to activate the account, activationToken - activation token
+     */
+    @Override
+    public ResponseEntity<?> activateUserAccount(String emailId, String activationToken) {
+        try{
+            if(this.userRepository.existsByEmailAndVerificationToken(emailId, activationToken)){
+                User user = this.userRepository.findByEmail(emailId);
+                user.setActive(true);
+                userRepository.save(user);
+                logger.info("user with emailId : " + emailId + " activated!!");
+                return ResponseHandler.generateResponse("User account activated successfully!!", HttpStatus.OK, null);
+            }
+            logger.info("user with provided email id not exists!! : " + emailId);
+            return ResponseHandler.generateResponse("Invalid Activation request!!!", HttpStatus.NOT_FOUND, null);
+        }catch (Exception e){
+            logger.info("Exception occurred in the function activateUserAccount : " + e.getMessage());
+            return ResponseHandler.generateResponse("Exception : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+        }
+    }
+
+    protected boolean isUserExists(String username, String email) {
         return this.userRepository.existsByUsername(username) || this.userRepository.existsByEmail(email);
     }
 
-    protected String generateVerificationToken(){
+    protected String generateVerificationToken() {
         UUID randomUUID;
         do {
-             randomUUID = UUID.randomUUID();
-        }while (this.userRepository.existsByVerificationToken(UUID.randomUUID().toString()));
+            randomUUID = UUID.randomUUID();
+        } while (this.userRepository.existsByVerificationToken(UUID.randomUUID().toString()));
         return randomUUID.toString();
     }
 
-    protected String optGenerator(int length){
+    protected String optGenerator(int length) {
         String otp;
         do {
             StringBuilder otpBuilder = new StringBuilder();
@@ -127,7 +183,7 @@ public class UserServiceImpl implements UserService {
                 otpBuilder.append(digit);
             }
             otp = otpBuilder.toString();
-        }while (this.userRepository.existsByResetPasswordOtp(otp));
+        } while (this.userRepository.existsByResetPasswordOtp(otp));
         return otp;
     }
 }

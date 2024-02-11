@@ -8,4 +8,8 @@ public interface UserService {
     User getUserByUsername(String username);
 
     ResponseEntity<?> createNewUserAccount(UserDto userDto);
+
+    ResponseEntity<?> requestActivationDetails(String emailId);
+
+    ResponseEntity<?> activateUserAccount(String emailId, String activationToken);
 }

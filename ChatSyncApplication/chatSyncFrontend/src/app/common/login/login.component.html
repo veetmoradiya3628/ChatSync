@@ -40,12 +40,15 @@
                             </mat-card-content>
                             <div fxLayout="row" fxLayoutAlign="center center">
                                 <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">Login</button>
-                                <button mat-raised-button color="secondary" class="ml-5">Clear</button>
+                                <button type="button" mat-raised-button color="secondary" class="ml-5">Clear</button>
                             </div>
                         </div>
                     </form>
                     <div fxLayout="row" fxLayoutAlign="center center">
                         <p>Not having Account ? <a [routerLink]="'/registration'">Register here</a> </p>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="center center">
+                        <p>Not Activated account ? <a [routerLink]="'/activate-request'">Activate here</a> </p>
                     </div>
                 </mat-card>
             </div>

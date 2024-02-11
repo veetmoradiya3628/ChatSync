@@ -16,4 +16,10 @@ export class ApiService {
     const url = this.BASE_URL + "/user/register-user";
     return this.http.post(url, reqObj);
   }
+
+  // login user API
+  public loginUser(reqObj: any): Observable<any> {
+    const url = this.BASE_URL + '/generate-token';
+    return this.http.post(url, reqObj);
+  }
 }

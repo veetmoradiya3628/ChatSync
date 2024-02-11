@@ -27,4 +27,23 @@ public class UserController {
         return this.userService.createNewUserAccount(userDto);
     }
 
+    /*
+    API to request activation details on mail
+     */
+    @PostMapping("/request-activation/{emailId}")
+    public ResponseEntity<?> requestActivationController(@PathVariable("emailId") String emailId) {
+        logger.info(LOG_TAG + " requestActivationController " + emailId);
+        return this.userService.requestActivationDetails(emailId);
+    }
+
+    /*
+    API to activate user account
+     */
+    @PostMapping("/activate-account/{emailId}/{activationToken}")
+    public ResponseEntity<?> activateAccountController(@PathVariable("emailId") String emailId,
+                                                       @PathVariable("activationToken") String activationToken){
+        logger.info(LOG_TAG + " activateAccountController " + emailId + " " + activationToken);
+        return this.userService.activateUserAccount(emailId, activationToken);
+    }
+
 }

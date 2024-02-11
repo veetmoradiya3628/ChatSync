@@ -32,6 +32,8 @@ import { UserProfileComponent } from './user/user-profile/user-profile.component
 import { UserChatThreadsComponent } from './user/user-chat/user-chat-threads/user-chat-threads.component';
 import { UserChatMessageThreadComponent } from './user/user-chat/user-chat-message-thread/user-chat-message-thread.component';
 import { UserInfoModelComponent } from './user/user-chat/user-info-model/user-info-model.component';
+import { ActivateRequestComponent } from './common/activate-request/activate-request.component';
+import { ActivateAccountComponent } from './common/activate-account/activate-account.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { UserInfoModelComponent } from './user/user-chat/user-info-model/user-in
     UserChatThreadsComponent,
     UserChatMessageThreadComponent,
     UserInfoModelComponent,
+    ActivateRequestComponent,
+    ActivateAccountComponent,
   ],
   imports: [
     BrowserModule,

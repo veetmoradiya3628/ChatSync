@@ -8,6 +8,8 @@ import { UserChatComponent } from './user/user-chat/user-chat.component';
 import { UserGroupsComponent } from './user/user-groups/user-groups.component';
 import { UserContactComponent } from './user/user-contact/user-contact.component';
 import { UserProfileComponent } from './user/user-profile/user-profile.component';
+import { ActivateRequestComponent } from './common/activate-request/activate-request.component';
+import { ActivateAccountComponent } from './common/activate-account/activate-account.component';
 
 const routes: Routes = [
   {
@@ -23,6 +25,16 @@ const routes: Routes = [
   {
     path: 'registration',
     component: RegisterComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'activate-request',
+    component: ActivateRequestComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'activate-account/:mailId/:activationToken',
+    component: ActivateAccountComponent,
     pathMatch: 'full'
   },
   {

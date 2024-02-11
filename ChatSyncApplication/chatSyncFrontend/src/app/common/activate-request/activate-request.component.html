@@ -1,0 +1,39 @@
+<div>
+    <div>
+        <app-header></app-header>
+    </div>
+
+    <div fxLayout="row">
+        <div fxLayout="column" fxFlex="40" fxFlexOffset="30%">
+            <div fxLayout="column" fxFlexOffset="20%">
+                <mat-card>
+                    <form>
+                        <div class="m-10">
+                            <mat-card-header>
+                                <div fxLayout="row" fxFill fxLayoutAlign="center center">
+                                    <mat-card-title>Get Activation mail</mat-card-title>
+                                </div>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <h4>E - mail</h4>
+                                <div fxLayout="row" fxLayoutAlign="start start">
+                                    <mat-form-field fxFill>
+                                        <input matInput placeholder="user@example.com" formControlName="username" required>
+                                    </mat-form-field>
+                                </div>
+                            </mat-card-content>
+                            <div fxLayout="row" fxLayoutAlign="center center">
+                                <button mat-raised-button color="primary" type="submit">Get Mail</button>
+                                <button type="button" mat-raised-button color="secondary" class="ml-5">Clear</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div fxLayout="row" fxLayoutAlign="center center">
+                        <p>Already verified ? <a [routerLink]="'/login'">Login here</a> </p>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+    
+</div>
