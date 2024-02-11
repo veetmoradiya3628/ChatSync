@@ -1,11 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { UserInfoModelComponent } from '../user-info-model/user-info-model.component';
+
 
 @Component({
   selector: 'app-user-chat-message-thread',
   templateUrl: './user-chat-message-thread.component.html',
   styleUrls: ['./user-chat-message-thread.component.css']
 })
-export class UserChatMessageThreadComponent  implements OnInit {
+export class UserChatMessageThreadComponent implements OnInit {
+  isCardVisible = false;
+
+  constructor() { }
+
   ngOnInit(): void {
   }
 
@@ -66,7 +73,7 @@ export class UserChatMessageThreadComponent  implements OnInit {
     { text: 'Hello, how are you?', sentBy: 'user' },
     { text: 'Another short one.', sentBy: 'other' },
     { text: 'Yet another message.', sentBy: 'user' },
-];
+  ];
   newMessage: string = '';
 
   sendMessage() {
@@ -75,6 +82,14 @@ export class UserChatMessageThreadComponent  implements OnInit {
       this.newMessage = '';
       // Logic to send message to other user or backend can be added here
     }
+  }
+
+  showUserInfoCard() {
+    this.isCardVisible = true;
+  }
+
+  hideUserInfoCard() {
+    this.isCardVisible = false;
   }
 
 }

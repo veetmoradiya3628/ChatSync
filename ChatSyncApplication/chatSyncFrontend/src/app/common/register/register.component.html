@@ -1,7 +1,110 @@
-<div>
-    <app-header></app-header>
-
+<div fxLayout="column">
     <div>
-        <h2>Registration page works</h2>
+        <app-header></app-header>
     </div>
+
+    <div fxLayout="row">
+        <div fxLayout="column" fxFlex="40" fxFlexOffset="30%">
+            <div fxLayout="column">
+                <mat-card>
+                    <!-- {{ registrationForm.value | json }} -->
+                    <form [formGroup]="registrationForm" (ngSubmit)="onUserRegistration()">
+                        <div class="m-10">
+                            <mat-card-header>
+                                <div fxLayout="row" fxFill fxLayoutAlign="center center">
+                                    <mat-card-title>Register Your Account</mat-card-title>
+                                </div>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <h4>Email</h4>
+                                <div fxLayout="row" fxLayoutAlign="start start">
+                                    <mat-form-field fxFill>
+                                        <input formControlName="email" matInput placeholder="user@example.com" required>
+                                        <mat-error *ngIf="registrationForm.controls['email'].hasError('required')">
+                                            E-mail is required!!
+                                        </mat-error>
+                                        <mat-error *ngIf="registrationForm.controls['email'].hasError('email')">
+                                            Valid E-mail is required!!
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <h4>Username</h4>
+                                <div fxLayout="row" fxLayoutAlign="start start">
+                                    <mat-form-field fxFill>
+                                        <input formControlName="username" matInput required>
+                                        <mat-error *ngIf="registrationForm.controls['username'].hasError('required')">
+                                            Username is required!!
+                                        </mat-error>
+                                        <mat-error *ngIf="registrationForm.controls['username'].hasError('minlength') 
+                                        || registrationForm.controls['username'].hasError('maxlength')">
+                                            Username can be between 8 to 32!
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <h4>First Name</h4>
+                                <div fxLayout="row" fxLayoutAlign="start start">
+                                    <mat-form-field fxFill>
+                                        <input formControlName="firstName" matInput required>
+                                        <mat-error *ngIf="registrationForm.controls['firstName'].hasError('required')">
+                                            First name is required!!
+                                        </mat-error>
+                                        <mat-error *ngIf="registrationForm.controls['firstName'].hasError('minlength') 
+                                        || registrationForm.controls['firstName'].hasError('maxlength')">
+                                            First name can be between 5 to 32!
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <h4>Last Name</h4>
+                                <div fxLayout="row" fxLayoutAlign="start start">
+                                    <mat-form-field fxFill>
+                                        <input formControlName="lastName" matInput required>
+                                        <mat-error *ngIf="registrationForm.controls['lastName'].hasError('required')">
+                                            Last name is required!!
+                                        </mat-error>
+                                        <mat-error *ngIf="registrationForm.controls['lastName'].hasError('minlength') 
+                                        || registrationForm.controls['lastName'].hasError('maxlength')">
+                                            Last name can be between 5 to 32!
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <h4>Password</h4>
+                                <div fxLayout="row" fxLayoutAlign="start start">
+                                    <mat-form-field fxFill>
+                                        <input formControlName="password" type="text" matInput required>
+                                        <mat-error *ngIf="registrationForm.controls['password'].hasError('required')">
+                                            Password is required!!
+                                        </mat-error>
+                                        <mat-error *ngIf="registrationForm.controls['password'].hasError('minlength') 
+                                        || registrationForm.controls['password'].hasError('maxlength')">
+                                            Password can be between 8 to 32!
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <h4>Phone No</h4>
+                                <div fxLayout="row" fxLayoutAlign="start start">
+                                    <mat-form-field fxFill>
+                                        <input formControlName="phoneNo" matInput required>
+                                        <mat-error *ngIf="registrationForm.controls['phoneNo'].hasError('required')">
+                                            Phone no is required!!
+                                        </mat-error>
+                                        <mat-error *ngIf="registrationForm.controls['phoneNo'].hasError('pattern')">
+                                            Phone no is not valid!
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </mat-card-content>
+                            <div fxLayout="row" fxLayoutAlign="center center">
+                                <button type="submit" mat-raised-button color="primary" [disabled]="!registrationForm.valid">Register</button>
+                                <button type="button" mat-raised-button color="secondary" class="ml-5" (click)="resetRegistrationForm()">Clear</button>
+                            </div>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="center center">
+                            <p>Already having Account ? <a [routerLink]="'/login'">Login here</a> </p>
+                        </div>
+                    </form>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+
 </div>

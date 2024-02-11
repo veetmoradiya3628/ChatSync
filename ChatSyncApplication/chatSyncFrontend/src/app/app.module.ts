@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -12,6 +12,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -19,6 +21,7 @@ import { LoginComponent } from './common/login/login.component';
 import { RegisterComponent } from './common/register/register.component';
 import { HomePageComponent } from './common/home-page/home-page.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './common/header/header.component';
 import { UserHomePageComponent } from './user/user-home-page/user-home-page.component';
 import { UserSideBarComponent } from './user/user-side-bar/user-side-bar.component';
@@ -28,6 +31,7 @@ import { UserGroupsComponent } from './user/user-groups/user-groups.component';
 import { UserProfileComponent } from './user/user-profile/user-profile.component';
 import { UserChatThreadsComponent } from './user/user-chat/user-chat-threads/user-chat-threads.component';
 import { UserChatMessageThreadComponent } from './user/user-chat/user-chat-message-thread/user-chat-message-thread.component';
+import { UserInfoModelComponent } from './user/user-chat/user-info-model/user-info-model.component';
 
 @NgModule({
   declarations: [
@@ -44,11 +48,13 @@ import { UserChatMessageThreadComponent } from './user/user-chat/user-chat-messa
     UserProfileComponent,
     UserChatThreadsComponent,
     UserChatMessageThreadComponent,
+    UserInfoModelComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     LayoutModule,
     MatToolbarModule,
@@ -57,9 +63,12 @@ import { UserChatMessageThreadComponent } from './user/user-chat/user-chat-messa
     MatIconModule,
     MatListModule,
     MatCardModule,
+    MatSnackBarModule,
     ScrollingModule,
     MatFormFieldModule,
     MatInputModule,
+    MatDialogModule,
+    HttpClientModule,
     FlexLayoutModule
   ],
   providers: [],

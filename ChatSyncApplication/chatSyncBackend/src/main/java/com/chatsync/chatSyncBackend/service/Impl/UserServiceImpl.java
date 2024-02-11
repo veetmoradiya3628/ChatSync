@@ -63,6 +63,7 @@ public class UserServiceImpl implements UserService {
                 String reqRole = userDto.getRoles().get(0).toUpperCase();
                 if (!reqRole.equals("ROLE_USER") && !reqRole.equals("ROLE_ADMIN")){
                     logger.info("Invalid user role passed as " + reqRole);
+                    return ResponseHandler.generateResponse("Invalid user role passed!", HttpStatus.NOT_ACCEPTABLE, null);
                 }
 
                 Role role = this.roleService.getRoleByRoleName(reqRole);
@@ -94,10 +95,10 @@ public class UserServiceImpl implements UserService {
                 logger.info("generated user body to store : " + user.toString());
 
                 User _savedUser = this.userRepository.save(user);
-                return ResponseHandler.generateResponse("user registered successfully!", HttpStatus.CREATED, _savedUser);
+                return ResponseHandler.generateResponse("User registered successfully!", HttpStatus.CREATED, _savedUser);
 
             }
-            return ResponseHandler.generateResponse("User already exists with username or password", HttpStatus.ALREADY_REPORTED, null);
+            return ResponseHandler.generateResponse("User already exists with username or email", HttpStatus.NOT_ACCEPTABLE, null);
         }catch (Exception e){
             logger.info("Exception occurred in the function resetUserPassword : " + e.getMessage());
             return ResponseHandler.generateResponse("Exception : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);

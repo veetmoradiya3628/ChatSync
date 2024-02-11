@@ -11,3 +11,8 @@
 .message-scroll-viewport::-webkit-scrollbar {
     display: none;
 }
+
+.profile-container {
+    position: relative;
+    display: inline-block;
+}

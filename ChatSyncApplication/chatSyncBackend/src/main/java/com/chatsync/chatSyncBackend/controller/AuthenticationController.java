@@ -7,7 +7,6 @@ import com.chatsync.chatSyncBackend.exception.UserNotFoundException;
 import com.chatsync.chatSyncBackend.model.User;
 import com.chatsync.chatSyncBackend.repostiroy.UserRepository;
 import com.chatsync.chatSyncBackend.service.Impl.UserDetailsServiceImpl;
-import com.chatsync.chatSyncBackend.utils.ResponseHandler;
 import com.chatsync.chatSyncBackend.utils.payloads.JwtRequest;
 import com.chatsync.chatSyncBackend.utils.payloads.JwtResponse;
 import org.slf4j.Logger;

@@ -2,9 +2,11 @@
     <!-- header area -->
     <div class="header-area">
         <mat-card-header>
-            <div mat-card-avatar>
+            <div mat-card-avatar (mouseenter)="showUserInfoCard()" (mouseleave)="hideUserInfoCard()"
+                class="profile-container" >
                 <img class="contact-tile-image"
                     src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
+                <app-user-info-model *ngIf="isCardVisible"></app-user-info-model>    
             </div>
             <mat-card-title>Chat Thread</mat-card-title>
             <mat-card-subtitle>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste,
