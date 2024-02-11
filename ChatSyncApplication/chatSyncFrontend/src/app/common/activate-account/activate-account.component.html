@@ -1,1 +1,13 @@
-<p>activate-account works!</p>
+<div>
+    <div>
+        <app-header></app-header>
+    </div>
+    <div>
+        <div *ngIf="!isFailed" class="activation-succ">
+            {{ message }}
+        </div>
+        <div *ngIf="isFailed" class="activation-failed">
+            {{ message }}
+        </div>
+    </div>
+</div>

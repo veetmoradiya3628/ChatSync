@@ -151,10 +151,10 @@ public class UserServiceImpl implements UserService {
                 user.setActive(true);
                 userRepository.save(user);
                 logger.info("user with emailId : " + emailId + " activated!!");
-                return ResponseHandler.generateResponse("User account activated successfully!!", HttpStatus.OK, null);
+                return ResponseHandler.generateResponse("Account activated successfully!!, please proceed with login", HttpStatus.OK, null);
             }
             logger.info("user with provided email id not exists!! : " + emailId);
-            return ResponseHandler.generateResponse("Invalid Activation request!!!", HttpStatus.NOT_FOUND, null);
+            return ResponseHandler.generateResponse("Invalid Activation request!!!, please try again", HttpStatus.NOT_FOUND, null);
         }catch (Exception e){
             logger.info("Exception occurred in the function activateUserAccount : " + e.getMessage());
             return ResponseHandler.generateResponse("Exception : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);

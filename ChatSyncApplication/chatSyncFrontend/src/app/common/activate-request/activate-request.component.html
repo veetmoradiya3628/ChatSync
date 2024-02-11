@@ -7,7 +7,7 @@
         <div fxLayout="column" fxFlex="40" fxFlexOffset="30%">
             <div fxLayout="column" fxFlexOffset="20%">
                 <mat-card>
-                    <form>
+                    <form [formGroup]="activateReqForm" (ngSubmit)="onactivateReqForm()">
                         <div class="m-10">
                             <mat-card-header>
                                 <div fxLayout="row" fxFill fxLayoutAlign="center center">
@@ -18,12 +18,18 @@
                                 <h4>E - mail</h4>
                                 <div fxLayout="row" fxLayoutAlign="start start">
                                     <mat-form-field fxFill>
-                                        <input matInput placeholder="user@example.com" formControlName="username" required>
+                                        <input matInput placeholder="user@example.com" formControlName="email" required>
+                                        <mat-error *ngIf="activateReqForm.controls['email'].hasError('required')">
+                                            E-mail is required!!
+                                        </mat-error>
+                                        <mat-error *ngIf="activateReqForm.controls['email'].hasError('email')">
+                                            Valid E-mail is required!!
+                                        </mat-error>
                                     </mat-form-field>
                                 </div>
                             </mat-card-content>
                             <div fxLayout="row" fxLayoutAlign="center center">
-                                <button mat-raised-button color="primary" type="submit">Get Mail</button>
+                                <button mat-raised-button color="primary" type="submit" [disabled]="!this.activateReqForm.valid">Get Mail</button>
                                 <button type="button" mat-raised-button color="secondary" class="ml-5">Clear</button>
                             </div>
                         </div>

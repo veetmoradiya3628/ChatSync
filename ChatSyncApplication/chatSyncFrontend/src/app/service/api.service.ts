@@ -22,4 +22,16 @@ export class ApiService {
     const url = this.BASE_URL + '/generate-token';
     return this.http.post(url, reqObj);
   }
+
+  // activate urer API
+  public activateUser(userId: string, token: string): Observable<any> {
+    const url = this.BASE_URL + '/user/activate-account/' + userId + '/' + token;
+    return this.http.post(url, null);
+  }
+
+  // request activation mail API
+  public requestActivationDetails(emailId: string): Observable<any> {
+    const url = this.BASE_URL + '/user/request-activation/' + emailId;
+    return this.http.post(url, null);
+  }
 }

@@ -1,0 +1,15 @@
+.activation-succ {
+    font-size: 30px;
+    color: rgb(123, 124, 126);
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.activation-failed {
+    font-size: 30px;
+    color: rgb(230, 113, 109);
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
