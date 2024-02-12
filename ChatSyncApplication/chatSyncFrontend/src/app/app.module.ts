@@ -15,6 +15,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatInputModule } from '@angular/material/input';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { LoginComponent } from './common/login/login.component';
@@ -34,6 +35,10 @@ import { UserChatMessageThreadComponent } from './user/user-chat/user-chat-messa
 import { UserInfoModelComponent } from './user/user-chat/user-info-model/user-info-model.component';
 import { ActivateRequestComponent } from './common/activate-request/activate-request.component';
 import { ActivateAccountComponent } from './common/activate-account/activate-account.component';
+import { ContactsComponent } from './user/user-contact/contacts/contacts.component';
+import { GlobalContactsComponent } from './user/user-contact/global-contacts/global-contacts.component';
+import { GroupsComponent } from './user/user-groups/groups/groups.component';
+import { CreateNewGroupComponent } from './user/user-groups/create-new-group/create-new-group.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +58,10 @@ import { ActivateAccountComponent } from './common/activate-account/activate-acc
     UserInfoModelComponent,
     ActivateRequestComponent,
     ActivateAccountComponent,
+    ContactsComponent,
+    GlobalContactsComponent,
+    GroupsComponent,
+    CreateNewGroupComponent,
   ],
   imports: [
     BrowserModule,
@@ -72,6 +81,7 @@ import { ActivateAccountComponent } from './common/activate-account/activate-acc
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
+    MatTabsModule,
     HttpClientModule,
     FlexLayoutModule
   ],
