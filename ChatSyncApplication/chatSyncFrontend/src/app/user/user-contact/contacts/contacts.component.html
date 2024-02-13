@@ -1,1 +1,30 @@
-<p>contacts works!</p>
+<div fxLayout="column" fxLayoutAlign="start stretch">
+    <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10" fxFill>
+        <div fxFlex="60" fxLayout="column">
+            <mat-card class="p-2">
+                <mat-card-header>
+                    <div fxLayout="row" fxLayoutAlign="space-between center">
+                        <mat-card-title>
+                            Contacts
+                        </mat-card-title>
+                        <div class="ml-10">
+                            <form>
+                                <mat-form-field>
+                                    <mat-label>Search contact</mat-label>
+                                    <input type="text" matInput placeholder="contact username">
+                                    <mat-icon matSuffix>search</mat-icon>
+                                </mat-form-field>
+                            </form>
+                        </div>
+                    </div>
+                </mat-card-header>
+                <mat-card-content>
+
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div fxFlex="38" fxLayout="column">
+            selected user info will show here...
+        </div>
+    </div>
+</div>
