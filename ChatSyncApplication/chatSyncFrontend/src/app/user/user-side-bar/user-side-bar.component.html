@@ -1,31 +1,28 @@
-<mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #drawer class="sidenav" fixedInViewport
-        [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-        [mode]="(isHandset$ | async) ? 'over' : 'side'"
-        [opened]="(isHandset$ | async) === false">
-      <mat-toolbar>Welcome Veet</mat-toolbar>
-      <mat-nav-list>
-        <a mat-list-item [routerLink]="'/user/chat'"><mat-icon>chat</mat-icon> Chats</a>
-        <a mat-list-item [routerLink]="'/user/contact'"><mat-icon> contacts</mat-icon> Contacts</a>
-        <a mat-list-item [routerLink]="'/user/group'"><mat-icon>group</mat-icon> Groups</a>
-        <a mat-list-item [routerLink]="'/user/profile'"><mat-icon> person_pin</mat-icon> Profile</a>
-        <a mat-list-item (click)="logoutUser()"><mat-icon>logout</mat-icon> Logout</a>
-      </mat-nav-list>
-    </mat-sidenav>
-    <mat-sidenav-content>
-      <mat-toolbar color="primary">
-        <button
-          type="button"
-          aria-label="Toggle sidenav"
-          mat-icon-button
-          (click)="drawer.toggle()"
-          *ngIf="true">
-          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-        </button>
-        <span>Chat Sync</span>
-      </mat-toolbar>
-      <!-- Add Content Here -->
-      <router-outlet></router-outlet>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
-  
+<mat-toolbar color="primary">
+  <mat-icon class="mr-10">chat</mat-icon>
+  <span>Chat Sync</span>
+  <div class="spacer"></div>
+  <button mat-icon-button matTooltip="Chats" matTooltipPosition="below" matTooltipHideDelay="500"
+    [routerLink]="'/user/chat'">
+    <mat-icon>chat</mat-icon>
+  </button>
+  <button mat-icon-button matTooltip="Contacts" matTooltipPosition="below" matTooltipHideDelay="500" [routerLink]="'/user/contact'">
+    <mat-icon>contacts</mat-icon>
+  </button>
+  <button mat-icon-button matTooltip="Groups" matTooltipPosition="below" matTooltipHideDelay="500" [routerLink]="'/user/group'">
+    <mat-icon>group</mat-icon>
+  </button>
+  <button mat-icon-button matTooltip="Profile" matTooltipPosition="below" matTooltipHideDelay="500" [routerLink]="'/user/profile'">
+    <mat-icon>person_pin</mat-icon>
+  </button>
+  <span>Welcome, John Doe!</span>
+  <button mat-icon-button (click)="logoutUser()">
+    <mat-icon>exit_to_app</mat-icon>
+  </button>
+  <!-- <a mat-raised-button class="ml-5" [routerLink]="'/user/chat'" ><mat-icon>chat</mat-icon>Chat</a>
+  <a mat-raised-button class="ml-5" [routerLink]="'/user/contact'" ><mat-icon>contacts</mat-icon>Contact</a>
+  <a mat-raised-button class="ml-5" [routerLink]="'/user/group'" ><mat-icon>group</mat-icon>Group</a>
+  <a mat-raised-button class="ml-5" [routerLink]="'/user/profile'" ><mat-icon>info</mat-icon>Profile</a>
+  <a mat-raised-button class="ml-5" [routerLink]="'/login'"><mat-icon>logout</mat-icon>Logout</a> -->
+</mat-toolbar>
+<router-outlet></router-outlet>
