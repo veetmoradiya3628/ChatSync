@@ -1,8 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@angular/material/theming';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 .m-10 {
     margin: 10px !important;
@@ -14,6 +21,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .ml-2 {
     margin-left: 2px !important;
+}
+
+.mr-10 {
+    margin-right: 10px !important;
 }
 
 .ml-5 {
@@ -28,9 +39,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     padding: 2px !important;
 }
 
-
-.contact-tile {
+.p-10 {
+    padding: 10px !important;
 }
+
+
+.contact-tile {}
 
 .contact-tile:hover {
     background-color: #d1d1d1 !important;
@@ -43,7 +57,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     border-radius: 50%;
 }
 
-.chat-space-area{
+.chat-space-area {
     height: 645px;
     max-height: 645px;
 }
@@ -99,4 +113,31 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .attachment-button,
 .send-button {
     margin-left: 5px;
+}
+
+.chats-title {
+    font-size: x-large;
+    margin-bottom: 10px;
+}
+
+.contacts-scroll-viewport {
+    height: 750px !important;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.contacts-scroll-viewport::-webkit-scrollbar {
+    display: none;
+}
+
+.contact-page-scroll-viewport {
+    height: 735px !important;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.contact-page-scroll-viewport::-webkit-scrollbar {
+    display: none;
 }
