@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./create-new-group.component.css']
 })
 export class CreateNewGroupComponent {
+  loopCounter = Array(30).fill(0).map((x, i) => i); // Creating an array of length 10
 
 }

@@ -27,6 +27,11 @@ body {
     margin-right: 10px !important;
 }
 
+.mlr-10 {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+}
+
 .ml-5 {
     margin-left: 5px;
 }
@@ -41,6 +46,10 @@ body {
 
 .p-10 {
     padding: 10px !important;
+}
+
+.mt-10 {
+    margin-top: 10px !important;
 }
 
 
@@ -138,7 +147,32 @@ body {
     -ms-overflow-style: none;
 }
 
+.profile-info-font {
+    font-size: 20px !important;
+    margin-top: 10px;
+}
+
+.user-info-section {
+    display: block;
+    height: calc(100vh - 115px);
+}
+
+.user-info-header {
+    font-size: 30px !important;
+}
+
 .contact-page-scroll-viewport::-webkit-scrollbar {
+    display: none;
+}
+
+.create-group-scroll-viewport {
+    height: 460px !important;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.create-group-scroll-viewport::-webkit-scrollbar{
     display: none;
 }
 

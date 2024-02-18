@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./global-contacts.component.css']
 })
 export class GlobalContactsComponent {
+  loopCounter = Array(25).fill(0).map((x, i) => i); // Creating an array of length 10
 
 }

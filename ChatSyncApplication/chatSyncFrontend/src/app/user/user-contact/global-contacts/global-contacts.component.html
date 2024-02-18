@@ -1,1 +1,77 @@
-<p>global-contacts works!</p>
+<div fxLayout="column" fxLayoutAlign="start stretch">
+    <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10" fxFill>
+        <div fxFlex="30" fxLayout="column">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title class="chats-title">Contacts</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <!-- contact lists -->
+                    <div fxLayout="column">
+                        <cdk-virtual-scroll-viewport itemSize="10" class="contact-page-scroll-viewport">
+                            <mat-card class="m-2 contact-tile" *cdkVirtualFor="let index of loopCounter">
+                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                    <div><mat-card-header>
+                                            <div mat-card-avatar>
+                                                <img class="contact-tile-image"
+                                                    src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
+                                            </div>
+                                            <mat-card-title>Contact {{index}} Lorem</mat-card-title>
+                                            <mat-card-subtitle>Contact Status</mat-card-subtitle>
+                                        </mat-card-header></div>
+                                    <div>
+                                        <button mat-raised-button color="primary"
+                                            class="mr-10"><mat-icon>info</mat-icon>
+                                            Info</button>
+                                    </div>
+                                </div>
+                            </mat-card>
+                        </cdk-virtual-scroll-viewport>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div fxFlex="68" fxLayout="column" class="user-info-section">
+            <div fxFlex="row" fxLayoutAlign="center center">
+                <p class="user-info-header">User Information</p>
+            </div>
+            <div fxFlex="row" fxLayoutAlign="center center">
+                <img
+                    src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
+            </div>
+            <div fxFlex="row" fxLayoutAlign="center center">
+                <div fxFlex="column" fxLayoutAlign="center center">
+                    <div class="profile-info-font">
+                        <p><b>Status : </b>Online</p>
+                    </div>
+                </div>
+            </div>
+            <div fxFlex="row" fxLayoutAlign="center center">
+                <div fxFlex="column" fxLayoutAlign="center center">
+                    <div class="profile-info-font">
+                        <p><b>Username : </b>Veet</p>
+                    </div>
+                </div>
+            </div>
+            <div fxFlex="row" fxLayoutAlign="center center">
+                <div class="profile-info-font">
+                    <p><b>E-mail : </b>veetmoradiya1234@gmail.column</p>
+                </div>
+            </div>
+            <div fxFlex="row" fxLayoutAlign="center center">
+                <div class="profile-info-font">
+                    <p><b>First name : </b>Veet</p>
+                </div>
+            </div>
+            <div fxFlex="row" fxLayoutAlign="center center">
+                <div class="profile-info-font">
+                    <p><b>Last name : </b>Moradiya</p>
+                </div>
+            </div>
+            <div fxFlex="row" fxLayoutAlign="center center">
+                <button mat-raised-button color="primary" class="mr-10"><mat-icon>group</mat-icon>Groups</button>
+                <button mat-raised-button class="mr-10"><mat-icon>add</mat-icon>Add</button>
+            </div>
+        </div>
+    </div>
+</div>

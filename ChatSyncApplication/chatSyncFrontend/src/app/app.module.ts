@@ -16,6 +16,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatInputModule } from '@angular/material/input';
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -83,6 +84,7 @@ import { CreateNewGroupComponent } from './user/user-groups/create-new-group/cre
     MatInputModule,
     MatDialogModule,
     MatTooltipModule,
+    NgxMatFileInputModule,
     MatTabsModule,
     HttpClientModule,
     FlexLayoutModule
