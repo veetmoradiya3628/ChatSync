@@ -2,9 +2,9 @@ tbl_user
 tbl_group
 tbl_group_members
 tbl_user_contacts
-tbl_threads
+tbl_thread
 tbl_message
-tbl_files
+tbl_notifications
 
 ===
 tbl_user
@@ -48,64 +48,20 @@ user_id - uuid
 contact_id - uuid
 created_at - timestamp
 updated_at - timestamp
-
+			
 ===
-tbl_threads
-
-thread_id - uuid (unique)
-thread_type - ENUM (ONE_TO_ONE, GROUP)
-thread_code - string (6) (Unique, NOT NULL)
-user_a - uuid (ref: tbl_user - user_id)
-user_b - uuid (ref: tbl_user - user_id)
-group_id - uuid (ref: tbl_group - group_id)
-
-===
-tbl_message
-
-message_id - uuid (unique)
-message_type - ENUM (ONE_TO_ONE_TEXT, ONE_TO_ONE_FILE, GROUP_TEXT, GROUP_FILE)
-message_content - string (if text -> html parse text)
-file_content - uuid (ref: tbl_files - file_id) (if file - ref to file id stored on other row)
-receiver_type - ENUM (ONE_TO_ONE, GROUP)
-sender_id - uuid (ref: tbl_user - user_id)
-receiver_id - uuid (ref: tbl_user - user_id) - null if group_message
-receiver_group_id - uuid ( ref: tbl_group - group_id) - null if one_to_one message
-timestamp - DATE TIME (NOT NULL)
-message_status - ENUM (SENT, DELIVERED)
-					if group_message - by default SENT
-					if one_to_one_message - by default once sent then SENT, once read / recieved by receiver then DELIVERED
-thread_code - code (ref: tbl_threads - thread_code) 
-created_at - timestamp
-updated_at - timestamp				
-
-===
-tbl_files
-
-file_id - uuid
-file_byte_data - bytes
-created_at - timestamp
-updated_at - timestamp
-
-
-===
-
-
-Veet Moradiya
-20:04 (2 hours ago)
-to me
-
 tbl_message
 
 message_id - uuid
-message_type -
-ONE_TO_ONE_TEXT
-ONE_TO_ONE_FILE
-GROUP_TEXT
-GROUP_FILE
-GROUP_NEW_MEMBER_ADD
-GROUP_MEMBER_REMOVE
-GROUP_JOIN
-GROUP_LEFT
+message_type - enum
+	ONE_TO_ONE_TEXT
+	ONE_TO_ONE_FILE
+	GROUP_TEXT
+	GROUP_FILE
+	GROUP_NEW_MEMBER_ADD
+	GROUP_MEMBER_REMOVE
+	GROUP_JOIN
+	GROUP_LEFT
 sender_id - uuid (sending user's uuid)
 message_content - string (parsed html) - if message_type = *_TEXT
 message_ref_url - firebase url if message_type = *_FILE
@@ -128,7 +84,7 @@ thread_id - uuid
 conv_type - ONE_TO_ONE, GROUP
 conv_id - formatted_string (<sender_id>_<receiver_id> || <receiver_id>_<sender_id>)
 if first_time -> sender_id_receiver_id
-conv_group - group_id (tbl_group - group_id)
+conv_group_id - group_id (ref: tbl_group - group_id)
 last_message_id - tbl_message (message_id) if first_time -> create and then update this column with last messageid
 created_at
 updated_at
@@ -139,7 +95,7 @@ tbl_notifications
 
 ntfn_id - uuid
 ntfn_type - ENUM with notification types
-ntfn_content - JSON
+ntfn_content - message content
 ntfn_for - uuid (tbl_user - userId)
 ntfn_status - PENDING, PROCESSED
 ntfn_cnt - default 3, decrease by one every time if not processed
@@ -147,3 +103,4 @@ ntfn_created_at - timestamp
 ntfn_consumed_at - timestamp
 ntfn_updated_at - timestamp
 ===
+

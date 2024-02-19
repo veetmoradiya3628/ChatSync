@@ -1,4 +1,4 @@
-package com.chatsync.chatSyncBackend.model;
+package com.chatsync.chatSyncBackend.model.utils;
 
 public class HelloMessage {
     private String name;

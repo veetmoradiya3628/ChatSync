@@ -1,5 +1,6 @@
 package com.chatsync.chatSyncBackend.model;
 
+import com.chatsync.chatSyncBackend.model.utils.Authority;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,7 +13,6 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "tbl_user")

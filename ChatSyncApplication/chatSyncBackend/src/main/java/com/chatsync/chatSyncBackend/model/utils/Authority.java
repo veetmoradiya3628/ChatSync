@@ -1,4 +1,4 @@
-package com.chatsync.chatSyncBackend.model;
+package com.chatsync.chatSyncBackend.model.utils;
 
 import org.springframework.security.core.GrantedAuthority;
 
