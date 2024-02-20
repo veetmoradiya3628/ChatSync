@@ -104,3 +104,13 @@ ntfn_consumed_at - timestamp
 ntfn_updated_at - timestamp
 ===
 
+APIs:
+
+contacts:
+
+1. Add Contact - done
+2. Delete Contact - done
+3. get list of contacts - done 
+4. get list of global contacts - done
+
+

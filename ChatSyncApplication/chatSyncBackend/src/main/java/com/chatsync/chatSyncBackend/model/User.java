@@ -66,6 +66,10 @@ public class User implements UserDetails {
     private LocalDateTime lastLoggedInAt;
     private LocalDateTime lastLoggedOutAt;
 
+    public User(String userId) {
+        this.userId = userId;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<Authority> set = new HashSet<>();

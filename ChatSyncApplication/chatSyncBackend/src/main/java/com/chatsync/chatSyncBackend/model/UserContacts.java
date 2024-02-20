@@ -19,7 +19,7 @@ public class UserContacts {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "user_contact_id")
-    private String groupMemberId;
+    private String userContactId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

@@ -186,4 +186,8 @@ public class UserServiceImpl implements UserService {
         } while (this.userRepository.existsByResetPasswordOtp(otp));
         return otp;
     }
+
+    public boolean isUserExistsById(String userId) {
+        return this.userRepository.existsById(userId);
+    }
 }
