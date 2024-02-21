@@ -113,4 +113,23 @@ contacts:
 3. get list of contacts - done 
 4. get list of global contacts - done
 
+Group APIs:
+
+Create Group
+Add Member to Group
+Remove Member from Group
+Update user from member to admin
+Update user from admin to member
+Get Members/Admins of Group
+Get Group Info
+Delete Group
+
+Profile:
+Login / Logout:
+
+Messaging APIs:
+
+Get history threads for user - pagination - (50 per page)
+Get Messages for one thread - pagination (100 per page)
+Delete Message
 
