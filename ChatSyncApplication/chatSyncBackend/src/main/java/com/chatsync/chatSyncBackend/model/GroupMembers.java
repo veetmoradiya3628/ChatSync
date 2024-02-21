@@ -33,6 +33,7 @@ public class GroupMembers  {
     @JoinColumn(name = "group_id")
     private Group group;
 
+    @Enumerated(EnumType.STRING)
     private GroupMemberRole groupMemberRole;
 
     @CreationTimestamp

@@ -41,4 +41,7 @@ public class Group {
     private LocalDateTime updatedAt;
 
 
+    public Group(String groupId) {
+        this.groupId = groupId;
+    }
 }
