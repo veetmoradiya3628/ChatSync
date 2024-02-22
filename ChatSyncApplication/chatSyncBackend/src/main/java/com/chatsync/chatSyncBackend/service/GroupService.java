@@ -7,4 +7,8 @@ public interface GroupService {
     public ResponseEntity<?> createGroupService(GroupDto groupDto);
 
     public ResponseEntity<?> getGroupInformation(String groupId);
+
+    public ResponseEntity<?> addMemberToGroup(String groupId, String userId, String groupMemberRole);
+
+    public ResponseEntity<?> removeMemberFromGroup(String groupId, String userId);
 }

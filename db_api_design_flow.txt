@@ -115,13 +115,15 @@ contacts:
 
 Group APIs:
 
-Create Group
-Add Member to Group
-Remove Member from Group
+Create Group - done
+Get Group Info - done
+Get Members/Admins of Group - done #119
+
+Add Member(Admin / Member) to Group - done
+Remove Member from Group - done
+
 Update user from member to admin
 Update user from admin to member
-Get Members/Admins of Group
-Get Group Info
 Delete Group
 
 Profile:

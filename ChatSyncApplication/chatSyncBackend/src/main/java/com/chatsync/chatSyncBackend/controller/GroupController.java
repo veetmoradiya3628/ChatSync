@@ -1,6 +1,7 @@
 package com.chatsync.chatSyncBackend.controller;
 
 import com.chatsync.chatSyncBackend.dto.GroupDto;
+import com.chatsync.chatSyncBackend.model.utils.GroupMemberRole;
 import com.chatsync.chatSyncBackend.service.GroupService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,5 +29,20 @@ public class GroupController {
     public ResponseEntity<?> getGroupInformationController(@PathVariable("groupId") String groupId){
         logger.info(LOG_TAG + " getGroupInformationController called with : " + groupId);
         return this.groupService.getGroupInformation(groupId);
+    }
+
+    @PostMapping("/add-user")
+    public ResponseEntity<?> addMemberToGroupController(@RequestParam String groupId,
+                                                        @RequestParam String userId,
+                                                        @RequestParam String groupMemberRole){
+        logger.info(LOG_TAG + " addMemberToGroupController called with groupId : " + groupId + ", userId : " + userId + " , groupMemberRole : " + groupMemberRole);
+        return this.groupService.addMemberToGroup(groupId, userId, groupMemberRole);
+    }
+
+    @PostMapping("/remove-user")
+    public ResponseEntity<?> removeMemberFromGroupController(@RequestParam String groupId,
+                                                             @RequestParam String userId){
+        logger.info(LOG_TAG + " removeMemberFromGroupController called with groupId : " + groupId + " ,userId : " + userId);
+        return this.groupService.removeMemberFromGroup(groupId, userId);
     }
 }
