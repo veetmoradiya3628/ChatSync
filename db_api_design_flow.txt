@@ -122,9 +122,8 @@ Get Members/Admins of Group - done #119
 Add Member(Admin / Member) to Group - done
 Remove Member from Group - done
 
-Update user from member to admin
-Update user from admin to member
-Delete Group
+Update user role - done
+Delete Group - done
 
 Profile:
 Login / Logout:

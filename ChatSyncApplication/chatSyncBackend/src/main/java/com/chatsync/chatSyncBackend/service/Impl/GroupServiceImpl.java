@@ -38,9 +38,9 @@ public class GroupServiceImpl implements GroupService {
         try {
             logger.info(LOG_TAG + " createGroupService called with : " + groupDto.toString());
             // validate for group already exists with this name
-            if (groupDto.getGroupName() != null && !this.groupRepository.existsByGroupName(groupDto.getGroupName())){
+            if (groupDto.getGroupName() != null && !this.groupRepository.existsByGroupName(groupDto.getGroupName())) {
                 List<UserDto> admins = groupDto.getAdmins();
-                if (admins.isEmpty()){
+                if (admins.isEmpty()) {
                     return ResponseHandler.generateResponse("At least one admin member is required to create a group!!", HttpStatus.OK, null);
                 }
 
@@ -59,7 +59,7 @@ public class GroupServiceImpl implements GroupService {
                 String savedGroupId = savedGroup.getGroupId();
 
                 // proceeding for adding admin
-                if (!admins.isEmpty()){
+                if (!admins.isEmpty()) {
                     logger.info(LOG_TAG + " proceeding for adding admin to group : " + admins.size());
                     admins.forEach(adminUser -> {
                         addMemberToGroup(adminUser.getUserId(), savedGroupId, GroupMemberRole.ADMIN);
@@ -68,7 +68,7 @@ public class GroupServiceImpl implements GroupService {
                 }
 
                 // proceeding for adding member to group
-                if (members != null && !members.isEmpty()){
+                if (members != null && !members.isEmpty()) {
                     logger.info(LOG_TAG + " proceeding for adding member to group : " + members.size());
                     members.forEach(member -> {
                         addMemberToGroup(member.getUserId(), savedGroupId, GroupMemberRole.MEMBER);
@@ -79,7 +79,7 @@ public class GroupServiceImpl implements GroupService {
                 savedGroup = this.groupRepository.findById(savedGroupId).get();
                 return ResponseHandler.generateResponse("Group created successfully!!", HttpStatus.OK, savedGroup);
 
-            }else{
+            } else {
                 return ResponseHandler.generateResponse("Invalid group name or group already exists with this group name", HttpStatus.NOT_ACCEPTABLE, null);
             }
         } catch (Exception e) {
@@ -144,14 +144,14 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public ResponseEntity<?> addMemberToGroup(String groupId, String userId, String groupMemberRole) {
-        try{
+        try {
             logger.info(LOG_TAG + " addMemberToGroup started ...");
-            if (this.isGroupExistsById(groupId)){
-                if (this.userService.isUserExistsById(userId)){
+            if (this.isGroupExistsById(groupId)) {
+                if (this.userService.isUserExistsById(userId)) {
                     groupMemberRole = groupMemberRole.toUpperCase();
-                    if (groupMemberRole.equals(String.valueOf(GroupMemberRole.MEMBER)) || groupMemberRole.equals(String.valueOf(GroupMemberRole.ADMIN))){
-                        if(!this.groupMembersRepository.existsByGroupAndUser(new Group(groupId),
-                                new User(userId))){
+                    if (groupMemberRole.equals(String.valueOf(GroupMemberRole.MEMBER)) || groupMemberRole.equals(String.valueOf(GroupMemberRole.ADMIN))) {
+                        if (!this.groupMembersRepository.existsByGroupAndUser(new Group(groupId),
+                                new User(userId))) {
 
                             GroupMembers groupMember = GroupMembers.builder()
                                     .group(new Group(groupId))
@@ -162,23 +162,23 @@ public class GroupServiceImpl implements GroupService {
                             groupMember = this.groupMembersRepository.save(groupMember);
                             return ResponseHandler.generateResponse("Member added to group successfully", HttpStatus.OK, groupMember);
 
-                        }else{
+                        } else {
                             logger.info(LOG_TAG + " user is already a part of group");
                             return ResponseHandler.generateResponse("user is already a part of group", HttpStatus.OK, null);
                         }
-                    }else{
+                    } else {
                         logger.info(LOG_TAG + " groupMember role is not valid");
                         return ResponseHandler.generateResponse("Invalid group member role passed", HttpStatus.NOT_FOUND, null);
                     }
-                }else{
+                } else {
                     logger.info(LOG_TAG + " user not exists by userId : " + userId);
                     return ResponseHandler.generateResponse("User not exists with userId : " + userId, HttpStatus.NOT_FOUND, null);
                 }
-            }else{
+            } else {
                 logger.info(LOG_TAG + " group not exists by groupId : " + groupId);
                 return ResponseHandler.generateResponse("Group not exists by groupId : " + groupId, HttpStatus.NOT_FOUND, null);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.info(LOG_TAG + "Exception occurred in the function addMemberToGroup : " + e.getMessage());
             return ResponseHandler.generateResponse("Exception : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
         }
@@ -186,30 +186,91 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public ResponseEntity<?> removeMemberFromGroup(String groupId, String userId) {
-        try{
+        try {
             logger.info(LOG_TAG + " removeMemberFromGroup started ...");
-            if (this.groupMembersRepository.existsByGroupAndUser(new Group(groupId), new User(userId))){
+            if (this.groupMembersRepository.existsByGroupAndUser(new Group(groupId), new User(userId))) {
                 GroupMembers groupMember = this.groupMembersRepository.getGroupMembersByGroupAndUser(new Group(groupId), new User(userId));
 
                 logger.info(LOG_TAG + " removing object : " + groupMember.toString());
                 this.groupMembersRepository.delete(groupMember);
 
                 return ResponseHandler.generateResponse("Member removed from group successfully!!", HttpStatus.OK, null);
-            }else{
-                logger.info(LOG_TAG + " entry does not exists with provided groupID : " + groupId +" and userId : " + userId);
+            } else {
+                logger.info(LOG_TAG + " entry does not exists with provided groupID : " + groupId + " and userId : " + userId);
                 return ResponseHandler.generateResponse("User is not part of group!!", HttpStatus.NOT_FOUND, null);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.info(LOG_TAG + "Exception occurred in the function removeMemberFromGroup : " + e.getMessage());
             return ResponseHandler.generateResponse("Exception : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
         }
     }
 
-    private boolean isGroupExistsById(String groupId){
+    @Override
+    public ResponseEntity<?> updateUserRoleToGroup(String userId, String role, String groupId) {
+        try {
+            logger.info(LOG_TAG + " updateUserRoleToGroup started ...");
+            if (this.isGroupExistsById(groupId)) {
+                if (this.userService.isUserExistsById(userId)) {
+                    role = role.toUpperCase();
+                    if (role.equals(String.valueOf(GroupMemberRole.MEMBER)) || role.equals(String.valueOf(GroupMemberRole.ADMIN))) {
+                        if (this.groupMembersRepository.existsByGroupAndUser(new Group(groupId),
+                                new User(userId))) {
+                            GroupMembers groupMember = this.groupMembersRepository.getGroupMembersByGroupAndUser(new Group(groupId),
+                                    new User(userId));
+
+                            logger.info(LOG_TAG + " retrieved object to be stored : " + groupMember.toString());
+                            groupMember.setGroupMemberRole(GroupMemberRole.valueOf(role));
+                            groupMember = this.groupMembersRepository.save(groupMember);
+                            logger.info(LOG_TAG + " updated saved object : " + groupMember);
+
+                            return ResponseHandler.generateResponse("Member role to group updated successfully", HttpStatus.OK, groupMember);
+
+                        } else {
+                            logger.info(LOG_TAG + " user is not a part of group");
+                            return ResponseHandler.generateResponse("user is not a part of group", HttpStatus.OK, null);
+                        }
+                    } else {
+                        logger.info(LOG_TAG + " role is not valid");
+                        return ResponseHandler.generateResponse("Invalid group member role passed", HttpStatus.NOT_FOUND, null);
+                    }
+                } else {
+                    logger.info(LOG_TAG + " user not exists by userId : " + userId);
+                    return ResponseHandler.generateResponse("User not exists with userId : " + userId, HttpStatus.NOT_FOUND, null);
+                }
+            } else {
+                logger.info(LOG_TAG + " group not exists by groupId : " + groupId);
+                return ResponseHandler.generateResponse("Group not exists by groupId : " + groupId, HttpStatus.NOT_FOUND, null);
+            }
+        } catch (Exception e) {
+            logger.info(LOG_TAG + "Exception occurred in the function updateUserRoleToGroup : " + e.getMessage());
+            return ResponseHandler.generateResponse("Exception : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> deleteGroup(String groupId) {
+        try {
+            logger.info(LOG_TAG + " deleteGroup called with groupId : " + groupId);
+            if (this.isGroupExistsById(groupId)) {
+                Group groupInfo = this.groupRepository.findById(groupId).get();
+                groupInfo.setIsDeleted(Boolean.TRUE);
+                this.groupRepository.save(groupInfo);
+                return ResponseHandler.generateResponse("Group deleted successfully!!", HttpStatus.OK, null);
+            } else {
+                logger.info(LOG_TAG + " group not exists with groupId : " + groupId);
+                return ResponseHandler.generateResponse(" group not exists with groupId : " + groupId, HttpStatus.NOT_FOUND, null);
+            }
+        } catch (Exception e) {
+            logger.info(LOG_TAG + "Exception occurred in the function deleteGroup : " + e.getMessage());
+            return ResponseHandler.generateResponse("Exception : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+        }
+    }
+
+    private boolean isGroupExistsById(String groupId) {
         return this.groupRepository.findById(groupId).isPresent();
     }
 
-    private void addMemberToGroup(String userId, String groupId, GroupMemberRole role){
+    private void addMemberToGroup(String userId, String groupId, GroupMemberRole role) {
         GroupMembers groupMember = GroupMembers.builder()
                 .group(new Group(groupId))
                 .user(new User(userId))

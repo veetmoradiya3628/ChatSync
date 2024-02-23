@@ -11,4 +11,8 @@ public interface GroupService {
     public ResponseEntity<?> addMemberToGroup(String groupId, String userId, String groupMemberRole);
 
     public ResponseEntity<?> removeMemberFromGroup(String groupId, String userId);
+
+    public ResponseEntity<?> updateUserRoleToGroup(String userId, String role, String groupId);
+
+    public ResponseEntity<?> deleteGroup(String groupId);
 }
