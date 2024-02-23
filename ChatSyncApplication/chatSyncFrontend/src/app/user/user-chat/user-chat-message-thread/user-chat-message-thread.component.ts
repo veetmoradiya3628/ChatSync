@@ -26,7 +26,7 @@ export class UserChatMessageThreadComponent implements OnInit {
     { text: 'Nice to meet you!', sentBy: 'other' },
     { text: 'This is a longer message...', sentBy: 'user' },
     { text: 'Short message', sentBy: 'other' },
-    { text: 'Long messages can contain more content and vary in length.', sentBy: 'user' },
+    { text: 'Long messages can contain more content and vary in length. Long messages can contain more content and vary in length. Long messages can contain more content and vary in length. Long messages can contain more content and vary in length. Long messages can contain more content and vary in length.', sentBy: 'user' },
     { text: 'Hi!', sentBy: 'other' },
     { text: 'Hello, how are you?', sentBy: 'user' },
     { text: 'Another short one.', sentBy: 'other' },
