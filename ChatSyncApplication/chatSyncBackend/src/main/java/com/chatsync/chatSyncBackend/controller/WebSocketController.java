@@ -37,7 +37,7 @@ public class WebSocketController {
 
     @PostMapping("/publish")
     public ResponseEntity<?> publishMessageToQueueController(@RequestParam String queue,
-                                                             @RequestParam String message){
+                                                             @RequestParam String message) {
         message = message + LocalDateTime.now().toString();
         this.messagingTemplate.convertAndSend("/topic/" + queue, message);
         return ResponseEntity.ok(null);
@@ -47,7 +47,7 @@ public class WebSocketController {
      Not working somehow need to check
      */
     @GetMapping("/connected-users")
-    public ResponseEntity<?> connectedUsers(){
+    public ResponseEntity<?> connectedUsers() {
         StringBuilder result = new StringBuilder("Connected Users:\n");
         System.out.println(userRegistry.getUsers() + " " + userRegistry.getUserCount());
 
@@ -62,7 +62,7 @@ public class WebSocketController {
 
     @PostMapping("/publish-private-message")
     public ResponseEntity<?> publishPrivateMessageToUserController(@RequestParam String username,
-                                                                   @RequestParam String message){
+                                                                   @RequestParam String message) {
 
         message = message + LocalDateTime.now().toString();
         this.messagingTemplate.convertAndSend("/topic/private/" + username, message);

@@ -36,6 +36,10 @@ export class AuthService {
     localStorage.setItem(this.USER_EMAIL, email);
   }
 
+  public getUserId(){
+    return localStorage.getItem(this.USER_ID_KEY) || '';
+  }
+
   public isLoggedIn(): boolean {
     let tokenStr = localStorage.getItem(this.TOKEN_KEY);
     let userName = localStorage.getItem(this.USER_NAME);

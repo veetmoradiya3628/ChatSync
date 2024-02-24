@@ -34,4 +34,10 @@ export class ApiService {
     const url = this.BASE_URL + '/user/request-activation/' + emailId;
     return this.http.post(url, null);
   }
+
+  // get global contacts API
+  public getGlobalContactsForUser(userId: string): Observable<any> {
+    const url = this.BASE_URL + '/contact/global-contacts/' + userId;
+    return this.http.get(url);
+  }
 }
