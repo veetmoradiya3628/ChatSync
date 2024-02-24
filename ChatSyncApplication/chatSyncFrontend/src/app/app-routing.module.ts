@@ -10,6 +10,7 @@ import { UserContactComponent } from './user/user-contact/user-contact.component
 import { UserProfileComponent } from './user/user-profile/user-profile.component';
 import { ActivateRequestComponent } from './common/activate-request/activate-request.component';
 import { ActivateAccountComponent } from './common/activate-account/activate-account.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -40,6 +41,7 @@ const routes: Routes = [
   {
     path: 'user',
     component: UserHomePageComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: 'chat', component: UserChatComponent },
       { path: 'contact', component: UserContactComponent },

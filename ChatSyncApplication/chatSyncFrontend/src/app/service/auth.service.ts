@@ -56,19 +56,23 @@ export class AuthService {
     );
   }
 
-  public getUser(){
+  public getUser() {
     let userStr = localStorage.getItem('user');
-    if(userStr!=null){
+    if (userStr != null) {
       return JSON.parse(userStr);
-    }else{
+    } else {
       this.logout();
       return null;
     }
   }
 
-  public getUserRole(){
+  public getUserRole() {
     let user = this.getUser();
     return user.authorities[0].authority;
+  }
+
+  public getUserEmail() {
+    return localStorage.getItem(this.USER_EMAIL)
   }
 
   public logout(): boolean {

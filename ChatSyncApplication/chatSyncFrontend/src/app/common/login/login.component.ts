@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
       console.log(`local data available...`)
       let userRole = this._authService.getUserRole();
       if (userRole === 'ROLE_USER') {
-        this.router.navigate(['/user']);
+        this.router.navigate(['/user/chat']);
       } else {
         console.log(`${userRole} is invalid. should go for fresh login...`);
       }
@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
         let userRole = res.userDetails.authorities[0].authority;
         console.log(`userRole : ${userRole}`)
         if (userRole != null && userRole == 'ROLE_USER') {
-          this.router.navigate(['/user']);
+          this.router.navigate(['/user/chat']);
           this._authService.loginStatusSubject.next(true);
         } else {
           console.log(`role : ${userRole} is not handled yet`)

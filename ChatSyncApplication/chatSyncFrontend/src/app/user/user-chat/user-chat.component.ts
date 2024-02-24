@@ -12,15 +12,15 @@ export class UserChatComponent implements OnInit, OnDestroy {
   
 
   ngOnInit(): void {
-    this._wsService.connect();
+    // this._wsService.connect();
 
     setTimeout(() => {
-      this._wsService.sentData("random text message : " + Date.now().toString())
+      // this._wsService.sentData("random text message : " + Date.now().toString())
     }, 1000)
   }
 
   ngOnDestroy(): void {
-    this._wsService.disconnect();
+    // this._wsService.disconnect();
   }
 
 }

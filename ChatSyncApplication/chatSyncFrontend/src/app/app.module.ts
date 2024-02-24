@@ -24,7 +24,7 @@ import { LoginComponent } from './common/login/login.component';
 import { RegisterComponent } from './common/register/register.component';
 import { HomePageComponent } from './common/home-page/home-page.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './common/header/header.component';
 import { UserHomePageComponent } from './user/user-home-page/user-home-page.component';
 import { UserSideBarComponent } from './user/user-side-bar/user-side-bar.component';
@@ -41,6 +41,7 @@ import { ContactsComponent } from './user/user-contact/contacts/contacts.compone
 import { GlobalContactsComponent } from './user/user-contact/global-contacts/global-contacts.component';
 import { GroupsComponent } from './user/user-groups/groups/groups.component';
 import { CreateNewGroupComponent } from './user/user-groups/create-new-group/create-new-group.component';
+import { authInterceptorProviders } from './common/AuthInterceptor';
 
 @NgModule({
   declarations: [
@@ -89,7 +90,9 @@ import { CreateNewGroupComponent } from './user/user-groups/create-new-group/cre
     HttpClientModule,
     FlexLayoutModule
   ],
-  providers: [],
+  providers: [
+    authInterceptorProviders,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
