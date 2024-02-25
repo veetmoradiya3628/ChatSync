@@ -12,4 +12,6 @@ public interface UserService {
     ResponseEntity<?> requestActivationDetails(String emailId);
 
     ResponseEntity<?> activateUserAccount(String emailId, String activationToken);
+
+    ResponseEntity<?> getUserInfoByUserId(String userId);
 }

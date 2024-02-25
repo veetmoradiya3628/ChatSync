@@ -1,1 +1,110 @@
-<p>user-profile works!</p>
+<div fxLayout="column" fxLayoutAlign="start stretch" class="p-8">
+    <div fxLayout="row" fxLayoutAlign="center start">
+        <h2>Your Profile Details</h2>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start start" class="p-8">
+        <mat-card fxFill>
+            <mat-card-content>
+                <div fxLayout="column" fxFlex="100">
+                    <div fxLayout="row" fxLayoutAlign="center start">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3rogdnfXQY7i-RUsG9SYQSjh50QHBArGO_w&usqp=CAU"
+                            alt="" class="profile-image">
+                    </div>
+                    <div class="p-16 mt-5" fxLayout="row" fxLayoutAlign="start start">
+                        <div fxFlex="50" class="profile-page-title-font">Username</div>
+                        <div fxFlex="50">{{ user_details.username }}</div>
+                    </div>
+                    <div class="p-16" fxLayout="row" fxLayoutAlign="start start">
+                        <div fxFlex="50" class="profile-page-title-font">E-mail</div>
+                        <div fxFlex="50">{{ user_details.email }}</div>
+                    </div>
+                    <div class="p-16" fxLayout="row" fxLayoutAlign="start start">
+                        <div fxFlex="50" class="profile-page-title-font">First Name</div>
+                        <div fxFlex="50">{{ user_details.firstName }}</div>
+                    </div>
+                    <div class="p-16" fxLayout="row" fxLayoutAlign="start start">
+                        <div fxFlex="50" class="profile-page-title-font">Last Name</div>
+                        <div fxFlex="50">{{ user_details.lastName }}</div>
+                    </div>
+                    <div class="p-16" fxLayout="row" fxLayoutAlign="start start">
+                        <div fxFlex="50" class="profile-page-title-font">Phone</div>
+                        <div fxFlex="50">{{ user_details.phoneNo }}</div>
+                    </div>
+                    <div class="p-16" fxLayout="row" fxLayoutAlign="start start">
+                        <div fxFlex="50" class="profile-page-title-font">Status</div>
+                        <div fxFlex="50">{{ user_details.isActive ? 'Active': 'In-Active' }}</div>
+                    </div>
+                    <div class="p-16" fxLayout="row" fxLayoutAlign="start start">
+                        <div fxFlex="50" class="profile-page-title-font">Created At</div>
+                        <div fxFlex="50">{{ user_details.createdAt | date:'yyyy/MM/dd h:mm:ss' }}</div>
+                    </div>
+                    <div class="p-16" fxLayout="row" fxLayoutAlign="start start">
+                        <div fxFlex="50" class="profile-page-title-font">Updated At</div>
+                        <div fxFlex="50">{{ user_details.updatedAt | date:'yyyy/MM/dd h:mm:ss' }}</div>
+                    </div>
+                    <div class="p-16" fxLayout="row" fxLayoutAlign="start start">
+                        <div fxFlex="50" class="profile-page-title-font">Role</div>
+                        <div fxFlex="50">{{ user_details.roles?.at(0) }}</div>
+                    </div>
+                </div>
+                <div fxLayout="column" fxFlex="40">
+                    <div fxFlex="row" fxFill>
+                        <div fxFlex="column">
+                            <h1>Change your profile picture</h1>
+                            <form action="">
+                                <!-- <mat-form-field fxFill>
+                                    <mat-label>select profile picture</mat-label>
+                                    <ngx-mat-file-input>
+                                        <mat-icon ngxMatFileInputIcon>folder</mat-icon>
+                                    </ngx-mat-file-input>
+                                </mat-form-field> -->
+
+                                <input type="file" (change)="onFileSelected($event)">
+
+                                <!-- Display the preview -->
+                                <div *ngIf="selectedFile" class="mt-5">
+                                    <img [src]="previewImageUrl" alt="Preview" style="max-width: 100%">
+                                </div>
+
+                                <button mat-raised-button color="primary" *ngIf="selectedFile" class="mr-10" (click)="uploadProfilePicture()">Update</button>
+                                <button mat-raised-button color="warn" *ngIf="selectedFile" (click)="clearFile()">Clear</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div fxFlex="row" fxFill>
+                        <div fxFlex="column">
+                            <h1>Reset your password</h1>
+                            <!-- {{ updateUserPasswordForm.value | json }} -->
+                            <form [formGroup]="updateUserPasswordForm" (ngSubmit)="updateUserPassword()">
+                                <div fxLayout="row" fxLayoutAlign="start start">
+                                    <mat-form-field fxFill>
+                                        <mat-label>Current password</mat-label>
+                                        <input type="text" formControlName="currentPassword" matInput
+                                            placeholder="provide your current password">
+                                    </mat-form-field>
+                                </div>
+                                <div fxLayout="row" fxLayoutAlign="start start">
+                                    <mat-form-field fxFill>
+                                        <mat-label>New password</mat-label>
+                                        <input type="text" formControlName="newPassword" matInput
+                                            placeholder="provide your new password">
+                                    </mat-form-field>
+                                </div>
+                                <div fxLayout="row" fxLayoutAlign="start start">
+                                    <mat-form-field fxFill>
+                                        <mat-label>Confirm new password</mat-label>
+                                        <input type="password" formControlName="confirmPassword" matInput
+                                            placeholder="provide new password for confirm">
+                                    </mat-form-field>
+                                </div>
+                                <div fxLayout="row" fxLayoutAlign="center start">
+                                    <button mat-raised-button color="primary" type="submit">Update password</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

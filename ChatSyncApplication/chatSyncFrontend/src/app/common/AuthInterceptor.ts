@@ -1,6 +1,6 @@
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HTTP_INTERCEPTORS, HttpResponse, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, catchError, tap, throwError } from "rxjs";
 import { AuthService } from "../service/auth.service";
 
 @Injectable()
@@ -18,7 +18,22 @@ export class AuthInterceptor implements HttpInterceptor {
                 }
             })
         }
-        return next.handle(authReq);
+        return next.handle(authReq).pipe(
+            tap((event: HttpEvent<any>) => {
+                if(event instanceof HttpResponse && event.status === 401){
+                    console.log('Unauthorized response. Logging out...');
+                    this._authService.logout();
+                }
+            }),
+            catchError((error: HttpErrorResponse) => {
+                if (error.status === 401) {
+                    // Handle 401 response here (e.g., log the user out)
+                    console.log('Unauthorized response. Logging out...');
+                    this._authService.logout();  // Assuming AuthService has a logout method
+                }
+                return throwError(error);
+            })
+        );
     }
 }
 

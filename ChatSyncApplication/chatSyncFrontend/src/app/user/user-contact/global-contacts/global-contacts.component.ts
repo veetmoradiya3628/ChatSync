@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/service/auth.service';
 })
 export class GlobalContactsComponent implements OnInit {
 
-  loopCounter = Array(25).fill(0).map((x, i) => i); // Creating an array of length 10
+  // loopCounter = Array(25).fill(0).map((x, i) => i); // Creating an array of length 10
   public userId: string = '1';
   public globalUsers: Array<UserDto> = [];
   public selectedUser: UserDto = {};

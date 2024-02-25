@@ -16,10 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 
 @Service
@@ -157,6 +154,41 @@ public class UserServiceImpl implements UserService {
             return ResponseHandler.generateResponse("Invalid Activation request!!!, please try again", HttpStatus.NOT_FOUND, null);
         }catch (Exception e){
             logger.info("Exception occurred in the function activateUserAccount : " + e.getMessage());
+            return ResponseHandler.generateResponse("Exception : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> getUserInfoByUserId(String userId) {
+        try {
+            logger.info(LOG_TAG + " getUserInfoByUserId called with userId : " + userId);
+            if (isUserExistsById(userId)) {
+                User user = this.userRepository.findById(userId).get();
+                List<String> userRole = new ArrayList<>();
+                user.getUserRoles().forEach(roleInfo -> {
+                    userRole.add(roleInfo.getRole().getRoleName());
+                });
+                UserDto respUser = UserDto.builder()
+                        .userId(user.getUserId())
+                        .email(user.getEmail())
+                        .firstName(user.getFirstName())
+                        .lastName(user.getLastName())
+                        .profileImage(user.getProfileImage())
+                        .username(user.getUsername())
+                        .isActive(user.isActive())
+                        .phoneNo(user.getPhoneNo())
+                        .createdAt(user.getCreatedAt())
+                        .roles(userRole)
+                        .updatedAt(user.getUpdatedAt())
+                        .build();
+
+                return ResponseHandler.generateResponse("user details", HttpStatus.OK, respUser);
+            } else {
+                logger.info(LOG_TAG + " user not exists with userID : " + userId);
+                return ResponseHandler.generateResponse("User not exists with userID : " + userId, HttpStatus.NOT_FOUND, null);
+            }
+        } catch (Exception e) {
+            logger.info("Exception occurred in the function getUserInfoByUserId : " + e.getMessage());
             return ResponseHandler.generateResponse("Exception : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
         }
     }

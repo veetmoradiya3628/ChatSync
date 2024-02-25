@@ -88,7 +88,7 @@ import { authInterceptorProviders } from './common/AuthInterceptor';
     NgxMatFileInputModule,
     MatTabsModule,
     HttpClientModule,
-    FlexLayoutModule
+    FlexLayoutModule,
   ],
   providers: [
     authInterceptorProviders,

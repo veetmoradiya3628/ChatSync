@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
+ 
   private BASE_URL = "http://localhost:8080";
 
   constructor(private http: HttpClient) { }
@@ -38,6 +39,12 @@ export class ApiService {
   // get global contacts API
   public getGlobalContactsForUser(userId: string): Observable<any> {
     const url = this.BASE_URL + '/contact/global-contacts/' + userId;
+    return this.http.get(url);
+  }
+
+  // public get user info by userId
+  public getUserDetails(userId: string) {
+    const url = this.BASE_URL + '/user/info/' + userId;
     return this.http.get(url);
   }
 }

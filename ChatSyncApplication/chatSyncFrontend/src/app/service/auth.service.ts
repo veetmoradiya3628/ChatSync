@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -13,7 +14,7 @@ export class AuthService {
   USER_NAME: string = 'username';
   USER_EMAIL: string = 'email';
 
-  constructor() { }
+  constructor(private _router: Router) { }
 
   public setLoginUserToken(token: string): boolean {
     localStorage.setItem(this.TOKEN_KEY, token);
@@ -82,6 +83,10 @@ export class AuthService {
   public logout(): boolean {
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.USER_KEY);
+    localStorage.removeItem(this.USER_EMAIL);
+    localStorage.removeItem(this.USER_NAME);
+    localStorage.removeItem(this.USER_ID_KEY);
+    this._router.navigate(['/login']);
     return true;
   }
 

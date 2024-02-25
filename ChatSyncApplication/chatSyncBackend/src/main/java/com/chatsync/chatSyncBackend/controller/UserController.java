@@ -37,13 +37,20 @@ public class UserController {
     }
 
     /*
-    API to activate user account
+        API to activate user account
      */
     @PostMapping("/activate-account/{emailId}/{activationToken}")
     public ResponseEntity<?> activateAccountController(@PathVariable("emailId") String emailId,
                                                        @PathVariable("activationToken") String activationToken){
         logger.info(LOG_TAG + " activateAccountController " + emailId + " " + activationToken);
         return this.userService.activateUserAccount(emailId, activationToken);
+    }
+
+    @GetMapping("/info/{userId}")
+    public ResponseEntity<?> getUserInfoController(@PathVariable("userId") String userId)
+    {
+        logger.info(LOG_TAG + " getUserInfoController called with userId : " + userId);
+        return this.userService.getUserInfoByUserId(userId);
     }
 
 }
