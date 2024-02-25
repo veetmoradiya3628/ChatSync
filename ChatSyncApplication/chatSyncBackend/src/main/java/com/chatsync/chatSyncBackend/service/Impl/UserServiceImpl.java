@@ -26,18 +26,21 @@ public class UserServiceImpl implements UserService {
 
     Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
-    @Autowired
     private UserRepository userRepository;
 
-    @Autowired
     private RoleService roleService;
 
-    @Autowired
     private EmailService emailService;
 
 
-    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public UserServiceImpl(UserRepository userRepository, RoleService roleService, EmailService emailService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userRepository = userRepository;
+        this.roleService = roleService;
+        this.emailService = emailService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
     @Override
     public User getUserByUsername(String username) {

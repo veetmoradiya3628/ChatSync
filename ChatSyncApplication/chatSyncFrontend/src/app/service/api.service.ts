@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../models/user.model';
 import { Observable } from 'rxjs';
@@ -46,5 +46,17 @@ export class ApiService {
   public getUserDetails(userId: string) {
     const url = this.BASE_URL + '/user/info/' + userId;
     return this.http.get(url);
+  }
+
+  // upload profile picture for user
+  public uploadProfilePicture(file: File, userId: string): Observable<any> {
+
+    const url = this.BASE_URL + '/files/upload/profilePicture';
+
+    const formData: FormData = new FormData();
+    formData.append('file', file, file.name);
+    formData.append('userId', userId);
+
+    return this.http.post(url, formData);
   }
 }

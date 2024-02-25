@@ -90,5 +90,17 @@ export class UserProfileComponent implements OnInit {
 
   uploadProfilePicture(){
     console.log(`upload profile picture called...`)
+    if (this.selectedFile) {
+      this._apiService.uploadProfilePicture(this.selectedFile, this.userId).subscribe(
+        response => {
+          console.log('File uploaded successfully', response);
+          this._generalService.openSnackBar('profile picture uploaded successfully!!', 'ok');
+        },
+        error => {
+          console.error('Error uploading file', error);
+          this._generalService.openSnackBar('Error while uploading profile picture!', 'ok');
+        }
+      );
+    }
   }
 }
