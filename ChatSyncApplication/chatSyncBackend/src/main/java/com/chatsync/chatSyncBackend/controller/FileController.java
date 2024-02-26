@@ -32,5 +32,5 @@ public class FileController {
         logger.info(LOG_TAG + " viewProfileImage called for userId : " + userId);
         return fileService.getProfileImageView(userId);
     }
-
+    
 }

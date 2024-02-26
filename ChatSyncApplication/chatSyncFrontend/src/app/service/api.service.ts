@@ -42,9 +42,21 @@ export class ApiService {
     return this.http.get(url);
   }
 
+  // get contacts for user API
+  public getContactsForUser(userId: string): Observable<any> {
+    const url = this.BASE_URL + '/contact/' + userId;
+    return this.http.get(url);
+  }
+
   // public get user info by userId
   public getUserDetails(userId: string) {
     const url = this.BASE_URL + '/user/info/' + userId;
+    return this.http.get(url);
+  }
+
+  // get groups for user
+  public getGroupsForUserAPI(userId : string){
+    const url = this.BASE_URL + '/group/getGroupsForUser/' + userId;
     return this.http.get(url);
   }
 

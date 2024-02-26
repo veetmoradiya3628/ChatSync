@@ -9,21 +9,21 @@
                     <!-- contact lists -->
                     <div fxLayout="column">
                         <cdk-virtual-scroll-viewport itemSize="10" class="contact-page-scroll-viewport">
-                            <mat-card class="m-2 contact-tile" *cdkVirtualFor="let index of loopCounter">
+                            <mat-card class="m-2 contact-tile" *cdkVirtualFor="let contact of contacts; let i=index">
                                 <div fxLayout="row" fxLayoutAlign="space-between center">
                                     <div><mat-card-header>
                                             <div mat-card-avatar>
                                                 <img class="contact-tile-image"
                                                     src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
                                             </div>
-                                            <mat-card-title>Contact {{index}} Lorem</mat-card-title>
+                                            <mat-card-title>{{ contact.firstName }} {{ contact.lastName }}</mat-card-title>
                                             <mat-card-subtitle>Contact Status</mat-card-subtitle>
                                         </mat-card-header></div>
                                     <div>
                                         <button mat-raised-button color="accent" class="mr-10"><mat-icon>chat</mat-icon>
                                             Chat</button>
                                         <button mat-raised-button color="primary"
-                                            class="mr-10"><mat-icon>info</mat-icon>
+                                            class="mr-10" (click)="changeSelecetdContact(i)"><mat-icon>info</mat-icon>
                                             Info</button>
                                     </div>
                                 </div>
@@ -52,23 +52,23 @@
                 <div fxFlex="row" fxLayoutAlign="center center">
                     <div fxFlex="column" fxLayoutAlign="center center">
                         <div class="profile-info-font">
-                            <p><b>Username : </b>Veet</p>
+                            <p><b>Username : </b>{{ selectedContact.username }}</p>
                         </div>
                     </div>
                 </div>
                 <div fxFlex="row" fxLayoutAlign="center center">
                     <div class="profile-info-font">
-                        <p><b>E-mail : </b>veetmoradiya1234@gmail.column</p>
+                        <p><b>E-mail : </b>{{ selectedContact.email }}</p>
                     </div>
                 </div>
                 <div fxFlex="row" fxLayoutAlign="center center">
                     <div class="profile-info-font">
-                        <p><b>First name : </b>Veet</p>
+                        <p><b>First name : </b>{{ selectedContact.firstName }}</p>
                     </div>
                 </div>
                 <div fxFlex="row" fxLayoutAlign="center center">
                     <div class="profile-info-font">
-                        <p><b>Last name : </b>Moradiya</p>
+                        <p><b>Last name : </b>{{ selectedContact.lastName }}</p>
                     </div>
                 </div>
                 <div fxFlex="row" fxLayoutAlign="center center">

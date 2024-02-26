@@ -60,4 +60,10 @@ public class GroupController {
         logger.info(LOG_TAG + " deleteGroupController called with groupId : " + groupId);
         return this.groupService.deleteGroup(groupId);
     }
+
+    @GetMapping("/getGroupsForUser/{userId}")
+    public ResponseEntity<?> getGroupsForUserController(@PathVariable("userId") String userId){
+        logger.info(LOG_TAG + " getGroupsForUserController called with userId : " + userId);
+        return this.groupService.getGroupsForUser(userId);
+    }
 }

@@ -9,15 +9,15 @@
                     <!-- contact lists -->
                     <div fxLayout="column">
                         <cdk-virtual-scroll-viewport itemSize="10" class="contact-page-scroll-viewport">
-                            <mat-card class="m-2 contact-tile" *cdkVirtualFor="let index of loopCounter">
+                            <mat-card class="m-2 contact-tile" *cdkVirtualFor="let group of groups;let i=index">
                                 <div fxLayout="row" fxLayoutAlign="space-between center">
                                     <div><mat-card-header>
                                             <div mat-card-avatar>
                                                 <img class="contact-tile-image"
                                                     src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
                                             </div>
-                                            <mat-card-title>Group {{index}} Lorem</mat-card-title>
-                                            <mat-card-subtitle>Memebers : {{ index }}</mat-card-subtitle>
+                                            <mat-card-title>{{ group.groupName }}</mat-card-title>
+                                            <mat-card-subtitle>Memebers : {{ group.memberCnt }}</mat-card-subtitle>
                                         </mat-card-header></div>
                                     <div>
                                         <button mat-raised-button color="accent" class="mr-10"><mat-icon>chat</mat-icon>

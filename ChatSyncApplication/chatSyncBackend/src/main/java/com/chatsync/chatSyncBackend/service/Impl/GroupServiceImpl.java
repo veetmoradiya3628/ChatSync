@@ -2,6 +2,7 @@ package com.chatsync.chatSyncBackend.service.Impl;
 
 import com.chatsync.chatSyncBackend.dto.GroupDto;
 import com.chatsync.chatSyncBackend.dto.UserDto;
+import com.chatsync.chatSyncBackend.dto.UserGroupDto;
 import com.chatsync.chatSyncBackend.model.Group;
 import com.chatsync.chatSyncBackend.model.GroupMembers;
 import com.chatsync.chatSyncBackend.model.User;
@@ -262,6 +263,39 @@ public class GroupServiceImpl implements GroupService {
             }
         } catch (Exception e) {
             logger.info(LOG_TAG + "Exception occurred in the function deleteGroup : " + e.getMessage());
+            return ResponseHandler.generateResponse("Exception : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> getGroupsForUser(String userId) {
+        try{
+            logger.info(LOG_TAG + " getGroupsForUser called with userId : " + userId);
+            if (this.userService.isUserExistsById(userId)){
+                List<GroupMembers> groupMembers = this.groupMembersRepository.getGroupMembersByUser(new User(userId));
+                List<UserGroupDto> userGroups = new ArrayList<>();
+                groupMembers.forEach(groupMember -> {
+                    logger.info(groupMember.toString());
+
+                    UserGroupDto userGroup = UserGroupDto.builder()
+                            .groupId(groupMember.getGroup().getGroupId())
+                            .groupName(groupMember.getGroup().getGroupName())
+                            .groupProfile(groupMember.getGroup().getGroupProfileImage())
+                            .groupMemberId(groupMember.getGroupMemberId())
+                            .groupMemberRole(groupMember.getGroupMemberRole())
+                            .memberCnt(this.groupMembersRepository.getMembersCountForGroup(groupMember.getGroup().getGroupId()))
+                            .isDeleted(groupMember.getGroup().getIsDeleted())
+                            .createdAt(groupMember.getGroup().getCreatedAt())
+                            .updatedAt(groupMember.getGroup().getUpdatedAt())
+                            .build();
+                    userGroups.add(userGroup);
+                });
+                return ResponseHandler.generateResponse("List of groups for user", HttpStatus.OK, userGroups);
+            }
+            logger.info(LOG_TAG + " user not exists with userId : " + userId);
+            return ResponseHandler.generateResponse("User not exist with provided userId", HttpStatus.NOT_FOUND, null);
+        }catch (Exception e){
+            logger.info(LOG_TAG + "Exception occurred in the function getGroupsForUser : " + e.getMessage());
             return ResponseHandler.generateResponse("Exception : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
         }
     }
