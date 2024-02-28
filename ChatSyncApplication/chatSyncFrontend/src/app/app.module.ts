@@ -42,6 +42,10 @@ import { GlobalContactsComponent } from './user/user-contact/global-contacts/glo
 import { GroupsComponent } from './user/user-groups/groups/groups.component';
 import { CreateNewGroupComponent } from './user/user-groups/create-new-group/create-new-group.component';
 import { authInterceptorProviders } from './common/AuthInterceptor';
+import { GroupMembersInfoComponent } from './user/user-groups/group-members-info/group-members-info.component';
+import { GroupEditComponent } from './user/user-groups/group-edit/group-edit.component';
+import { GroupAddMemberComponent } from './user/user-groups/group-add-member/group-add-member.component';
+import { ContactGroupInfoComponent } from './user/user-contact/contact-group-info/contact-group-info.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +69,10 @@ import { authInterceptorProviders } from './common/AuthInterceptor';
     GlobalContactsComponent,
     GroupsComponent,
     CreateNewGroupComponent,
+    GroupMembersInfoComponent,
+    GroupEditComponent,
+    GroupAddMemberComponent,
+    ContactGroupInfoComponent,
   ],
   imports: [
     BrowserModule,

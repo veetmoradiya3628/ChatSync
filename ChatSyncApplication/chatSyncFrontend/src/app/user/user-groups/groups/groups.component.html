@@ -23,7 +23,7 @@
                                         <button mat-raised-button color="accent" class="mr-10"><mat-icon>chat</mat-icon>
                                             Chat</button>
                                         <button mat-raised-button color="primary"
-                                            class="mr-10"><mat-icon>info</mat-icon>
+                                            class="mr-10" (click)="changeSelectedGroup(i)"><mat-icon>info</mat-icon>
                                             Info</button>
                                     </div>
                                 </div>
@@ -45,9 +45,9 @@
                 <div fxFlex="column" fxLayoutAlign="center center">
                     <div class="profile-info-font">
                         <div fxLayout="row" fxFlexAlign="space-around center">
-                            <p class="mlr-10"><b>Members : </b>30</p> |
-                            <p class="mlr-10"><b>Online Members : </b>10</p> |
-                            <p class="mlr-10"><b>Offline Members : </b>20</p>
+                            <p class="mlr-10"><b>Members : </b>{{ selectedGroup?.memberCnt }}</p> |
+                            <p class="mlr-10"><b>Online Members : </b>0</p> |
+                            <p class="mlr-10"><b>Offline Members : </b>0</p>
                         </div>
                     </div>
                 </div>
@@ -55,25 +55,25 @@
             <div fxFlex="row" fxLayoutAlign="center center">
                 <div fxFlex="column" fxLayoutAlign="center center">
                     <div class="profile-info-font">
-                        <p><b>Group name : </b>Home Discussion: Squad of Software Engineers</p>
+                        <p><b>Group name : </b>{{ selectedGroup?.groupName }}</p>
                     </div>
                 </div>
             </div>
             <div fxFlex="row" fxLayoutAlign="center center">
                 <div class="profile-info-font">
-                    <p><b>Role : </b>Admin</p>
+                    <p><b>Role : </b>{{ selectedGroup?.groupMemberRole }}</p>
                 </div>
             </div>
             <div fxFlex="row" fxLayoutAlign="center center">
                 <div class="profile-info-font">
-                    <p><b>Created At : </b>23rd Jan 2023, 10:20 AM</p>
+                    <p><b>Created At : </b>{{ selectedGroup?.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}</p>
                 </div>
             </div>
             <div fxFlex="row" fxLayoutAlign="center center">
                 <button mat-raised-button color="accent" class="mr-10"><mat-icon>chat</mat-icon>Chat</button>
-                <button mat-raised-button color="primary" class="mr-10"><mat-icon>group</mat-icon>Members</button>
-                <button mat-raised-button class="mr-10"><mat-icon>edit</mat-icon>Edit</button>
-                <button mat-raised-button color="primary" class="mr-10"><mat-icon>add</mat-icon>Add New Member</button>
+                <button mat-raised-button color="primary" class="mr-10" (click)="showMembersInfoForGroup()"><mat-icon>group</mat-icon>Members</button>
+                <button mat-raised-button class="mr-10" (click)="editGroup()"><mat-icon>edit</mat-icon>Edit</button>
+                <button mat-raised-button color="primary" class="mr-10" (click)="addNewMember()"><mat-icon>add</mat-icon>Add New Member</button>
                 <button mat-raised-button class="mr-10" color="warn"><mat-icon>remove</mat-icon>Leave Group</button>
             </div>
         </div>

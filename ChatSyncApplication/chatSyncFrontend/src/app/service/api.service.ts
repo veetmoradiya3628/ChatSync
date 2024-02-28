@@ -60,6 +60,12 @@ export class ApiService {
     return this.http.get(url);
   }
 
+  // get group information by groupId
+  public getGroupInformationByGroupId(groupId: string){
+    const url = this.BASE_URL + '/group/' + groupId;
+    return this.http.get(url);
+  }
+
   // upload profile picture for user
   public uploadProfilePicture(file: File, userId: string): Observable<any> {
 
