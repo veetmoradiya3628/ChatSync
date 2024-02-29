@@ -34,12 +34,16 @@ public class WebSocketController {
         return message + " " + LocalDateTime.now();
     }
 
-    @PostMapping("/publish")
-    public ResponseEntity<?> publishMessageToQueueController(@RequestParam String queue,
-                                                             @RequestParam String message) {
-        message = message + LocalDateTime.now().toString();
-        this.messagingTemplate.convertAndSend("/topic/" + queue, message);
-        return ResponseEntity.ok(null);
+    /*
+        Controller to publish message to global users
+    */
+    @PostMapping("/global-publish")
+    public ResponseEntity<?> publishMessageToQueueController(@RequestParam String messagePrefix) {
+
+        String message = messagePrefix + LocalDateTime.now();
+
+        this.messagingTemplate.convertAndSend("/topic/global", message);
+        return ResponseEntity.ok("message for global queue published successfully");
     }
 
     /*
