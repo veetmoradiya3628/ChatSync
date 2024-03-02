@@ -1,0 +1,10 @@
+.contact-group-scroll-viewport {
+    height: 620px !important;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.contact-group-scroll-viewport::-webkit-scrollbar {
+    display: none;
+}

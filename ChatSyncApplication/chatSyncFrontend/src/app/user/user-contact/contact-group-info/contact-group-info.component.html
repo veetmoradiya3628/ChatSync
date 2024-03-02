@@ -1,1 +1,45 @@
-<h1>Group for User Model</h1>
+<div fxLayout="column" fxLayoutAlign="start stretch">
+    <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10" fxFill>
+        <div fxFlex="100" fxLayout="column">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title class="chats-title">Groups</mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="mt-10">
+                    <!-- contact lists -->
+                    <div fxLayout="column">
+                        <cdk-virtual-scroll-viewport itemSize="10" class="contact-group-scroll-viewport">
+                            <mat-card class="m-2 contact-tile" *cdkVirtualFor="let group of groups;let i=index">
+                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                    <div>
+                                        <mat-card-header>
+                                            <div mat-card-avatar>
+                                                <img class="contact-tile-image"
+                                                    src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
+                                            </div>
+                                            <mat-card-title>{{ group.groupName }}</mat-card-title>
+                                            <mat-card-subtitle>Memebers : {{ group.memberCnt }}</mat-card-subtitle>
+                                        </mat-card-header>
+                                        <mat-card-content>
+                                            <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="10" fxFill>
+                                                <div>
+                                                    <b>Role: </b> {{ group.groupMemberRole }} |
+                                                </div>
+                                                <div>
+                                                    <b>Created at : </b> {{ group.createdAt | date:'yyyy/MM/dd h:mm:ss' }} |
+                                                </div> 
+                                                <div>
+                                                    <b>Updated at : </b> {{ group.updatedAt | date:'yyyy/MM/dd h:mm:ss' }}
+                                                </div>
+                                            </div>
+                                        </mat-card-content>
+                                    </div>
+                                </div>
+                            </mat-card>
+                        </cdk-virtual-scroll-viewport>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

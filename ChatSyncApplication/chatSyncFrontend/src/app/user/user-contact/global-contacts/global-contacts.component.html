@@ -3,7 +3,7 @@
         <div fxFlex="30" fxLayout="column">
             <mat-card>
                 <mat-card-header>
-                    <mat-card-title class="chats-title">Contacts</mat-card-title>
+                    <mat-card-title class="chats-title">Global Contacts</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
                     <!-- contact lists -->
@@ -69,8 +69,8 @@
                 </div>
             </div>
             <div fxFlex="row" fxLayoutAlign="center center">
-                <button mat-raised-button color="primary" class="mr-10" (click)="viewGroupsForUser()"><mat-icon>group</mat-icon>Groups</button>
-                <button mat-raised-button class="mr-10"><mat-icon>add</mat-icon>Add</button>
+                <button mat-raised-button color="primary" class="mr-10" (click)="onClickViewGroupsForUser()"><mat-icon>group</mat-icon>Groups</button>
+                <button mat-raised-button class="mr-10" (click)="onClickAddToContact()"><mat-icon>add</mat-icon>Add</button>
             </div>
         </div>
     </div>

@@ -20,7 +20,7 @@
                                             <mat-card-subtitle>Contact Status</mat-card-subtitle>
                                         </mat-card-header></div>
                                     <div>
-                                        <button mat-raised-button color="accent" class="mr-10"><mat-icon>chat</mat-icon>
+                                        <button mat-raised-button color="accent" class="mr-10" (click)="onClickChatWithContact(contact.userId)"><mat-icon>chat</mat-icon>
                                             Chat</button>
                                         <button mat-raised-button color="primary"
                                             class="mr-10" (click)="changeSelecetdContact(i)"><mat-icon>info</mat-icon>
@@ -72,9 +72,9 @@
                     </div>
                 </div>
                 <div fxFlex="row" fxLayoutAlign="center center">
-                    <button mat-raised-button color="accent" class="mr-10"><mat-icon>chat</mat-icon>Chat</button>
-                    <button mat-raised-button color="primary" class="mr-10" (click)="viewGroupsForUser()"><mat-icon>group</mat-icon>Groups</button>
-                    <button mat-raised-button color="warn"><mat-icon>delete</mat-icon>Delete</button>
+                    <button mat-raised-button color="accent" class="mr-10" (click)="onClickChatWithContact(this.selectedContact.userId)"><mat-icon>chat</mat-icon>Chat</button>
+                    <button mat-raised-button color="primary" class="mr-10" (click)="onClickViewGroupsForUser()"><mat-icon>group</mat-icon>Groups</button>
+                    <button mat-raised-button color="warn" (click)="onClickDeleteContact(this.selectedContact.userId)"><mat-icon>delete</mat-icon>Delete</button>
                 </div>
             </mat-card>
         </div>

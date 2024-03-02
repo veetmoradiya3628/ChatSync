@@ -1,6 +1,9 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, map, shareReplay } from 'rxjs';
+import { AuthService } from 'src/app/service/auth.service';
+import { ConfirmationDialogService } from 'src/app/service/confirmation-dialog.service';
 import { WebsocketService } from 'src/app/service/websocket.service';
 
 @Component({
@@ -17,15 +20,15 @@ export class UserSideBarComponent implements OnInit, OnDestroy {
     );
 
 
-  constructor(private breakpointObserver: BreakpointObserver, private _wsService: WebsocketService) { }
+  constructor(private breakpointObserver: BreakpointObserver, 
+              private _wsService: WebsocketService,
+              private _dialogConfirmationService: ConfirmationDialogService,
+              private _authService: AuthService,
+              private _router: Router) { }
 
 
   ngOnInit(): void {
     this._wsService.connect();
-
-    setTimeout(() => {
-      // this._wsService.sentData("random text message : " + Date.now().toString())
-    }, 1000)
   }
 
   ngOnDestroy(): void {
@@ -34,6 +37,13 @@ export class UserSideBarComponent implements OnInit, OnDestroy {
 
 
   logoutUser() {
-    throw new Error('Method not implemented.');
+    this._dialogConfirmationService.openConfirmationDialog('Are you sure want to logout ?').then((result) => {
+      if (result) {
+        this._authService.logout()
+        this._router.navigateByUrl('/login')
+      } else {
+        return;
+      }
+    })
   }
 }

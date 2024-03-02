@@ -46,6 +46,8 @@ import { GroupMembersInfoComponent } from './user/user-groups/group-members-info
 import { GroupEditComponent } from './user/user-groups/group-edit/group-edit.component';
 import { GroupAddMemberComponent } from './user/user-groups/group-add-member/group-add-member.component';
 import { ContactGroupInfoComponent } from './user/user-contact/contact-group-info/contact-group-info.component';
+import { ConfirmationDialogService } from './service/confirmation-dialog.service';
+import { ConfirmDialogComponent } from './common/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +75,7 @@ import { ContactGroupInfoComponent } from './user/user-contact/contact-group-inf
     GroupEditComponent,
     GroupAddMemberComponent,
     ContactGroupInfoComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
