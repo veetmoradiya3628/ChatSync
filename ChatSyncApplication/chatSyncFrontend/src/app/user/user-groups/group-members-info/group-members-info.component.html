@@ -1,1 +1,48 @@
-<h1>Group Members Info Model</h1>
+<div fxLayout="column" fxLayoutAlign="start stretch">
+    <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10" fxFill>
+        <div fxFlex="100" fxLayout="column">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title class="chats-title">Group Members</mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="mt-10">
+                    <!-- contact lists -->
+                    <div fxLayout="column">
+                        <cdk-virtual-scroll-viewport itemSize="10" class="group-member-scroll-viewport">
+                            <mat-card class="m-2 contact-tile" *cdkVirtualFor="let member of groupMembers;let i=index">
+                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                    <div>
+                                        <mat-card-header>
+                                            <div mat-card-avatar>
+                                                <img class="contact-tile-image"
+                                                    src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
+                                            </div>
+                                            <mat-card-title>{{ member.firstName }} {{ member.lastName }}</mat-card-title>
+                                            <mat-card-subtitle>isActive : {{ member.isActive }}</mat-card-subtitle>
+                                        </mat-card-header>
+                                        <mat-card-content>
+                                            <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="10" fxFill>
+                                                <div>
+                                                    <b>Role: </b> {{ member.role }} |
+                                                </div>
+                                                <div>
+                                                    <b>E-mail: </b> {{ member.email }} |
+                                                </div>
+                                                <div>
+                                                    <b>Created at : </b> {{ member.createdAt | date:'yyyy/MM/dd h:mm:ss' }} |
+                                                </div> 
+                                                <div>
+                                                    <b>Updated at : </b> {{ member.updatedAt | date:'yyyy/MM/dd h:mm:ss' }}
+                                                </div>
+                                            </div>
+                                        </mat-card-content>
+                                    </div>
+                                </div>
+                            </mat-card>
+                        </cdk-virtual-scroll-viewport>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

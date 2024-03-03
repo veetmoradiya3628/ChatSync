@@ -1,12 +1,13 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { switchMap, of, catchError } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { ApiService } from 'src/app/service/api.service';
 
 @Component({
   selector: 'app-group-members-info',
   templateUrl: './group-members-info.component.html',
-  styleUrls: ['./group-members-info.component.css']
+  styleUrls: ['./group-members-info.component.scss']
 })
 export class GroupMembersInfoComponent implements OnInit {
   public groupInfo: any;
@@ -15,7 +16,8 @@ export class GroupMembersInfoComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<GroupMembersInfoComponent>,
     private _apiService: ApiService,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private cdr: ChangeDetectorRef) {
     this.groupId = this.data.groupId;
     console.log(`groupInfo invoked for groupId : ${this.groupId}`)
   }
@@ -25,25 +27,24 @@ export class GroupMembersInfoComponent implements OnInit {
   }
 
   loadGroupInformation() {
-    this._apiService.getGroupInformationByGroupId(this.groupId).subscribe(
-      (res: any) => {
-        console.log(res)
+    this._apiService.getGroupInformationByGroupId(this.groupId)
+    .pipe(
+      switchMap((res: any) => {
         this.groupInfo = res.data;
-        res.data.admins.forEach((user: any) => {
-          this.groupMembers.push(user);
-        });
-
-        res.data.members.forEach((user: any) => {
-          this.groupMembers.push(user);
-        })
-
+        const admins = res.data.admins.map((user: any) => ({ ...user, role: 'admin' }));
+        const members = res.data.members.map((user: any) => ({ ...user, role: 'member' }));
+        this.groupMembers = [...admins, ...members];
         console.log(this.groupMembers);
-      },
-      (error: any) => {
-        console.log(error)
-      }
+        return of(this.groupMembers);
+      }),
+      catchError((error: any) => {
+        console.log(error);
+        return of([]);
+      })
     )
-
+    .subscribe(() => {
+      this.cdr.detectChanges();
+    });
   }
 
   closeDialog(): void {
