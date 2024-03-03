@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
- 
+
   private BASE_URL = "http://localhost:8080";
 
   constructor(private http: HttpClient) { }
@@ -55,19 +55,19 @@ export class ApiService {
   }
 
   // get groups for user
-  public getGroupsForUserAPI(userId : string){
+  public getGroupsForUserAPI(userId: string) {
     const url = this.BASE_URL + '/group/getGroupsForUser/' + userId;
     return this.http.get(url);
   }
 
   // get group information by groupId
-  public getGroupInformationByGroupId(groupId: string){
+  public getGroupInformationByGroupId(groupId: string) {
     const url = this.BASE_URL + '/group/' + groupId;
     return this.http.get(url);
   }
 
   // add user as contact
-  public addUserToContactAPI(reqObj : any) {
+  public addUserToContactAPI(reqObj: any) {
     const url = this.BASE_URL + '/contact/add-contact';
     return this.http.post(url, reqObj);
   }
@@ -82,6 +82,12 @@ export class ApiService {
   public getGlobalUsersForGroup(groupId: any) {
     const url = this.BASE_URL + '/group/getUserNotPartOfGroup/' + groupId;
     return this.http.get(url);
+  }
+
+  // create group API
+  public createGroupAPI(reqObj: any): Observable<any> {
+    const url = this.BASE_URL + '/group/create-group';
+    return this.http.post(url, reqObj);
   }
 
   // upload profile picture for user

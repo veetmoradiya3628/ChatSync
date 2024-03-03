@@ -6,35 +6,36 @@
                     <mat-card-title>Create New Group</mat-card-title>
                 </mat-card-header>
                 <mat-card-content class="mt-10">
-                    <form>
-                        <mat-form-field fxFill>
-                            <mat-label>Group Name</mat-label>
-                            <input type="text" matInput placeholder="Ex. Friends Forever">
-                        </mat-form-field>
-                        <mat-form-field fxFill>
-                            <mat-label>Group profile</mat-label>
-                            <ngx-mat-file-input>
-                                <mat-icon ngxMatFileInputIcon>folder</mat-icon>
-                            </ngx-mat-file-input>
-                        </mat-form-field>
-                    </form>
+                    <mat-form-field fxFill>
+                        <mat-label>Group Name</mat-label>
+                        <input [(ngModel)]="groupName" type="text" matInput placeholder="Ex. Friends Forever">
+                    </mat-form-field>
+                    <mat-form-field fxFill>
+                        <mat-label>Group profile</mat-label>
+                        <ngx-mat-file-input>
+                            <mat-icon ngxMatFileInputIcon>folder</mat-icon>
+                        </ngx-mat-file-input>
+                    </mat-form-field>
                     <div fxLayout="column">
                         <div>
                             <h2>Added Members</h2>
                         </div>
                         <cdk-virtual-scroll-viewport itemSize="10" class="create-group-scroll-viewport">
-                            <mat-card class="m-2 contact-tile" *cdkVirtualFor="let index of loopCounter">
+                            <mat-card class="m-2 contact-tile"
+                                *cdkVirtualFor="let contact of addedMembers; let i=index">
                                 <div fxLayout="row" fxLayoutAlign="space-between center">
                                     <div><mat-card-header>
                                             <div mat-card-avatar>
                                                 <img class="contact-tile-image"
                                                     src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
                                             </div>
-                                            <mat-card-title>Group {{index}} Lorem</mat-card-title>
-                                            <mat-card-subtitle>Memebers : {{ index }}</mat-card-subtitle>
+                                            <mat-card-title>{{ contact.contactDetail.firstName }} {{
+                                                contact.contactDetail.lastName }}</mat-card-title>
+                                            <mat-card-subtitle>Status : Online</mat-card-subtitle>
                                         </mat-card-header></div>
                                     <div>
-                                        <button mat-raised-button color="warn" class="mr-10"><mat-icon>remove</mat-icon>
+                                        <button mat-raised-button color="warn" class="mr-10"
+                                            (click)="onClickRemoveFromAddedMembers(i)"><mat-icon>remove</mat-icon>
                                             Remove</button>
                                         <button mat-raised-button color="primary"
                                             class="mr-10"><mat-icon>info</mat-icon>
@@ -47,8 +48,8 @@
                 </mat-card-content>
                 <mat-card-actions>
                     <div fxLayout="row" fxFlexAlign="space-around center">
-                        <button mat-raised-button color="primary" class="mr-10">Create Group</button>
-                        <button mat-raised-button color="accent">Reset</button>
+                        <button mat-raised-button color="primary" class="mr-10" (click)="onClickCreateGroup()">Create Group</button>
+                        <button mat-raised-button color="accent" (click)="onClickReset()">Reset</button>
                     </div>
                 </mat-card-actions>
             </mat-card>
@@ -56,27 +57,29 @@
         <div fxFlex="49" fxLayout="column">
             <mat-card>
                 <mat-card-header>
-                    <mat-card-title class="chats-title">Global Contacts</mat-card-title>
+                    <mat-card-title class="chats-title">Contacts</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
                     <!-- contact lists -->
                     <div fxLayout="column">
                         <cdk-virtual-scroll-viewport itemSize="10" class="contact-page-scroll-viewport">
-                            <mat-card class="m-2 contact-tile" *cdkVirtualFor="let index of loopCounter">
+                            <mat-card class="m-2 contact-tile" *cdkVirtualFor="let contact of contacts;let i=index">
                                 <div fxLayout="row" fxLayoutAlign="space-between center">
                                     <div><mat-card-header>
                                             <div mat-card-avatar>
                                                 <img class="contact-tile-image"
                                                     src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
                                             </div>
-                                            <mat-card-title>Group {{index}} Lorem</mat-card-title>
+                                            <mat-card-title>{{ contact.contactDetail.firstName }} {{
+                                                contact.contactDetail.lastName }}</mat-card-title>
                                             <mat-card-subtitle>Status : Online</mat-card-subtitle>
                                         </mat-card-header></div>
                                     <div>
                                         <button mat-raised-button color="primary"
                                             class="mr-10"><mat-icon>info</mat-icon>
                                             Info</button>
-                                        <button mat-raised-button class="mr-10"><mat-icon>add</mat-icon>
+                                        <button mat-raised-button class="mr-10"
+                                            (click)="onClickAddToGroup(i)"><mat-icon>add</mat-icon>
                                             Add</button>
                                     </div>
                                 </div>
