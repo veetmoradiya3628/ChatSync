@@ -1,5 +1,5 @@
 <div fxFlex="column">
-    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" (selectedTabChange)="onTabChanged($event)">
         <mat-tab label="Contacts">
             <app-contacts></app-contacts>
         </mat-tab>

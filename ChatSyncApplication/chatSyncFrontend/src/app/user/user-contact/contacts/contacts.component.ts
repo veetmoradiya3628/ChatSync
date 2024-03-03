@@ -1,31 +1,48 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserDto } from 'src/app/models/user_dto.model';
 import { ApiService } from 'src/app/service/api.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { ContactGroupInfoComponent } from '../contact-group-info/contact-group-info.component';
 import { ConfirmationDialogService } from 'src/app/service/confirmation-dialog.service';
+import { Subscription } from 'rxjs';
+import { ContactTabService } from '../../service/contact-tab.service';
+import { GeneralService } from 'src/app/service/general.service';
 
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
   styleUrls: ['./contacts.component.css']
 })
-export class ContactsComponent implements OnInit {
+export class ContactsComponent implements OnInit, OnDestroy {
   // loopCounter = Array(20).fill(0).map((x, i) => i); // Creating an array of length 10 
   public userId: string = '1';
   public contacts: Array<UserDto> = [];
   public selectedContact: UserDto = {};
   public selectedContactIndex = 0;
+  private subscription: Subscription;
 
   constructor(private _authService: AuthService,
     private _apiService: ApiService,
     public dialog: MatDialog,
-    private _confirmationDialog: ConfirmationDialogService) {
+    private _confirmationDialog: ConfirmationDialogService,
+    private _generalService: GeneralService,
+    private _contactTabService: ContactTabService) {
     this.userId = this._authService.getUserId();
+    this.subscription = this._contactTabService.tabChanged$.subscribe((index) => {
+      if (index === 0) {
+        // Reload your component method here
+        this.loadUserContacts();
+      }
+    });
   }
+
   ngOnInit(): void {
     this.loadUserContacts();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   loadUserContacts() {
@@ -37,7 +54,7 @@ export class ContactsComponent implements OnInit {
           .map((element: any) => element.contactDetail);
 
         this.contacts = filteredContacts;
-
+        console.log(this.contacts)
         if (this.contacts.length > 0) {
           this.selectedContact = this.contacts[this.selectedContactIndex];
         }
@@ -76,10 +93,28 @@ export class ContactsComponent implements OnInit {
     })
   }
 
-  onClickDeleteContact(userId: any){
+  onClickDeleteContact(contactId: any) {
     this._confirmationDialog.openConfirmationDialog('Are you sure want to delete this contact?').then((result) => {
       if (result) {
-        console.log(`clicked yes for userId : ${userId} for delete ops`)
+        console.log(`clicked yes for contactId : ${contactId} for delete ops`)
+
+        let reqObj = {
+          userId : this.userId,
+          contactId
+        }
+        console.log(reqObj);
+
+        this._apiService.deleteUserFromContact(reqObj).subscribe(
+          (res : any) => {
+            console.log(res);
+            this.loadUserContacts();
+            this._generalService.openSnackBar('Contact deleted successfully!!', 'Ok')
+          },
+          (error : any) => {
+            console.log(error);
+            this._generalService.openSnackBar('Error while deleting contact!!', 'Ok')
+          }
+        )
       } else {
         console.log(`clicked no`);
         return;

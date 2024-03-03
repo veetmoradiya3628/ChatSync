@@ -66,6 +66,18 @@ export class ApiService {
     return this.http.get(url);
   }
 
+  // add user as contact
+  public addUserToContactAPI(reqObj : any) {
+    const url = this.BASE_URL + '/contact/add-contact';
+    return this.http.post(url, reqObj);
+  }
+
+  // delete contact from user's contact list
+  public deleteUserFromContact(reqObj: any) {
+    const url = this.BASE_URL + '/contact/delete-contact';
+    return this.http.post(url, reqObj);
+  }
+
   // upload profile picture for user
   public uploadProfilePicture(file: File, userId: string): Observable<any> {
 
