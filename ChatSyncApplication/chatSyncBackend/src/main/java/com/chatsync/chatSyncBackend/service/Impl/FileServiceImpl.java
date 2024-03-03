@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -41,11 +43,11 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public ResponseEntity<?> uploadUserProfileHandler(MultipartFile file, String userId) {
-        try{
+        try {
             logger.info(LOG_TAG + " uploadUserProfileHandler called for userID : " + userId);
 
             // validate userId
-            if (!this.userService.isUserExistsById(userId)){
+            if (!this.userService.isUserExistsById(userId)) {
                 logger.info(LOG_TAG + " User with provided userId not exists!!, userId : " + userId);
                 return ResponseHandler.generateResponse("User with provided userId not exists!!", HttpStatus.NOT_FOUND, null);
             }
@@ -56,7 +58,7 @@ public class FileServiceImpl implements FileService {
             // update path in user table for profile
 
             return ResponseHandler.generateResponse("Profile picture uploaded successfully!!", HttpStatus.OK, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.info(LOG_TAG + " uploadUserProfileHandler Exception : " + e.getMessage());
             return ResponseHandler.generateResponse("Exception occured while uploading file", HttpStatus.INTERNAL_SERVER_ERROR, null);
         }
@@ -64,28 +66,33 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public ResponseEntity<byte[]> getProfileImageView(String userId) {
-        try{
-            if (this.userService.isUserExistsById(userId)){
-                Path imagePath =Paths.get(this.USER_PROFILE_PICTURE_UPLOAD_PATH).resolve(userId + ".jpg");
-                Resource imageResource =new UrlResource(imagePath.toUri());
+        try {
+            if (this.userService.isUserExistsById(userId)) {
+                Path imagePath = Paths.get(this.USER_PROFILE_PICTURE_UPLOAD_PATH).resolve(userId + ".jpg");
+                Resource imageResource = new UrlResource(imagePath.toUri());
 
-                if (imageResource.exists() && imageResource.isReadable()){
-                    byte[] imageBytes = imageResource.getInputStream().readAllBytes();
+                if (imageResource.exists() && imageResource.isReadable()) {
+                    try (InputStream inputStream = imageResource.getInputStream()) {
+                        byte[] imageBytes = inputStream.readAllBytes();
 
-                    HttpHeaders headers = new HttpHeaders();
-                    headers.setContentType(MediaType.IMAGE_JPEG); // Set appropriate media type based on your image type
-                    headers.setContentLength(imageBytes.length);
+                        HttpHeaders headers = new HttpHeaders();
+                        headers.setContentType(MediaType.IMAGE_JPEG); // Set appropriate media type based on your image type
+                        headers.setContentLength(imageBytes.length);
 
-                    return new ResponseEntity<>(imageBytes, headers, org.springframework.http.HttpStatus.OK);
-                }else{
+                        return new ResponseEntity<>(imageBytes, headers, org.springframework.http.HttpStatus.OK);
+                    } catch (IOException e) {
+                        logger.error(LOG_TAG + " Error reading image file: " + e.getMessage());
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+                    }
+                } else {
                     logger.info(LOG_TAG + " file not exists with userId : " + userId);
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
                 }
-            }else{
+            } else {
                 logger.info(LOG_TAG + " user not exists with userId : " + userId);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.info(LOG_TAG + " getProfileImageView Exception : " + e.getMessage());
             return ResponseEntity.status(org.springframework.http.HttpStatus.NOT_FOUND).body(null);
         }

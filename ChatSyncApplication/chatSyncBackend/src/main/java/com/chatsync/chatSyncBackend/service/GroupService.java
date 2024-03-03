@@ -17,4 +17,6 @@ public interface GroupService {
     public ResponseEntity<?> deleteGroup(String groupId);
 
     public ResponseEntity<?> getGroupsForUser(String userId);
+
+    public ResponseEntity<?> getUserNotPartOfGroup(String groupId);
 }

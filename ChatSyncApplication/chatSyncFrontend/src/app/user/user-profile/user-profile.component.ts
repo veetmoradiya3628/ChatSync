@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserDto } from 'src/app/models/user_dto.model';
 import { ApiService } from 'src/app/service/api.service';
@@ -20,7 +20,8 @@ export class UserProfileComponent implements OnInit {
 
   constructor(private _userService: AuthService,
     private _generalService: GeneralService,
-    private _apiService: ApiService) { }
+    private _apiService: ApiService,
+    private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.userId = this._userService.getUserId();
@@ -94,6 +95,8 @@ export class UserProfileComponent implements OnInit {
       this._apiService.uploadProfilePicture(this.selectedFile, this.userId).subscribe(
         response => {
           console.log('File uploaded successfully', response);
+          this.loadUserDetails();
+          this.cdr.detectChanges();
           this._generalService.openSnackBar('profile picture uploaded successfully!!', 'ok');
         },
         error => {

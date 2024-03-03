@@ -10,7 +10,6 @@ import { ApiService } from 'src/app/service/api.service';
   styleUrls: ['./group-members-info.component.scss']
 })
 export class GroupMembersInfoComponent implements OnInit {
-  public groupInfo: any;
   public groupId: string;
   public groupMembers: Array<User> = [];
 
@@ -23,14 +22,13 @@ export class GroupMembersInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadGroupInformation();
+    this.loadGroupMembersInformation();
   }
 
-  loadGroupInformation() {
+  loadGroupMembersInformation() {
     this._apiService.getGroupInformationByGroupId(this.groupId)
     .pipe(
       switchMap((res: any) => {
-        this.groupInfo = res.data;
         const admins = res.data.admins.map((user: any) => ({ ...user, role: 'admin' }));
         const members = res.data.members.map((user: any) => ({ ...user, role: 'member' }));
         this.groupMembers = [...admins, ...members];

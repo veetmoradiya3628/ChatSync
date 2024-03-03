@@ -13,17 +13,21 @@
                                 <div fxLayout="row" fxLayoutAlign="space-between center">
                                     <div><mat-card-header>
                                             <div mat-card-avatar>
-                                                <img class="contact-tile-image"
+                                                <img *ngIf="contact.profileImage === null" class="contact-tile-image"
                                                     src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
+                                                <img *ngIf="contact.profileImage !== null" class="contact-tile-image"
+                                                    [src]="contact.profileImage" />
                                             </div>
-                                            <mat-card-title>{{ contact.firstName }} {{ contact.lastName }}</mat-card-title>
+                                            <mat-card-title>{{ contact.firstName }} {{ contact.lastName
+                                                }}</mat-card-title>
                                             <mat-card-subtitle>Contact Status</mat-card-subtitle>
                                         </mat-card-header></div>
                                     <div>
-                                        <button mat-raised-button color="accent" class="mr-10" (click)="onClickChatWithContact(contact.userId)"><mat-icon>chat</mat-icon>
+                                        <button mat-raised-button color="accent" class="mr-10"
+                                            (click)="onClickChatWithContact(contact.userId)"><mat-icon>chat</mat-icon>
                                             Chat</button>
-                                        <button mat-raised-button color="primary"
-                                            class="mr-10" (click)="changeSelecetdContact(i)"><mat-icon>info</mat-icon>
+                                        <button mat-raised-button color="primary" class="mr-10"
+                                            (click)="changeSelecetdContact(i)"><mat-icon>info</mat-icon>
                                             Info</button>
                                     </div>
                                 </div>
@@ -39,8 +43,9 @@
                     <p class="user-info-header">User Information</p>
                 </div>
                 <div fxFlex="row" fxLayoutAlign="center center">
-                    <img
+                    <img *ngIf="selectedContact.profileImage === null"
                         src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
+                    <img *ngIf="selectedContact.profileImage !== null" [src]="selectedContact.profileImage" />
                 </div>
                 <div fxFlex="row" fxLayoutAlign="center center">
                     <div fxFlex="column" fxLayoutAlign="center center">
@@ -72,9 +77,12 @@
                     </div>
                 </div>
                 <div fxFlex="row" fxLayoutAlign="center center">
-                    <button mat-raised-button color="accent" class="mr-10" (click)="onClickChatWithContact(this.selectedContact.userId)"><mat-icon>chat</mat-icon>Chat</button>
-                    <button mat-raised-button color="primary" class="mr-10" (click)="onClickViewGroupsForUser()"><mat-icon>group</mat-icon>Groups</button>
-                    <button mat-raised-button color="warn" (click)="onClickDeleteContact(this.selectedContact.userId)"><mat-icon>delete</mat-icon>Delete</button>
+                    <button mat-raised-button color="accent" class="mr-10"
+                        (click)="onClickChatWithContact(this.selectedContact.userId)"><mat-icon>chat</mat-icon>Chat</button>
+                    <button mat-raised-button color="primary" class="mr-10"
+                        (click)="onClickViewGroupsForUser()"><mat-icon>group</mat-icon>Groups</button>
+                    <button mat-raised-button color="warn"
+                        (click)="onClickDeleteContact(this.selectedContact.userId)"><mat-icon>delete</mat-icon>Delete</button>
                 </div>
             </mat-card>
         </div>

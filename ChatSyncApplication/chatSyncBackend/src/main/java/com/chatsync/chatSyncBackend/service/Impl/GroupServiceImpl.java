@@ -9,6 +9,7 @@ import com.chatsync.chatSyncBackend.model.User;
 import com.chatsync.chatSyncBackend.model.utils.GroupMemberRole;
 import com.chatsync.chatSyncBackend.repostiroy.GroupMembersRepository;
 import com.chatsync.chatSyncBackend.repostiroy.GroupRepository;
+import com.chatsync.chatSyncBackend.repostiroy.UserRepository;
 import com.chatsync.chatSyncBackend.service.GroupService;
 import com.chatsync.chatSyncBackend.utils.ResponseHandler;
 import org.slf4j.Logger;
@@ -27,11 +28,13 @@ public class GroupServiceImpl implements GroupService {
     private GroupRepository groupRepository;
     private GroupMembersRepository groupMembersRepository;
     private UserServiceImpl userService;
+    private UserRepository userRepository;
 
-    public GroupServiceImpl(GroupRepository groupRepository, GroupMembersRepository groupMembersRepository, UserServiceImpl userService) {
+    public GroupServiceImpl(GroupRepository groupRepository, GroupMembersRepository groupMembersRepository, UserServiceImpl userService, UserRepository userRepository) {
         this.groupRepository = groupRepository;
         this.groupMembersRepository = groupMembersRepository;
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -296,6 +299,47 @@ public class GroupServiceImpl implements GroupService {
             return ResponseHandler.generateResponse("User not exist with provided userId", HttpStatus.NOT_FOUND, null);
         }catch (Exception e){
             logger.info(LOG_TAG + "Exception occurred in the function getGroupsForUser : " + e.getMessage());
+            return ResponseHandler.generateResponse("Exception : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> getUserNotPartOfGroup(String groupId) {
+        try{
+            if (this.isGroupExistsById(groupId)) {
+                Group group = this.groupRepository.findById(groupId).get();
+                logger.info(LOG_TAG + " groupInfo : " + group);
+
+                List<User> globalUsers = this.userRepository.findAll();
+                logger.info(LOG_TAG + " globalUsers cnt : " + globalUsers.size());
+
+                group.getMembers().forEach(globalUsers::remove);
+                logger.info(LOG_TAG + " Group Members cnt : " + group.getMembers().size());
+                logger.info(LOG_TAG + " User cnt after removal of members : " + globalUsers.size());
+
+                List<UserDto> respUsers = new ArrayList<>();
+                globalUsers.forEach(member -> {
+                    UserDto user = UserDto.builder()
+                            .userId(member.getUserId())
+                            .username(member.getUsername())
+                            .email(member.getEmail())
+                            .profileImage(member.getProfileImage())
+                            .isActive(member.isActive())
+                            .phoneNo(member.getPhoneNo())
+                            .firstName(member.getFirstName())
+                            .lastName(member.getLastName())
+                            .createdAt(member.getCreatedAt())
+                            .updatedAt(member.getUpdatedAt()).build();
+                    respUsers.add(user);
+                });
+                logger.info(LOG_TAG + " final respUser cnt : " + respUsers.size());
+                return ResponseHandler.generateResponse("global users not part of group retrieved.", HttpStatus.OK, respUsers);
+            } else {
+                logger.info(LOG_TAG + " group not exists with provided groupId : " + groupId);
+                return ResponseHandler.generateResponse(" group not exists with provided groupId : " + groupId, HttpStatus.NOT_FOUND, null);
+            }
+        }catch (Exception e){
+            logger.info(LOG_TAG + "Exception occurred in the function getUserNotPartOfGroup : " + e.getMessage());
             return ResponseHandler.generateResponse("Exception : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
         }
     }

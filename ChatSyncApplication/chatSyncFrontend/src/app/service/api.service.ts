@@ -78,6 +78,12 @@ export class ApiService {
     return this.http.post(url, reqObj);
   }
 
+  // get global users for group
+  public getGlobalUsersForGroup(groupId: any) {
+    const url = this.BASE_URL + '/group/getUserNotPartOfGroup/' + groupId;
+    return this.http.get(url);
+  }
+
   // upload profile picture for user
   public uploadProfilePicture(file: File, userId: string): Observable<any> {
 

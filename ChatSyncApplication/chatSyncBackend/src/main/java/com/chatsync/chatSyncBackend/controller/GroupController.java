@@ -66,4 +66,10 @@ public class GroupController {
         logger.info(LOG_TAG + " getGroupsForUserController called with userId : " + userId);
         return this.groupService.getGroupsForUser(userId);
     }
+
+    @GetMapping("/getUserNotPartOfGroup/{groupId}")
+    public ResponseEntity<?> getUsersNotPartOfGroupController(@PathVariable("groupId") String groupId){
+        logger.info(LOG_TAG + " getUsersNotPartOfGroupController called with groupId : " + groupId);
+        return this.groupService.getUserNotPartOfGroup(groupId);
+    }
 }

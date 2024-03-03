@@ -1,0 +1,10 @@
+.group-global-member-scroll-viewport {
+    height: 625px !important;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.group-global-member-scroll-viewport::-webkit-scrollbar {
+    display: none;
+}

@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/service/auth.service';
 import { GroupMembersInfoComponent } from '../group-members-info/group-members-info.component';
 import { GroupEditComponent } from '../group-edit/group-edit.component';
 import { GroupAddMemberComponent } from '../group-add-member/group-add-member.component';
+import { ConfirmationDialogService } from 'src/app/service/confirmation-dialog.service';
 
 @Component({
   selector: 'app-groups',
@@ -22,7 +23,8 @@ export class GroupsComponent implements OnInit {
 
   constructor(private _authService: AuthService,
     private _apiService: ApiService,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    private _confirmationDialog: ConfirmationDialogService) {
     this.userId = this._authService.getUserId();
   }
 
@@ -88,6 +90,39 @@ export class GroupsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
+  }
+
+  onClickChatWithGroup(groupId: any){
+    this._confirmationDialog.openConfirmationDialog('Are you sure want to start chat ?').then((result) => {
+      if (result) {
+        console.log(`clicked yes for groupId : ${groupId}`)
+      } else {
+        console.log(`clicked no`);
+        return;
+      }
+    })
+  }
+
+  onClickLeaveGroup(groupId: any){
+    this._confirmationDialog.openConfirmationDialog('Are you sure want to leave this group ?').then((result) => {
+      if (result) {
+        console.log(`clicked yes for groupId : ${groupId}`)
+      } else {
+        console.log(`clicked no`);
+        return;
+      }
+    })
+  }
+
+  onClickDeleteGroup(groupId: any){
+    this._confirmationDialog.openConfirmationDialog('Are you sure want to delete this group ?').then((result) => {
+      if (result) {
+        console.log(`clicked yes for groupId : ${groupId}`)
+      } else {
+        console.log(`clicked no`);
+        return;
+      }
+    })
   }
 
 }
