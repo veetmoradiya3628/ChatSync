@@ -23,6 +23,7 @@ public class Messages {
     @Column(name = "message_id")
     private String messageId;
 
+    @Enumerated(EnumType.STRING)
     private MessageTypes messageType;
 
     @ManyToOne
@@ -49,6 +50,7 @@ public class Messages {
 
     private Boolean isDeleted;
 
+    @Enumerated(EnumType.STRING)
     private MessageStatus messageStatus;
 
     @CreationTimestamp

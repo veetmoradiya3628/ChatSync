@@ -22,6 +22,7 @@ public class Threads {
     @Column(name = "thread_id")
     private String threadId;
 
+    @Enumerated(EnumType.STRING)
     private ConversationType conversationType;
 
     @Column(name = "conv_id")
