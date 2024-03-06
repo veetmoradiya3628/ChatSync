@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user.model';
 import { ApiService } from 'src/app/service/api.service';
 import { AuthService } from 'src/app/service/auth.service';
+import { CommonConfigService } from 'src/app/service/common-config.service';
 import { ConfirmationDialogService } from 'src/app/service/confirmation-dialog.service';
 import { GeneralService } from 'src/app/service/general.service';
 
@@ -20,7 +21,8 @@ export class CreateNewGroupComponent implements OnInit {
     private _authService: AuthService,
     private _cdr: ChangeDetectorRef,
     private _generalService: GeneralService,
-    private _confirmationDialog: ConfirmationDialogService) {
+    private _confirmationDialog: ConfirmationDialogService,
+    private _commonConfig: CommonConfigService) {
     this.userId = this._authService.getUserId();
   }
 
@@ -33,6 +35,14 @@ export class CreateNewGroupComponent implements OnInit {
       (res: any) => {
         this.contacts = res.data;
         console.log(this.contacts);
+        this.contacts.forEach((contact: any) => {
+          let contact_detail = contact.contactDetail;
+          if (contact_detail.profileImage === null) {
+            contact_detail.profileImage = this._commonConfig.DEFAULT_AVATAR_IMAGE;
+          } else {
+            contact_detail.profileImage = this._commonConfig.SERVER_URL + contact_detail.profileImage;
+          }
+        })
         this.addedMembers = [];
       },
       (error: any) => {
@@ -103,7 +113,6 @@ export class CreateNewGroupComponent implements OnInit {
               this._generalService.openSnackBar('Error while creating group!!', 'Ok');
             }
           )
-
         } else {
           return;
         }

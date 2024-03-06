@@ -26,8 +26,7 @@
                                 <div fxLayout="row" fxLayoutAlign="space-between center">
                                     <div><mat-card-header>
                                             <div mat-card-avatar>
-                                                <img class="contact-tile-image"
-                                                    src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
+                                                <img class="contact-tile-image" [src]="contact.contactDetail.profileImage" />
                                             </div>
                                             <mat-card-title>{{ contact.contactDetail.firstName }} {{
                                                 contact.contactDetail.lastName }}</mat-card-title>
@@ -48,7 +47,8 @@
                 </mat-card-content>
                 <mat-card-actions>
                     <div fxLayout="row" fxFlexAlign="space-around center">
-                        <button mat-raised-button color="primary" class="mr-10" (click)="onClickCreateGroup()">Create Group</button>
+                        <button mat-raised-button color="primary" class="mr-10" (click)="onClickCreateGroup()">Create
+                            Group</button>
                         <button mat-raised-button color="accent" (click)="onClickReset()">Reset</button>
                     </div>
                 </mat-card-actions>
@@ -68,7 +68,7 @@
                                     <div><mat-card-header>
                                             <div mat-card-avatar>
                                                 <img class="contact-tile-image"
-                                                    src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
+                                                    [src]="contact.contactDetail.profileImage" />
                                             </div>
                                             <mat-card-title>{{ contact.contactDetail.firstName }} {{
                                                 contact.contactDetail.lastName }}</mat-card-title>
@@ -89,6 +89,5 @@
                 </mat-card-content>
             </mat-card>
         </div>
-
     </div>
 </div>

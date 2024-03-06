@@ -8,6 +8,7 @@ import { ConfirmationDialogService } from 'src/app/service/confirmation-dialog.s
 import { GeneralService } from 'src/app/service/general.service';
 import { Subscription } from 'rxjs';
 import { ContactTabService } from '../../service/contact-tab.service';
+import { CommonConfigService } from 'src/app/service/common-config.service';
 
 @Component({
   selector: 'app-global-contacts',
@@ -28,7 +29,8 @@ export class GlobalContactsComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private _confirmationDialog: ConfirmationDialogService,
     private _generalService: GeneralService,
-    private _contactTabService: ContactTabService) {
+    private _contactTabService: ContactTabService,
+    private _commonConfig: CommonConfigService) {
     this.userId = this._authService.getUserId();
     this.subscription = this._contactTabService.tabChanged$.subscribe((index) => {
       if (index === 1) {
@@ -48,9 +50,18 @@ export class GlobalContactsComponent implements OnInit, OnDestroy {
   }
 
   loadgloabalContacts() {
+    console.log('GlobalContactComponet :: loadgloabalContacts')
     this._apiService.getGlobalContactsForUser(this.userId).subscribe(
       (res: any) => {
         this.globalUsers = res.data;
+        console.log(this.globalUsers);
+        this.globalUsers.forEach((contact: any) => {
+          if (contact.profileImage === null) {
+            contact.profileImage = this._commonConfig.DEFAULT_AVATAR_IMAGE;
+          } else {
+            contact.profileImage = this._commonConfig.SERVER_URL + contact.profileImage;
+          }
+        });
         console.log(this.globalUsers);
         if (this.globalUsers) {
           this.selectedUser = this.globalUsers[this.selectedUserIndex];

@@ -15,8 +15,7 @@
                                     <div>
                                         <mat-card-header>
                                             <div mat-card-avatar>
-                                                <img class="contact-tile-image"
-                                                    src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
+                                                <img class="contact-tile-image" [src]="member.profileImage"/>
                                             </div>
                                             <mat-card-title>{{ member.firstName }} {{ member.lastName
                                                 }}</mat-card-title>

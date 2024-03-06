@@ -13,10 +13,7 @@
                                 <div fxLayout="row" fxLayoutAlign="space-between center">
                                     <div><mat-card-header>
                                             <div mat-card-avatar>
-                                                <img *ngIf="contact.profileImage === null" class="contact-tile-image"
-                                                    src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
-                                                <img *ngIf="contact.profileImage !== null" class="contact-tile-image"
-                                                    [src]="contact.profileImage" />
+                                                <img class="contact-tile-image" [src]="contact.profileImage" />
                                             </div>
                                             <mat-card-title>{{ contact.firstName }} {{ contact.lastName
                                                 }}</mat-card-title>
@@ -43,9 +40,7 @@
                     <p class="user-info-header">User Information</p>
                 </div>
                 <div fxFlex="row" fxLayoutAlign="center center">
-                    <img *ngIf="selectedContact.profileImage === null"
-                        src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
-                    <img *ngIf="selectedContact.profileImage !== null" [src]="selectedContact.profileImage" />
+                    <img [src]="selectedContact.profileImage" />
                 </div>
                 <div fxFlex="row" fxLayoutAlign="center center">
                     <div fxFlex="column" fxLayoutAlign="center center">

@@ -13,15 +13,14 @@
                                 <div fxLayout="row" fxLayoutAlign="space-between center">
                                     <div><mat-card-header>
                                             <div mat-card-avatar>
-                                                <img class="contact-tile-image"
-                                                    src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
+                                                <img class="contact-tile-image" [src]="user.profileImage" />
                                             </div>
                                             <mat-card-title>{{ user.firstName }} {{ user.lastName }}</mat-card-title>
                                             <mat-card-subtitle>Contact Status</mat-card-subtitle>
                                         </mat-card-header></div>
                                     <div>
-                                        <button mat-raised-button color="primary"
-                                            class="mr-10" (click)="changeSelecetdUser(i)"><mat-icon>info</mat-icon>
+                                        <button mat-raised-button color="primary" class="mr-10"
+                                            (click)="changeSelecetdUser(i)"><mat-icon>info</mat-icon>
                                             Info</button>
                                     </div>
                                 </div>
@@ -36,8 +35,7 @@
                 <p class="user-info-header">User Information</p>
             </div>
             <div fxFlex="row" fxLayoutAlign="center center">
-                <img
-                    src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
+                <img [src]="selectedUser.profileImage" />
             </div>
             <div fxFlex="row" fxLayoutAlign="center center">
                 <div fxFlex="column" fxLayoutAlign="center center">
@@ -69,8 +67,10 @@
                 </div>
             </div>
             <div fxFlex="row" fxLayoutAlign="center center">
-                <button mat-raised-button color="primary" class="mr-10" (click)="onClickViewGroupsForUser()"><mat-icon>group</mat-icon>Groups</button>
-                <button mat-raised-button class="mr-10" (click)="onClickAddToContact()"><mat-icon>add</mat-icon>Add</button>
+                <button mat-raised-button color="primary" class="mr-10"
+                    (click)="onClickViewGroupsForUser()"><mat-icon>group</mat-icon>Groups</button>
+                <button mat-raised-button class="mr-10"
+                    (click)="onClickAddToContact()"><mat-icon>add</mat-icon>Add</button>
             </div>
         </div>
     </div>

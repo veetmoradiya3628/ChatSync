@@ -1,6 +1,5 @@
 package com.chatsync.chatSyncBackend.dto;
 
-import com.chatsync.chatSyncBackend.model.Messages;
 import com.chatsync.chatSyncBackend.model.utils.ConversationType;
 import lombok.*;
 

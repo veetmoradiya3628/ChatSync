@@ -225,4 +225,12 @@ public class UserServiceImpl implements UserService {
     public boolean isUserExistsById(String userId) {
         return this.userRepository.existsById(userId);
     }
+
+    public void updateUserProfilePath(String userId, String profilePath) {
+        logger.info(LOG_TAG + " updateUserProfilePath called with " + userId + " path: " + profilePath);
+        User user = this.userRepository.findById(userId).get();
+        user.setProfileImage(profilePath);
+        logger.info(LOG_TAG + " user object to be saved : " + user);
+        this.userRepository.save(user);
+    }
 }

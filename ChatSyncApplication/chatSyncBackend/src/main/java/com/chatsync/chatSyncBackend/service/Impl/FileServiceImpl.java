@@ -1,6 +1,7 @@
 package com.chatsync.chatSyncBackend.service.Impl;
 
 import com.chatsync.chatSyncBackend.service.FileService;
+import com.chatsync.chatSyncBackend.utils.FilePathUtils;
 import com.chatsync.chatSyncBackend.utils.ResponseHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,9 +36,11 @@ public class FileServiceImpl implements FileService {
     private String GROUP_PROFILE_PICTURE_UPLOAD_PATH;
 
     private UserServiceImpl userService;
+    private GroupServiceImpl groupService;
 
-    public FileServiceImpl(UserServiceImpl userService) {
+    public FileServiceImpl(UserServiceImpl userService, GroupServiceImpl groupService) {
         this.userService = userService;
+        this.groupService = groupService;
     }
 
 
@@ -56,6 +59,8 @@ public class FileServiceImpl implements FileService {
             Files.copy(file.getInputStream(), Paths.get(USER_PROFILE_PICTURE_UPLOAD_PATH + File.separator + userId + ".jpg"), StandardCopyOption.REPLACE_EXISTING);
 
             // update path in user table for profile
+            String profilePath = FilePathUtils.USER_PROFILE_API_PATH + userId;
+            this.userService.updateUserProfilePath(userId, profilePath);
 
             return ResponseHandler.generateResponse("Profile picture uploaded successfully!!", HttpStatus.OK, null);
         } catch (Exception e) {
@@ -94,6 +99,65 @@ public class FileServiceImpl implements FileService {
             }
         } catch (Exception e) {
             logger.info(LOG_TAG + " getProfileImageView Exception : " + e.getMessage());
+            return ResponseEntity.status(org.springframework.http.HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> uploadGroupProfileHandler(MultipartFile file, String groupId) {
+        try {
+            logger.info(LOG_TAG + " uploadGroupProfileHandler called for groupID : " + groupId);
+
+            // validate groupId
+            if(!this.groupService.isGroupExistsById(groupId)){
+                logger.info(LOG_TAG + " Group with provided groupId not exists!!, userId : " + groupId);
+                return ResponseHandler.generateResponse("Group with provided groupId not exists!!", HttpStatus.NOT_FOUND, null);
+            }
+
+            // upload a groupImage
+            Files.copy(file.getInputStream(), Paths.get(GROUP_PROFILE_PICTURE_UPLOAD_PATH + File.separator + groupId + ".jpg"), StandardCopyOption.REPLACE_EXISTING);
+
+            // update in DB
+            String profilePath = FilePathUtils.GROUP_PROFILE_API_PATH + groupId;
+            this.groupService.updateGroupProfilePath(groupId, profilePath);
+
+            return ResponseHandler.generateResponse("Group profile picture uploaded successfully!!", HttpStatus.OK, null);
+        }catch (Exception e){
+            logger.info(LOG_TAG + " uploadGroupProfileHandler Exception : " + e.getMessage());
+            return ResponseHandler.generateResponse("Exception occured while uploading file", HttpStatus.INTERNAL_SERVER_ERROR, null);
+        }
+    }
+
+    @Override
+    public ResponseEntity<byte[]> getGroupProfileImageView(String groupId) {
+        try {
+            if (this.groupService.isGroupExistsById(groupId)) {
+                Path imagePath = Paths.get(this.GROUP_PROFILE_PICTURE_UPLOAD_PATH).resolve(groupId + ".jpg");
+                Resource imageResource = new UrlResource(imagePath.toUri());
+
+                if (imageResource.exists() && imageResource.isReadable()) {
+                    try (InputStream inputStream = imageResource.getInputStream()) {
+                        byte[] imageBytes = inputStream.readAllBytes();
+
+                        HttpHeaders headers = new HttpHeaders();
+                        headers.setContentType(MediaType.IMAGE_JPEG); // Set appropriate media type based on your image type
+                        headers.setContentLength(imageBytes.length);
+
+                        return new ResponseEntity<>(imageBytes, headers, org.springframework.http.HttpStatus.OK);
+                    } catch (IOException e) {
+                        logger.error(LOG_TAG + " Error reading image file: " + e.getMessage());
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+                    }
+                } else {
+                    logger.info(LOG_TAG + " file not exists with userId : " + groupId);
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+                }
+            } else {
+                logger.info(LOG_TAG + " user not exists with userId : " + groupId);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+        }catch (Exception e){
+            logger.info(LOG_TAG + " getGroupProfileImageView Exception : " + e.getMessage());
             return ResponseEntity.status(org.springframework.http.HttpStatus.NOT_FOUND).body(null);
         }
     }

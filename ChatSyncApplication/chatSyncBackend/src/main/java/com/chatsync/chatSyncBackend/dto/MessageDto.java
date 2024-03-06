@@ -8,5 +8,5 @@ import lombok.*;
 @Builder
 @ToString
 public class MessageDto {
-
+    public String messageId;
 }

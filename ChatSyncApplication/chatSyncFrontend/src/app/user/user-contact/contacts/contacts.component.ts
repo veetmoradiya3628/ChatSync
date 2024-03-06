@@ -8,6 +8,7 @@ import { ConfirmationDialogService } from 'src/app/service/confirmation-dialog.s
 import { Subscription } from 'rxjs';
 import { ContactTabService } from '../../service/contact-tab.service';
 import { GeneralService } from 'src/app/service/general.service';
+import { CommonConfigService } from 'src/app/service/common-config.service';
 
 @Component({
   selector: 'app-contacts',
@@ -27,7 +28,8 @@ export class ContactsComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private _confirmationDialog: ConfirmationDialogService,
     private _generalService: GeneralService,
-    private _contactTabService: ContactTabService) {
+    private _contactTabService: ContactTabService,
+    private _commonConfig: CommonConfigService) {
     this.userId = this._authService.getUserId();
     this.subscription = this._contactTabService.tabChanged$.subscribe((index) => {
       if (index === 0) {
@@ -52,6 +54,15 @@ export class ContactsComponent implements OnInit, OnDestroy {
         const filteredContacts = res.data
           .filter((element: any) => element)
           .map((element: any) => element.contactDetail);
+
+        filteredContacts.forEach((contact: any) => {
+          if (contact.profileImage === null) {
+            contact.profileImage = this._commonConfig.DEFAULT_AVATAR_IMAGE;
+          } else {
+            contact.profileImage = this._commonConfig.SERVER_URL + contact.profileImage;
+          }
+        });
+        console.log(filteredContacts)
 
         this.contacts = filteredContacts;
         console.log(this.contacts)
@@ -99,18 +110,18 @@ export class ContactsComponent implements OnInit, OnDestroy {
         console.log(`clicked yes for contactId : ${contactId} for delete ops`)
 
         let reqObj = {
-          userId : this.userId,
+          userId: this.userId,
           contactId
         }
         console.log(reqObj);
 
         this._apiService.deleteUserFromContact(reqObj).subscribe(
-          (res : any) => {
+          (res: any) => {
             console.log(res);
             this.loadUserContacts();
             this._generalService.openSnackBar('Contact deleted successfully!!', 'Ok')
           },
-          (error : any) => {
+          (error: any) => {
             console.log(error);
             this._generalService.openSnackBar('Error while deleting contact!!', 'Ok')
           }

@@ -344,7 +344,7 @@ public class GroupServiceImpl implements GroupService {
         }
     }
 
-    private boolean isGroupExistsById(String groupId) {
+    public boolean isGroupExistsById(String groupId) {
         return this.groupRepository.findById(groupId).isPresent();
     }
 
@@ -354,5 +354,11 @@ public class GroupServiceImpl implements GroupService {
                 .user(new User(userId))
                 .groupMemberRole(role).build();
         this.groupMembersRepository.save(groupMember);
+    }
+
+    public void updateGroupProfilePath(String groupId, String profilePath) {
+        Group group = this.groupRepository.findById(groupId).get();
+        group.setGroupProfileImage(profilePath);
+        this.groupRepository.save(group);
     }
 }

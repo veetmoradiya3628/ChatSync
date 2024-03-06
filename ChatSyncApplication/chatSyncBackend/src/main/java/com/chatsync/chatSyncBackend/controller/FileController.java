@@ -22,15 +22,28 @@ public class FileController {
 
     @PostMapping("/upload/profilePicture")
     public ResponseEntity<?> uploadProfilePicture(@RequestParam("file") MultipartFile file,
-                                                  @RequestParam String userId){
+                                                  @RequestParam String userId) {
         logger.info(LOG_TAG + " uploadProfilePicture called with userId : " + userId);
         return fileService.uploadUserProfileHandler(file, userId);
     }
 
     @GetMapping("/view/profile/{userId}")
-    public ResponseEntity<byte[]>viewProfileImage(@PathVariable("userId") String userId){
+    public ResponseEntity<byte[]> viewProfileImage(@PathVariable("userId") String userId) {
         logger.info(LOG_TAG + " viewProfileImage called for userId : " + userId);
         return fileService.getProfileImageView(userId);
     }
-    
+
+    @PostMapping("/upload/groupProfile")
+    public ResponseEntity<?> uploadGroupProfile(@RequestParam("file") MultipartFile file,
+                                                @RequestParam String groupId) {
+        logger.info(LOG_TAG + " uploadGroupProfile called for groupId : " + groupId);
+        return fileService.uploadGroupProfileHandler(file, groupId);
+    }
+
+    @GetMapping("/view/groupProfile/{groupId}")
+    public ResponseEntity<byte[]> viewGroupProfileImage(@PathVariable("groupId") String groupId) {
+        logger.info(LOG_TAG + " viewGroupProfileImage called for groupId : " + groupId);
+        return fileService.getGroupProfileImageView(groupId);
+    }
+
 }

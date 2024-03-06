@@ -7,6 +7,7 @@ import { GroupMembersInfoComponent } from '../group-members-info/group-members-i
 import { GroupEditComponent } from '../group-edit/group-edit.component';
 import { GroupAddMemberComponent } from '../group-add-member/group-add-member.component';
 import { ConfirmationDialogService } from 'src/app/service/confirmation-dialog.service';
+import { CommonConfigService } from 'src/app/service/common-config.service';
 
 @Component({
   selector: 'app-groups',
@@ -24,7 +25,8 @@ export class GroupsComponent implements OnInit {
   constructor(private _authService: AuthService,
     private _apiService: ApiService,
     public dialog: MatDialog,
-    private _confirmationDialog: ConfirmationDialogService) {
+    private _confirmationDialog: ConfirmationDialogService,
+    private _commonConfig: CommonConfigService) {
     this.userId = this._authService.getUserId();
   }
 
@@ -37,6 +39,13 @@ export class GroupsComponent implements OnInit {
       (res: any) => {
         console.log(res)
         this.groups = res.data;
+        this.groups.forEach((group: any) => {
+          if(group.groupProfile === null){
+            group.groupProfile = this._commonConfig.DEFAULT_AVATAR_IMAGE;
+          }else{
+            group.groupProfile = this._commonConfig.SERVER_URL + group.groupProfile;
+          }
+        })
         // selected group info handling
         if (this.groups) {
           this.selectedGroup = this.groups[this.selectedGroupIndex];

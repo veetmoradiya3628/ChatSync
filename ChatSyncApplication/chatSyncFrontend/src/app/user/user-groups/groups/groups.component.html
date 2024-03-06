@@ -13,17 +13,17 @@
                                 <div fxLayout="row" fxLayoutAlign="space-between center">
                                     <div><mat-card-header>
                                             <div mat-card-avatar>
-                                                <img class="contact-tile-image"
-                                                    src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
+                                                <img class="contact-tile-image" [src]="group.groupProfile" />
                                             </div>
                                             <mat-card-title>{{ group.groupName }}</mat-card-title>
                                             <mat-card-subtitle>Memebers : {{ group.memberCnt }}</mat-card-subtitle>
                                         </mat-card-header></div>
                                     <div>
-                                        <button mat-raised-button color="accent" class="mr-10" (click)="onClickChatWithGroup(group.groupId)"><mat-icon>chat</mat-icon>
+                                        <button mat-raised-button color="accent" class="mr-10"
+                                            (click)="onClickChatWithGroup(group.groupId)"><mat-icon>chat</mat-icon>
                                             Chat</button>
-                                        <button mat-raised-button color="primary"
-                                            class="mr-10" (click)="changeSelectedGroup(i)"><mat-icon>info</mat-icon>
+                                        <button mat-raised-button color="primary" class="mr-10"
+                                            (click)="changeSelectedGroup(i)"><mat-icon>info</mat-icon>
                                             Info</button>
                                     </div>
                                 </div>
@@ -38,8 +38,7 @@
                 <p class="user-info-header">Group Information</p>
             </div>
             <div fxFlex="row" fxLayoutAlign="center center">
-                <img
-                    src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
+                <img [src]="selectedGroup?.groupProfile" />
             </div>
             <div fxFlex="row" fxLayoutAlign="center center">
                 <div fxFlex="column" fxLayoutAlign="center center">
@@ -70,12 +69,18 @@
                 </div>
             </div>
             <div fxFlex="row" fxLayoutAlign="center center">
-                <button mat-raised-button color="accent" class="mr-10" (click)="onClickChatWithGroup(selectedGroup?.groupId)"><mat-icon>chat</mat-icon>Chat</button>
-                <button mat-raised-button color="primary" class="mr-10" (click)="showMembersInfoForGroup()"><mat-icon>group</mat-icon>Members</button>
+                <button mat-raised-button color="accent" class="mr-10"
+                    (click)="onClickChatWithGroup(selectedGroup?.groupId)"><mat-icon>chat</mat-icon>Chat</button>
+                <button mat-raised-button color="primary" class="mr-10"
+                    (click)="showMembersInfoForGroup()"><mat-icon>group</mat-icon>Members</button>
                 <button mat-raised-button class="mr-10" (click)="editGroup()"><mat-icon>edit</mat-icon>Edit</button>
-                <button mat-raised-button color="primary" class="mr-10" (click)="addNewMember()"><mat-icon>add</mat-icon>Add New Member</button>
-                <button mat-raised-button class="mr-10" color="warn" (click)="onClickLeaveGroup(selectedGroup?.groupId)"><mat-icon>remove</mat-icon>Leave Group</button>
-                <button mat-raised-button class="mr-10" (click)="onClickDeleteGroup(selectedGroup?.groupId)"><mat-icon>delete</mat-icon>Delete Group</button>
+                <button mat-raised-button color="primary" class="mr-10"
+                    (click)="addNewMember()"><mat-icon>add</mat-icon>Add New Member</button>
+                <button mat-raised-button class="mr-10" color="warn"
+                    (click)="onClickLeaveGroup(selectedGroup?.groupId)"><mat-icon>remove</mat-icon>Leave Group</button>
+                <button mat-raised-button class="mr-10"
+                    (click)="onClickDeleteGroup(selectedGroup?.groupId)"><mat-icon>delete</mat-icon>Delete
+                    Group</button>
             </div>
         </div>
     </div>

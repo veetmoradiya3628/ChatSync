@@ -14,14 +14,15 @@
                                     <div>
                                         <mat-card-header>
                                             <div mat-card-avatar>
-                                                <img class="contact-tile-image"
-                                                    src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
+                                                <img class="contact-tile-image" [src]="member.profileImage"/>
                                             </div>
-                                            <mat-card-title>{{ member.firstName }} {{ member.lastName }}</mat-card-title>
+                                            <mat-card-title>{{ member.firstName }} {{ member.lastName
+                                                }}</mat-card-title>
                                             <mat-card-subtitle>isActive : {{ member.isActive }}</mat-card-subtitle>
                                         </mat-card-header>
                                         <mat-card-content>
-                                            <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="10" fxFill>
+                                            <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="10"
+                                                fxFill>
                                                 <div>
                                                     <b>Role: </b> {{ member.role }} |
                                                 </div>
@@ -29,10 +30,12 @@
                                                     <b>E-mail: </b> {{ member.email }} |
                                                 </div>
                                                 <div>
-                                                    <b>Created at : </b> {{ member.createdAt | date:'yyyy/MM/dd h:mm:ss' }} |
-                                                </div> 
+                                                    <b>Created at : </b> {{ member.createdAt | date:'yyyy/MM/dd h:mm:ss'
+                                                    }} |
+                                                </div>
                                                 <div>
-                                                    <b>Updated at : </b> {{ member.updatedAt | date:'yyyy/MM/dd h:mm:ss' }}
+                                                    <b>Updated at : </b> {{ member.updatedAt | date:'yyyy/MM/dd h:mm:ss'
+                                                    }}
                                                 </div>
                                             </div>
                                         </mat-card-content>
