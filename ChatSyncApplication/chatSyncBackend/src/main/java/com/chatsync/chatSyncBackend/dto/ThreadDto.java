@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 @ToString
 public class ThreadDto {
     private String threadId;
+    private String userA;
+    private String userB;
     private ConversationType conversationType;
     private String conversationId;
     private String conversationGroupId;

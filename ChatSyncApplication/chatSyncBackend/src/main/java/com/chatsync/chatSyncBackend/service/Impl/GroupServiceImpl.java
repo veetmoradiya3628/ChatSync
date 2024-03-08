@@ -361,4 +361,15 @@ public class GroupServiceImpl implements GroupService {
         group.setGroupProfileImage(profilePath);
         this.groupRepository.save(group);
     }
+
+    public List<String> getGroupIdsForUser(String userId){
+        logger.info(LOG_TAG + " getGroupIdsForUser called with userId : " + userId);
+        List<GroupMembers> groupMembers = this.groupMembersRepository.getGroupMembersByUser(new User(userId));
+        List<String> groupIds = new ArrayList<>();
+        groupMembers.forEach(groupMember -> {
+            groupIds.add(groupMember.getGroup().getGroupId());
+        });
+        logger.info(LOG_TAG + " groupIds for user : " + groupIds);
+        return groupIds;
+    }
 }
