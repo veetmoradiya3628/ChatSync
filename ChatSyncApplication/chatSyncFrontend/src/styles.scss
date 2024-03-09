@@ -27,6 +27,10 @@ body {
     margin-right: 10px !important;
 }
 
+.mr-20 {
+    margin-right: 20px !important;
+}
+
 .mlr-10 {
     margin-left: 10px !important;
     margin-right: 10px !important;
@@ -50,6 +54,10 @@ body {
 
 .mt-10 {
     margin-top: 10px !important;
+}
+
+.mr-5 {
+    margin-right: 5px !important;
 }
 
 
@@ -172,7 +180,7 @@ body {
     -ms-overflow-style: none;
 }
 
-.create-group-scroll-viewport::-webkit-scrollbar{
+.create-group-scroll-viewport::-webkit-scrollbar {
     display: none;
 }
 
@@ -195,4 +203,22 @@ body {
 
 .p-16 {
     padding: 16px !important;
+}
+
+.circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.online {
+    background-color: green;
+}
+
+.offline {
+    background-color: red;
+}
+
+.message-time-stamp {
+    font-size: 12px !important;
 }

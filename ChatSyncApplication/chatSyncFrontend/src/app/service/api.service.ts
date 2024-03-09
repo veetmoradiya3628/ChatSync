@@ -90,6 +90,12 @@ export class ApiService {
     return this.http.post(url, reqObj);
   }
 
+  // get threads API
+  public getThreadsForUser(userId: string): Observable<any> {
+    const url = this.BASE_URL + '/thread/get-threads/' + userId;
+    return this.http.get(url);
+  }
+
   // upload profile picture for user
   public uploadProfilePicture(file: File, userId: string): Observable<any> {
 

@@ -6,14 +6,25 @@
         <!-- contact lists -->
         <div fxLayout="column">
             <cdk-virtual-scroll-viewport itemSize="10" class="contacts-scroll-viewport">
-                <mat-card class="m-2 contact-tile" *cdkVirtualFor="let index of loopCounter">
+                <mat-card class="m-2 contact-tile" *cdkVirtualFor="let chatThread of chatThreads;let i = index">
                     <mat-card-header>
                         <div mat-card-avatar>
-                            <img class="contact-tile-image"
-                                src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
+                            <img class="contact-tile-image" [src]="chatThread.profileImage" />
                         </div>
-                        <mat-card-title>Contact {{index}} </mat-card-title>
-                        <mat-card-subtitle>Contact Status</mat-card-subtitle>
+                        <mat-card-title>
+                            <div fxLayout="row" fxFlexAlign="start start">
+                                <p class="mr-5">{{ chatThread.conversationName }}</p>
+                                <div *ngIf="chatThread.conversationType === 'ONE_TO_ONE'" class="circle offline mr-5"
+                                    matTooltip="offline"></div>
+                            </div>
+                        </mat-card-title>
+                        <mat-card-subtitle>
+                            <div fxLayout="row" fxLayoutAlign="space-between start">
+                                <div class="mr-20">Lorem ipsum dolor sit.</div>
+                                <div class="message-time-stamp">{{ chatThread.updatedAt | date:'yyyy/MM/dd h:mm:ss' }}
+                                </div>
+                            </div>
+                        </mat-card-subtitle>
                     </mat-card-header>
                     <!-- Chat content or recent messages -->
                     <!-- <mat-card-content>

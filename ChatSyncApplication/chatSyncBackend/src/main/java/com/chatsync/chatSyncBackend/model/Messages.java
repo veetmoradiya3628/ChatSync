@@ -34,8 +34,6 @@ public class Messages {
 
     private String messageRefUrl;
 
-    private LocalDateTime sentAt;
-
     @ManyToOne
     @JoinColumn(name = "thread_id")
     private Threads thread;

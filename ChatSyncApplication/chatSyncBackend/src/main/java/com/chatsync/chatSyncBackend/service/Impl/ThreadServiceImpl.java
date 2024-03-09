@@ -68,6 +68,7 @@ public class ThreadServiceImpl implements ThreadService {
                 // sort the threads based on update timer
                 log.info(LOG_TAG + " threads cnt : " + threads.size());
                 threads.sort(Comparator.comparing(Threads::getUpdatedAt));
+                Collections.reverse(threads);
 
                 // convert to responseDTO
                 List<ThreadDto> resp = convertToThreadDto(threads, userId);
