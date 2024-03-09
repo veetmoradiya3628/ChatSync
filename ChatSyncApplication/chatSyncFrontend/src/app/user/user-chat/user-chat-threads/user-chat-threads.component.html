@@ -14,8 +14,8 @@
                         <mat-card-title>
                             <div fxLayout="row" fxFlexAlign="start start">
                                 <p class="mr-5">{{ chatThread.conversationName }}</p>
-                                <div *ngIf="chatThread.conversationType === 'ONE_TO_ONE'" class="circle offline mr-5"
-                                    matTooltip="offline"></div>
+                                <div *ngIf="chatThread.conversationType === 'ONE_TO_ONE'" class="circle online mr-5"
+                                    matTooltip="online"></div>
                             </div>
                         </mat-card-title>
                         <mat-card-subtitle>

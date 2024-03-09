@@ -205,4 +205,8 @@ public class ThreadServiceImpl implements ThreadService {
         return convIds;
     }
 
+    public Boolean isThreadExistsById(String threadId){
+        return this.threadRepository.findById(threadId).isPresent();
+    }
+
 }

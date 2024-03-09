@@ -48,6 +48,7 @@ import { GroupAddMemberComponent } from './user/user-groups/group-add-member/gro
 import { ContactGroupInfoComponent } from './user/user-contact/contact-group-info/contact-group-info.component';
 import { ConfirmationDialogService } from './service/confirmation-dialog.service';
 import { ConfirmDialogComponent } from './common/confirm-dialog/confirm-dialog.component';
+import { NgxUiLoaderHttpModule, NgxUiLoaderModule } from 'ngx-ui-loader';
 
 @NgModule({
   declarations: [
@@ -100,6 +101,10 @@ import { ConfirmDialogComponent } from './common/confirm-dialog/confirm-dialog.c
     MatTabsModule,
     HttpClientModule,
     FlexLayoutModule,
+    NgxUiLoaderModule,
+    NgxUiLoaderHttpModule.forRoot({
+      showForeground: true
+    })
   ],
   providers: [
     authInterceptorProviders,

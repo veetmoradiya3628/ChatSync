@@ -23,6 +23,10 @@ body {
     margin-left: 2px !important;
 }
 
+.mr-2 {
+    margin-right: 2px !important;
+}
+
 .mr-10 {
     margin-right: 10px !important;
 }
@@ -221,4 +225,16 @@ body {
 
 .message-time-stamp {
     font-size: 12px !important;
+}
+
+.hidden-img-block {
+    display: block;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    visibility: hidden;
+}
+
+.messate-timestamp {
+    font-size: 15px !important;
 }

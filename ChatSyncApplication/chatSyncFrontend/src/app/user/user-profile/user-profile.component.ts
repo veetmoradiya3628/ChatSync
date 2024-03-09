@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserDto } from 'src/app/models/user_dto.model';
 import { ApiService } from 'src/app/service/api.service';
 import { AuthService } from 'src/app/service/auth.service';
+import { CommonConfigService } from 'src/app/service/common-config.service';
 import { GeneralService } from 'src/app/service/general.service';
 
 @Component({
@@ -13,7 +14,7 @@ import { GeneralService } from 'src/app/service/general.service';
 export class UserProfileComponent implements OnInit {
   selectedFile: File | null = null;
   previewImageUrl: string | ArrayBuffer | null = null;
-  
+
   public user_details: UserDto = {};
   public userId!: string;
   public updateUserPasswordForm!: FormGroup;
@@ -21,6 +22,7 @@ export class UserProfileComponent implements OnInit {
   constructor(private _userService: AuthService,
     private _generalService: GeneralService,
     private _apiService: ApiService,
+    private _commonConfig: CommonConfigService,
     private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
@@ -37,6 +39,11 @@ export class UserProfileComponent implements OnInit {
     this._apiService.getUserDetails(this.userId).subscribe(
       (res: any) => {
         this.user_details = res.data;
+        if (this.user_details.profileImage !== null) {
+          this.user_details.profileImage = this._commonConfig.SERVER_URL + this.user_details.profileImage;
+        } else {
+          this.user_details.profileImage = this._commonConfig.DEFAULT_AVATAR_IMAGE;
+        }
         console.log(this.user_details)
       },
       (error: any) => {
@@ -89,7 +96,7 @@ export class UserProfileComponent implements OnInit {
     this.previewImageUrl = null;
   }
 
-  uploadProfilePicture(){
+  uploadProfilePicture() {
     console.log(`upload profile picture called...`)
     if (this.selectedFile) {
       this._apiService.uploadProfilePicture(this.selectedFile, this.userId).subscribe(

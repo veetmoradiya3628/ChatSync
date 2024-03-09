@@ -41,4 +41,8 @@ public class Threads {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    public Threads(String threadId) {
+        this.threadId = threadId;
+    }
 }

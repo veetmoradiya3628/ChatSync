@@ -10,7 +10,6 @@ import { CommonConfigService } from 'src/app/service/common-config.service';
   styleUrls: ['./user-chat-threads.component.css']
 })
 export class UserChatThreadsComponent implements OnInit {
-  loopCounter = Array(20).fill(0).map((x, i) => i); // Creating an array of length 10
   public userId: string = '';
   public chatThreads: Array<ThreadDto> = [];
 
@@ -38,6 +37,7 @@ export class UserChatThreadsComponent implements OnInit {
             thread.profileImage = this._commonConfig.SERVER_URL + thread.profileImage;
           }
         })
+        this.chatThreads = this.chatThreads.concat(this.chatThreads);
       },
       (error: any) => {
         console.log(error);
