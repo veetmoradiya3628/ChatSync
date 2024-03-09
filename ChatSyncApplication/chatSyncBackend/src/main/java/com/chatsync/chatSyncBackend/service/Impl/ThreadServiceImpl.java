@@ -3,6 +3,7 @@ package com.chatsync.chatSyncBackend.service.Impl;
 import com.chatsync.chatSyncBackend.dto.ThreadDto;
 import com.chatsync.chatSyncBackend.model.Group;
 import com.chatsync.chatSyncBackend.model.Threads;
+import com.chatsync.chatSyncBackend.model.User;
 import com.chatsync.chatSyncBackend.model.utils.ConversationType;
 import com.chatsync.chatSyncBackend.repostiroy.ThreadRepository;
 import com.chatsync.chatSyncBackend.service.ThreadService;
@@ -68,7 +69,10 @@ public class ThreadServiceImpl implements ThreadService {
                 log.info(LOG_TAG + " threads cnt : " + threads.size());
                 threads.sort(Comparator.comparing(Threads::getUpdatedAt));
 
-                return ResponseHandler.generateResponse(null, HttpStatus.OK, threads);
+                // convert to responseDTO
+                List<ThreadDto> resp = convertToThreadDto(threads, userId);
+
+                return ResponseHandler.generateResponse(null, HttpStatus.OK, resp);
             }
             log.info(LOG_TAG + " user not exists with userId : " + userId);
             return ResponseHandler.generateResponse("User not exists with userId : " + userId, HttpStatus.NOT_FOUND, null);
@@ -76,6 +80,55 @@ public class ThreadServiceImpl implements ThreadService {
             log.info(LOG_TAG + " exception in getThreadsForUserService : " + e.getMessage());
             return ResponseHandler.generateResponse("Something went wrong!!", HttpStatus.INTERNAL_SERVER_ERROR, null);
         }
+    }
+
+    private List<ThreadDto> convertToThreadDto(List<Threads> threads, String userId) {
+        List<ThreadDto> threadDTOs = new ArrayList<>();
+
+        threads.forEach(thread -> {
+            threadDTOs.add(getThreadDto(thread, userId));
+        });
+
+        return threadDTOs;
+    }
+
+    private ThreadDto getThreadDto(Threads thread, String userId) {
+        log.info(LOG_TAG + " getThreadDto called with thread " + thread);
+        ThreadDto resp = new ThreadDto();
+        ConversationType conversationType = thread.getConversationType();
+        switch (conversationType) {
+            case ONE_TO_ONE :
+                List<String> userIds = List.of(thread.getConversationId().split("_"));
+                log.info(LOG_TAG + " users : " + userIds);
+                User user = null;
+                if (userIds.get(0).equals(userId)){
+                    user = this.userService.getUserByUserId(userIds.get(1));
+                }else if (userIds.get(1).equals(userId)){
+                    user = this.userService.getUserByUserId(userIds.get(0));
+                }
+
+                if (user != null){
+                    resp.setConversationName(user.getFirstName() + " " + user.getLastName());
+                    resp.setProfileImage(user.getProfileImage());
+                }
+
+                resp.setConversationId(thread.getConversationId());
+                resp.setUserA(userId);
+                resp.setUserB(user.getUserId());
+                break;
+            case GROUP:
+                resp.setProfileImage(thread.getConversationGroupId().getGroupProfileImage());
+                resp.setConversationGroupId(thread.getConversationGroupId().getGroupId());
+                resp.setConversationName(thread.getConversationGroupId().getGroupName());
+                resp.setMemberCnt(thread.getConversationGroupId().getMembers().size());
+                break;
+        }
+        resp.setConversationType(thread.getConversationType());
+        resp.setThreadId(thread.getThreadId());
+        resp.setCreatedAt(thread.getCreatedAt());
+        resp.setUpdatedAt(thread.getUpdatedAt());
+        log.info(LOG_TAG + " generated resp ThreadDto : " + resp);
+        return resp;
     }
 
     public ResponseEntity<?> createGroupThread(ThreadDto threadDto) {

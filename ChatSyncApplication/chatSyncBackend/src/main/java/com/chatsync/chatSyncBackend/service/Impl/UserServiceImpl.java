@@ -233,4 +233,8 @@ public class UserServiceImpl implements UserService {
         logger.info(LOG_TAG + " user object to be saved : " + user);
         this.userRepository.save(user);
     }
+
+    public User getUserByUserId(String userId){
+        return this.userRepository.findById(userId).get();
+    }
 }

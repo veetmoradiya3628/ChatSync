@@ -18,7 +18,9 @@ public class ThreadDto {
     private String conversationId;
     private String conversationGroupId;
     private String conversationName;
+    private String profileImage;
     private MessageDto lastMessage;
+    private Integer memberCnt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
