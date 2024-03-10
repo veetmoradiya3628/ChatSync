@@ -28,26 +28,31 @@ export class UserChatThreadsComponent implements OnInit {
   }
 
   public loadChatThreads() {
-    this._apiService.getThreadsForUser(this.userId).subscribe(
-      (res: any) => {
-        console.log(res)
-        this.chatThreads = res.data;
-        console.log(this.chatThreads)
-        this.chatThreads.forEach((thread: any) => {
-          if (thread.profileImage === null) {
-            thread.profileImage = this._commonConfig.DEFAULT_AVATAR_IMAGE;
-          } else {
-            thread.profileImage = this._commonConfig.SERVER_URL + thread.profileImage;
+    if(this._userChatCommonService.threads.length == 0){
+      this._apiService.getThreadsForUser(this.userId).subscribe(
+        (res: any) => {
+          console.log(res)
+          this.chatThreads = res.data;
+          console.log(this.chatThreads)
+          this.chatThreads.forEach((thread: any) => {
+            if (thread.profileImage === null) {
+              thread.profileImage = this._commonConfig.DEFAULT_AVATAR_IMAGE;
+            } else {
+              thread.profileImage = this._commonConfig.SERVER_URL + thread.profileImage;
+            }
+          })
+          if(this.chatThreads.length > 0){
+            this._userChatCommonService.updateSelectedValue(this.chatThreads[0].threadId || '');
+            this._userChatCommonService.threads = this.chatThreads;
           }
-        })
-        if(this.chatThreads.length > 0){
-          this._userChatCommonService.updateSelectedValue(this.chatThreads[0].threadId || '');
+        },
+        (error: any) => {
+          console.log(error);
         }
-      },
-      (error: any) => {
-        console.log(error);
-      }
-    )
+      )
+    }else{
+      this.chatThreads = this._userChatCommonService.getAllThreads();
+    }
   }
 
   onClickThreadTile(threadIdx: string){

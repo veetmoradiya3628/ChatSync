@@ -11,7 +11,7 @@ export interface MessageDto {
     threadId?: string,
     receiverId?: string,
     receiverGroupId?: string,
-    messageDirection: MessageDirection,
+    messageDirection?: MessageDirection,
     messageStatus?: MessageStatus,
     createdAt?: Date,
     updatedAt?: Date

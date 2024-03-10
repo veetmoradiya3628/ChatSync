@@ -4,12 +4,12 @@ export interface ThreadDto {
     threadId?: string,
     userA?: string,
     userB?: string,
-    conversationType: ConversationType,
+    conversationType?: ConversationType,
     conversationId?: string,
     conversationGroupId?: string,
     conversationName?: string,
     profileImage?: string,
-    memberCnt: number,
-    createdAt: Date,
-    updatedAt: Date
+    memberCnt?: number,
+    createdAt?: Date,
+    updatedAt?: Date
 }

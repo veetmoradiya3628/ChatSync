@@ -53,7 +53,7 @@ export class WebsocketService {
   }
 
   sentMessage(message: MessageDto){
-    this.ws.send(this.SEND_MESSAGE_URL, message);
+    this.ws.send(this.SEND_MESSAGE_URL, {}, JSON.stringify(message));
   }
 
   disconnect() {
