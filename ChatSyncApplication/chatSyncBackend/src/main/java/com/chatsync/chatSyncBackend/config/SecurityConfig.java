@@ -58,7 +58,7 @@ public class SecurityConfig {
                 .disable()
                 .authorizeHttpRequests((request) -> {
                     try{
-                        request.requestMatchers("/generate-token", "/ws", "/user/**","/actuator/**", "/contact/**", "/files/**", "/group/**", "/thread/**").permitAll()
+                        request.requestMatchers("/generate-token", "/ws", "/user/**","/actuator/**", "/contact/**", "/files/**", "/group/**", "/thread/**", "/message/**").permitAll()
                                 .anyRequest().authenticated()
                                 .and()
                                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)

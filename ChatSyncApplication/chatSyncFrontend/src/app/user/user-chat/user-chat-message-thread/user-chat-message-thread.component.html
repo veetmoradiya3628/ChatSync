@@ -16,26 +16,24 @@
     <!-- chat message area -->
     <div class="chat-space-area">
         <div fxLayout="column">
-            <cdk-virtual-scroll-viewport itemSize="10" class="message-scroll-viewport">
-                <div *ngFor="let message of messages; let i = index" class="message">
+            <cdk-virtual-scroll-viewport itemSize="10" class="message-scroll-viewport" >
+                <div *ngFor="let message of threadMessages; let i = index" class="message">
                     <!-- center message -->
-                    <div *ngIf="message.sentBy === 'common'">
+                    <div *ngIf="message.messageDirection === 'COMMON'">
                         <div fxLayout="row" fxLayoutAlign="center center" class="mt-5">
-                            {{ message.text }}
+                            {{ message.messageContent }}
                         </div>
                     </div>
                     <!-- received message -->
-                    <div *ngIf="message.sentBy === 'other'">
+                    <div *ngIf="message.messageDirection === 'IN'">
                         <div fxLayout="row" fxLayoutAlign="start start" class="mt-5">
                             <div>
-                                <img [class.hidden-img-block]="!(i > 0 && messages[i - 1].sentBy !== 'other')"
-                                    height="40px" width="40px"
+                                <img height="40px" width="40px"
                                     src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
                             </div>
-                            <div class="message-content ml-2"
-                                [ngClass]="{'sent': message.sentBy === 'other', 'received': message.sentBy !== 'other'}">
+                            <div class="message-content ml-2" [ngClass]="{'sent': message.messageDirection === 'IN'}">
                                 <div fxLayout="column" fxLayoutAlign="start start">
-                                    <div>{{ message.text }}</div>
+                                    <div>{{ message.messageContent }}</div>
                                     <div fxLayout="row" fxLayoutAlign="start start" class="mt-5 messate-timestamp">
                                         10:43 AM, Sent
                                     </div>
@@ -44,21 +42,20 @@
                         </div>
                     </div>
                     <!-- sent message -->
-                    <div *ngIf="message.sentBy === 'user'">
+                    <div *ngIf="message.messageDirection === 'OUT'">
                         <div fxLayout="row" fxLayoutAlign="end start" class="mt-5">
                             <div class="message-content mr-2"
-                                [ngClass]="{'sent': message.sentBy === 'user', 'received': message.sentBy !== 'user'}">
+                                [ngClass]="{'received': message.messageDirection === 'OUT'}">
                                 <div fxLayout="column" fxLayoutAlign="start start">
-                                    <div>{{ message.text }}</div>
+                                    <div>{{ message.messageContent }}</div>
                                     <div fxLayout="row" fxLayoutAlign="end end" class="mt-5 messate-timestamp">
                                         10:43 AM, Sent
                                     </div>
                                 </div>
                             </div>
                             <div>
-                                <img [class.hidden-img-block]="!(i > 0 && messages[i - 1].sentBy !== 'user')"
-                                    height="40px" width="40px"
-                                    src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />        
+                                <img height="40px" width="40px"
+                                    src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" />
                             </div>
                         </div>
                     </div>
@@ -69,7 +66,7 @@
     <!-- message input area -->
     <div class="message-container">
         <mat-form-field appearance="fill" class="message-input">
-            <textarea rows="2" class="input-text-area" matInput placeholder="Type your message"></textarea>
+            <textarea rows="2" [ngModel]="newMessage" class="input-text-area" matInput placeholder="Type your message"></textarea>
         </mat-form-field>
 
         <!-- (change)="onFileSelected($event)" -->
@@ -79,7 +76,7 @@
             <mat-icon>attach_file</mat-icon>
         </button>
 
-        <button mat-icon-button color="primary" class="send-button">
+        <button mat-icon-button color="primary" class="send-button" (click)="sendMessage()">
             <mat-icon>send</mat-icon>
         </button>
     </div>

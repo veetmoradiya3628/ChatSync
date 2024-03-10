@@ -96,6 +96,12 @@ export class ApiService {
     return this.http.get(url);
   }
 
+  // load messages for thread
+  public loadMessagesForThreadAndUser(threadId: string, userId: string, pageNo: number, size: number){
+    const url = `${this.BASE_URL}/message/get-messages/${threadId}/user/${userId}?page=${pageNo}&size=${size}`;
+    return this.http.get(url);
+  }
+
   // upload profile picture for user
   public uploadProfilePicture(file: File, userId: string): Observable<any> {
 

@@ -13,8 +13,8 @@ export interface MessageDto {
     receiverGroupId?: string,
     messageDirection: MessageDirection,
     messageStatus?: MessageStatus,
-    createdAt: Date,
-    updatedAt: Date
+    createdAt?: Date,
+    updatedAt?: Date
 }
 
 

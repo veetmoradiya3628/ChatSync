@@ -1,4 +1,5 @@
 export enum MessageDirection {
-    OUT,
-    IN
+    OUT = 'OUT',
+    IN = 'IN',
+    COMMON = 'COMMON'
 }

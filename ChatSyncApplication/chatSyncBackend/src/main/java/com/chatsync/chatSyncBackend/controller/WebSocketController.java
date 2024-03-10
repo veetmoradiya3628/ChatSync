@@ -1,5 +1,7 @@
 package com.chatsync.chatSyncBackend.controller;
 
+import com.chatsync.chatSyncBackend.dto.MessageDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -16,6 +18,7 @@ import java.time.LocalDateTime;
 
 @Controller
 @CrossOrigin("*")
+@Slf4j
 public class WebSocketController {
 
     private final SimpUserRegistry userRegistry;
@@ -29,9 +32,9 @@ public class WebSocketController {
 
     @MessageMapping("/message")
     @SendTo("/topic/global")
-    public String greeting(String message) throws Exception {
-        System.out.println("message : " + message);
-        return message + " " + LocalDateTime.now();
+    public String sentMessageWSHandler(MessageDto message) throws Exception {
+        log.info("sentMessageWSHandler received message : {}", message);
+        return "message received successfully";
     }
 
     /*

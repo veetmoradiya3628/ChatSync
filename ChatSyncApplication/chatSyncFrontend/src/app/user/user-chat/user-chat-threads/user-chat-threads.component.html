@@ -7,7 +7,7 @@
         <div fxLayout="column">
             <cdk-virtual-scroll-viewport itemSize="10" class="contacts-scroll-viewport">
                 <mat-card class="m-2 contact-tile" *cdkVirtualFor="let chatThread of chatThreads;let i = index">
-                    <mat-card-header>
+                    <mat-card-header (click)="onClickThreadTile(chatThread.threadId)">
                         <div mat-card-avatar>
                             <img class="contact-tile-image" [src]="chatThread.profileImage" />
                         </div>

@@ -1,6 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import * as Stomp from 'stompjs';
 import { AuthService } from './auth.service';
+import { MessageDto } from '../models/message_dto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ export class WebsocketService {
   ws: any;
   private user_email = '';
   connectRef: any;
+  private SEND_MESSAGE_URL = '/app/message';
 
   constructor(private _authService: AuthService) {
     console.log(this._authService.getUserEmail());
@@ -48,6 +50,10 @@ export class WebsocketService {
 
   sentData(data: string) {
     this.ws.send("/app/message", {}, data);
+  }
+
+  sentMessage(message: MessageDto){
+    this.ws.send(this.SEND_MESSAGE_URL, message);
   }
 
   disconnect() {
