@@ -2,6 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import * as Stomp from 'stompjs';
 import { AuthService } from './auth.service';
 import { MessageDto } from '../models/message_dto.model';
+import { WSEvent } from '../models/ws_event';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,9 @@ export class WebsocketService {
   ws: any;
   private user_email = '';
   connectRef: any;
+
+  private GLOBAL_TOPIC = '/topic/global';
+  private PRIVATE_TOPIC = '/topic/private/';
   private SEND_MESSAGE_URL = '/app/message';
 
   constructor(private _authService: AuthService) {
@@ -33,8 +37,8 @@ export class WebsocketService {
           alert("Error " + message.body);
         });
 
-        this.subscribeToTopic("/topic/global");
-        this.subscribeToTopic("/topic/private/" + this.user_email);
+        this.subscribeToTopic(this.GLOBAL_TOPIC);
+        this.subscribeToTopic(this.PRIVATE_TOPIC + this.user_email);
 
       }, function (error: any) {
         alert("STOMP error " + error);
@@ -48,11 +52,7 @@ export class WebsocketService {
     });
   }
 
-  sentData(data: string) {
-    this.ws.send("/app/message", {}, data);
-  }
-
-  sentMessage(message: MessageDto){
+  sentMessage(message: WSEvent) {
     this.ws.send(this.SEND_MESSAGE_URL, {}, JSON.stringify(message));
   }
 

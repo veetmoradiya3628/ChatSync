@@ -40,13 +40,13 @@ public class MessageServiceImpl implements MessageService {
             log.info(LOG_TAG + " sentMessageService called with " + messageDto);
             MessageTypes messageType = messageDto.getMessageType();
             switch (messageType) {
-                case ONE_TO_ONE_TEXT :
+                case ONE_TO_ONE_TEXT:
                     return handleOneToOneTextMessageRequest(messageDto);
                 case GROUP_TEXT:
                     return handleGroupTextMessageRequest(messageDto);
             }
             return ResponseHandler.generateResponse("Messaging not supported!!", HttpStatus.OK, null);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.info(LOG_TAG + " exception in sentMessageService " + e.getMessage());
             return ResponseHandler.generateResponse("Something went wrong!!", HttpStatus.INTERNAL_SERVER_ERROR, null);
         }
@@ -88,7 +88,7 @@ public class MessageServiceImpl implements MessageService {
         String senderId = messageDto.getSenderId();
         String receiverId = messageDto.getReceiverId();
         String threadId = messageDto.getThreadId();
-        if(this.userService.isUserExistsById(senderId) && this.userService.isUserExistsById(receiverId) && this.threadService.isThreadExistsById(threadId)){
+        if (this.userService.isUserExistsById(senderId) && this.userService.isUserExistsById(receiverId) && this.threadService.isThreadExistsById(threadId)) {
 
             // convId validation and thread, if thread not exists in that need to add new thread entry and then will have to proceed
 
@@ -106,7 +106,7 @@ public class MessageServiceImpl implements MessageService {
             message = this.messagesRepository.save(message);
             log.info(LOG_TAG + " saved Message Object : " + message);
             return ResponseHandler.generateResponse("Ok", HttpStatus.OK, message);
-        }else{
+        } else {
             log.info(LOG_TAG + " Sender, receiver or thread is not valid");
             return ResponseHandler.generateResponse("Sender, receiver or thread is not valid", HttpStatus.NOT_ACCEPTABLE, null);
         }
@@ -117,9 +117,9 @@ public class MessageServiceImpl implements MessageService {
     }
 
     private MessageDirection getMessageDirection(Messages message, String userId) {
-        if (message.getSender().getUserId().equals(userId)){
+        if (message.getSender().getUserId().equals(userId)) {
             return MessageDirection.OUT;
-        }else{
+        } else {
             return MessageDirection.IN;
         }
     }

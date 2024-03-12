@@ -1,6 +1,8 @@
 package com.chatsync.chatSyncBackend.controller;
 
+import com.chatsync.chatSyncBackend.WSUtils.WSEvent;
 import com.chatsync.chatSyncBackend.dto.MessageDto;
+import com.chatsync.chatSyncBackend.service.WSEventHandlerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -23,18 +25,19 @@ public class WebSocketController {
 
     private final SimpUserRegistry userRegistry;
     private final SimpMessagingTemplate messagingTemplate;
+    private final WSEventHandlerService wsEventHandlerService;
 
-    public WebSocketController(SimpUserRegistry userRegistry, SimpMessagingTemplate messagingTemplate) {
+    public WebSocketController(SimpUserRegistry userRegistry, SimpMessagingTemplate messagingTemplate, WSEventHandlerService wsEventHandlerService) {
         this.userRegistry = userRegistry;
         this.messagingTemplate = messagingTemplate;
+        this.wsEventHandlerService = wsEventHandlerService;
     }
 
 
     @MessageMapping("/message")
-    @SendTo("/topic/global")
-    public String sentMessageWSHandler(MessageDto message) throws Exception {
+    public void sentMessageWSHandler(WSEvent message) throws Exception {
         log.info("sentMessageWSHandler received message : {}", message);
-        return "message received successfully";
+        this.wsEventHandlerService.handleWSMessageEvent(message);
     }
 
     /*

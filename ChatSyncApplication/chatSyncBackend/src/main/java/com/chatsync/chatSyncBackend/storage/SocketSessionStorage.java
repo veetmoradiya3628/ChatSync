@@ -2,9 +2,11 @@ package com.chatsync.chatSyncBackend.storage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+@Component
 public class SocketSessionStorage {
     private static final String LOG_TAG = "SocketSessionStorage";
     static Logger logger = LoggerFactory.getLogger(SocketSessionStorage.class);
@@ -39,5 +41,9 @@ public class SocketSessionStorage {
         }
         logger.info(LOG_TAG + " userSessions after remove : " + userSessionMap);
         logger.info(LOG_TAG + " online users : " + onlineUsers);
+    }
+
+    public boolean isUserOnline(String username){
+        return onlineUsers.contains(username);
     }
 }
