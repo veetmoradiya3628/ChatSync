@@ -4,6 +4,7 @@ import com.chatsync.chatSyncBackend.WSUtils.WSEvent;
 import com.chatsync.chatSyncBackend.dto.MessageDto;
 import com.chatsync.chatSyncBackend.service.WSEventHandlerService;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -35,9 +36,10 @@ public class WebSocketController {
 
 
     @MessageMapping("/message")
-    public void sentMessageWSHandler(WSEvent message) throws Exception {
+    public void sentMessageWSHandler(String message) throws Exception {
         log.info("sentMessageWSHandler received message : {}", message);
-        this.wsEventHandlerService.handleWSMessageEvent(message);
+        JSONObject reqObj = new JSONObject(message);
+        this.wsEventHandlerService.handleWSMessageEvent(reqObj);
     }
 
     /*

@@ -69,4 +69,8 @@ export class UserChatCommonServiceService {
   checkMapContainsThread(threadId: string): boolean {
     return this.messageMap.has(threadId);
   }
+
+  addMessageToThread(threadId: string, message: MessageDto){
+    this.messageMap.get(threadId)?.unshift(message);
+  }
 }

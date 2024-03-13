@@ -90,8 +90,6 @@ export class UserChatMessageThreadComponent implements OnInit, OnDestroy {
 
       this.newMessage = '';
 
-      
-
     } else if (this.selectedThreadInfo.conversationType == ConversationType.GROUP) {
       console.log(`group message yet to implement`);
     }

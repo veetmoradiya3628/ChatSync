@@ -3,6 +3,7 @@ import * as Stomp from 'stompjs';
 import { AuthService } from './auth.service';
 import { MessageDto } from '../models/message_dto.model';
 import { WSEvent } from '../models/ws_event';
+import { UserChatCommonServiceService } from '../user/user-chat/user-chat-common-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class WebsocketService {
   private PRIVATE_TOPIC = '/topic/private/';
   private SEND_MESSAGE_URL = '/app/message';
 
-  constructor(private _authService: AuthService) {
+  constructor(private _authService: AuthService, public _chatCommonService: UserChatCommonServiceService) {
     console.log(this._authService.getUserEmail());
     this.user_email = this._authService.getUserEmail() || '';
   }
@@ -37,8 +38,8 @@ export class WebsocketService {
           alert("Error " + message.body);
         });
 
-        this.subscribeToTopic(this.GLOBAL_TOPIC);
-        this.subscribeToTopic(this.PRIVATE_TOPIC + this.user_email);
+        this.subscribeToTopic();
+        this.subscribeToUserTopic();
 
       }, function (error: any) {
         alert("STOMP error " + error);
@@ -46,10 +47,25 @@ export class WebsocketService {
     });
   }
 
-  subscribeToTopic(topicName: string) {
-    this.connectRef.ws.subscribe(topicName, function (message: any) {
+  subscribeToTopic() {
+    this.connectRef.ws.subscribe(this.GLOBAL_TOPIC, function (message: any) {
       console.log(message)
     });
+  }
+
+  subscribeToUserTopic() {
+    this.connectRef.ws.subscribe(this.PRIVATE_TOPIC + this.user_email,  (message: any) => {
+      console.log(message.body);
+      let eventObject = JSON.parse(message.body);
+      this.processOneToOneReceivedMessage(eventObject);
+    });
+  }
+
+  processOneToOneReceivedMessage(eventObject: any){
+    if (eventObject.messageType === 'ONE_TO_ONE_TEXT') {
+      console.log(`processing one to one event`);
+      this._chatCommonService.addMessageToThread(eventObject.threadId, eventObject);
+    }
   }
 
   sentMessage(message: WSEvent) {
