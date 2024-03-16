@@ -123,4 +123,29 @@ public class MessageServiceImpl implements MessageService {
             return MessageDirection.IN;
         }
     }
+
+    public Messages saveOneToOneMessage(MessageDto messageDto) {
+        String senderId = messageDto.getSenderId();
+        String receiverId = messageDto.getReceiverId();
+        String threadId = messageDto.getThreadId();
+        if (this.userService.isUserExistsById(senderId) && this.userService.isUserExistsById(receiverId) && this.threadService.isThreadExistsById(threadId)) {
+
+            // convId validation and thread, if thread not exists in that need to add new thread entry and then will have to proceed
+
+            Messages message = Messages.builder()
+                    .messageType(messageDto.getMessageType())
+                    .messageContent(messageDto.getMessageContent())
+                    .isDeleted(false)
+                    .sender(new User(senderId))
+                    .receiver(new User(receiverId))
+                    .thread(new Threads(threadId))
+                    .messageStatus(MessageStatus.SENT)
+                    .build();
+
+            log.info(LOG_TAG + " created Message Object to be stored : " + message);
+            return this.messagesRepository.save(message);
+        } else {
+            return null;
+        }
+    }
 }

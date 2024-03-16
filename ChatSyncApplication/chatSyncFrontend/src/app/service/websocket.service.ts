@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { MessageDto } from '../models/message_dto.model';
 import { WSEvent } from '../models/ws_event';
 import { UserChatCommonServiceService } from '../user/user-chat/user-chat-common-service.service';
+import { WSNotificationTypes } from '../models/enums/ws_notification_types.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -54,18 +55,34 @@ export class WebsocketService {
   }
 
   subscribeToUserTopic() {
-    this.connectRef.ws.subscribe(this.PRIVATE_TOPIC + this.user_email,  (message: any) => {
+    this.connectRef.ws.subscribe(this.PRIVATE_TOPIC + this.user_email, (message: any) => {
       console.log(message.body);
-      let eventObject = JSON.parse(message.body);
-      this.processOneToOneReceivedMessage(eventObject);
+      let respObject = JSON.parse(message.body);
+      this.processOneToOneReceivedWSMessage(respObject);
     });
   }
 
-  processOneToOneReceivedMessage(eventObject: any){
-    if (eventObject.messageType === 'ONE_TO_ONE_TEXT') {
-      console.log(`processing one to one event`);
-      this._chatCommonService.addMessageToThread(eventObject.threadId, eventObject);
+  processOneToOneReceivedWSMessage(respObject: any) {
+    let wsNotificationType: WSNotificationTypes = respObject["eventType"];
+    switch (wsNotificationType) {
+      case WSNotificationTypes.RECEIVE_ONE_TO_ONE_TEXT_CONFIRM:
+        this.processOneToOneTextMessageConfirm(respObject.eventObject);
+        break;
+      case WSNotificationTypes.RECEIVE_ONE_TO_ONE_TEXT_MESSAGE:
+        this.processOneToOneReceivedMessage(respObject.eventObject);
     }
+  }
+
+  processOneToOneTextMessageConfirm(eventObj: any) {
+    console.log(`processOneToOneTextMessageConfirm :: start`);
+    console.log(eventObj)
+    this._chatCommonService.addMessageToThread(eventObj.threadId, eventObj);
+  }
+
+  processOneToOneReceivedMessage(eventObj: any) {
+    console.log(`processOneToOneReceivedMessage :: start`);
+    console.log(eventObj);
+    this._chatCommonService.addMessageToThread(eventObj.threadId, eventObj);
   }
 
   sentMessage(message: WSEvent) {
