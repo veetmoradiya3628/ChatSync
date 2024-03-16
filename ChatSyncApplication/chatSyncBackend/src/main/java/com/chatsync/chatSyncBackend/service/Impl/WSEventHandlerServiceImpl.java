@@ -1,11 +1,8 @@
 package com.chatsync.chatSyncBackend.service.Impl;
 
-import com.chatsync.chatSyncBackend.WSUtils.WSEvent;
 import com.chatsync.chatSyncBackend.WSUtils.WSNotificationTypes;
-import com.chatsync.chatSyncBackend.WSUtils.messageevents.TextMessageEvent;
 import com.chatsync.chatSyncBackend.dto.MessageDto;
 import com.chatsync.chatSyncBackend.model.MessageDirection;
-import com.chatsync.chatSyncBackend.model.Messages;
 import com.chatsync.chatSyncBackend.model.utils.MessageStatus;
 import com.chatsync.chatSyncBackend.model.utils.MessageTypes;
 import com.chatsync.chatSyncBackend.service.WSEventHandlerService;
@@ -61,7 +58,7 @@ public class WSEventHandlerServiceImpl implements WSEventHandlerService {
 
         // sending to receiver user
         String receiverId = (String) eventObj.get("to");
-        this.notificationService.sendEventToUser(receiverId, message);
+        this.notificationService.sendEventToUser(receiverId, message.toString());
 
         // sending dto to sender user
         String senderId = (String) eventObj.get("from");

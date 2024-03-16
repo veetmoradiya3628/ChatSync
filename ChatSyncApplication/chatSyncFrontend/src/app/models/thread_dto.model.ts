@@ -10,6 +10,7 @@ export interface ThreadDto {
     conversationName?: string,
     profileImage?: string,
     memberCnt?: number,
+    pendingToReadMessageCnt?: number,
     createdAt?: Date,
     updatedAt?: Date
 }

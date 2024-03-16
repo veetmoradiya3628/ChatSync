@@ -22,6 +22,12 @@
                             {{ message.messageContent }}
                         </div>
                     </div>
+                    <!-- new message start -->
+                    <div *ngIf="message.messageDirection === 'NEW_MESSAGE_START'">
+                        <div class="message-separator">
+                            <span class="separator-text">New Messages</span>
+                        </div>
+                    </div>
                     <!-- received message -->
                     <div *ngIf="message.messageDirection === 'IN'">
                         <div fxLayout="row" fxLayoutAlign="start start" class="mt-5">

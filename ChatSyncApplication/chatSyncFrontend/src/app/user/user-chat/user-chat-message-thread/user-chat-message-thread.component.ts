@@ -11,6 +11,7 @@ import { WSNotificationTypes } from 'src/app/models/enums/ws_notification_types.
 import { TextMessageEvent } from 'src/app/models/ws-events/text-event.model';
 import { v4 as uuidv4 } from 'uuid';
 import { ConversationType } from 'src/app/models/enums/conversation_types.enum';
+import { GeneralService } from 'src/app/service/general.service';
 
 @Component({
   selector: 'app-user-chat-message-thread',
@@ -29,7 +30,8 @@ export class UserChatMessageThreadComponent implements OnInit, OnDestroy {
   constructor(private _userChatCommonService: UserChatCommonServiceService,
     private _apiService: ApiService,
     private _authService: AuthService,
-    private _wsService: WebsocketService) {
+    private _wsService: WebsocketService,
+    private _generalService: GeneralService) {
     this.subscription = this._userChatCommonService.selectedThreadValueSubject$.subscribe(
       (value: any) => {
         this.selectedThreadIdx = value;
@@ -69,29 +71,36 @@ export class UserChatMessageThreadComponent implements OnInit, OnDestroy {
 
   sendMessage() {
     console.log(`sendMessage :: called`)
-    console.log(this.selectedThreadInfo);
-    if (this.selectedThreadInfo.conversationType == ConversationType.ONE_TO_ONE) {
-      console.log(`one to one message thread`);
+    console.log(this.selectedThreadInfo)
+    if (this.newMessage !== '') {
+      if (this.selectedThreadInfo.conversationType == ConversationType.ONE_TO_ONE) {
+        console.log(`one to one message thread`);
 
-      let receiverIds = this.selectedThreadInfo.conversationId?.split('_');
-      console.log(`receiverIds : ${receiverIds}`);
+        let receiverIds = this.selectedThreadInfo.conversationId?.split('_');
+        console.log(`receiverIds : ${receiverIds}`);
 
-      let receiverId = '';
-      receiverIds?.forEach(id => {
-        if(id !== this.userId){
-          receiverId = id;
-        }
-      })
-      
-      let textMessage: TextMessageEvent = new TextMessageEvent(this.selectedThreadIdx, this.userId, receiverId, this.newMessage, new Date(), true);
-      let messageObj: WSEvent = new WSEvent(uuidv4(), WSNotificationTypes.SENT_ONE_TO_ONE_TEXT_MESSAGE, textMessage);
-      console.log(messageObj)
-      this._wsService.sentMessage(messageObj)
+        let receiverId = '';
+        receiverIds?.forEach(id => {
+          if (id !== this.userId) {
+            receiverId = id;
+          }
+        })
 
-      this.newMessage = '';
+        let textMessage: TextMessageEvent = new TextMessageEvent(this.selectedThreadIdx, this.userId, receiverId, this.newMessage, new Date(), true);
+        let messageObj: WSEvent = new WSEvent(uuidv4(), WSNotificationTypes.SENT_ONE_TO_ONE_TEXT_MESSAGE, textMessage);
+        console.log(messageObj)
+        this._wsService.sentMessage(messageObj)
 
-    } else if (this.selectedThreadInfo.conversationType == ConversationType.GROUP) {
-      console.log(`group message yet to implement`);
+        this.newMessage = '';
+
+        // update the thread position to zero
+        this._userChatCommonService.updateThreadToPositionZero(this.selectedThreadIdx, textMessage.sentAt);
+
+      } else if (this.selectedThreadInfo.conversationType == ConversationType.GROUP) {
+        console.log(`group message yet to implement`);
+      }
+    } else {
+      this._generalService.openSnackBar('please provide valid message to sent!!', 'Ok');
     }
   }
 

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { MessageDirection } from 'src/app/models/enums/message_direction.enum';
 import { MessageDto } from 'src/app/models/message_dto.model';
 import { ThreadDto } from 'src/app/models/thread_dto.model';
 
@@ -7,10 +8,14 @@ import { ThreadDto } from 'src/app/models/thread_dto.model';
   providedIn: 'root'
 })
 export class UserChatCommonServiceService {
-  private selectedThreadValueSubject = new BehaviorSubject<string>('0');
   private messageMap: Map<string, Array<MessageDto>>;
   public threads: Array<ThreadDto>;
+  
+  private selectedThreadValueSubject = new BehaviorSubject<string>('0');
   public selectedThreadValueSubject$ = this.selectedThreadValueSubject.asObservable();
+
+  private threadsSubject = new BehaviorSubject<Array<ThreadDto>>([]);
+  threads$ = this.threadsSubject.asObservable();
 
   constructor() {
     this.threads = [];
@@ -19,7 +24,7 @@ export class UserChatCommonServiceService {
 
   // utility methods for threads
 
-  addNewThread(thread: ThreadDto){
+  addNewThread(thread: ThreadDto) {
     this.threads.push(thread);
   }
 
@@ -34,11 +39,23 @@ export class UserChatCommonServiceService {
     }
   }
 
+  updateThreadToPositionZero(selectedThreadIdx: string, lastMessageSentAt: Date) {
+    const idx = this.threads.findIndex((thread) => thread.threadId === selectedThreadIdx);
+    if (idx !== -1) {
+      const threadToMove = this.threads.splice(idx, 1)[0];
+      threadToMove.updatedAt = lastMessageSentAt;
+      this.threads.unshift(threadToMove);
+
+      this.threadsSubject.next(this.threads);
+    }
+  }
+
   findThreadById(threadId: string): ThreadDto | undefined {
     return this.threads.find((thread) => thread.threadId === threadId);
   }
 
   getAllThreads(): Array<ThreadDto> {
+    console.log(`called :: getAllThreads`);
     return this.threads;
   }
 
@@ -70,7 +87,14 @@ export class UserChatCommonServiceService {
     return this.messageMap.has(threadId);
   }
 
-  addMessageToThread(threadId: string, message: MessageDto){
+  addMessageToThread(threadId: string, message: MessageDto) {
+    // add new message indicator
+
+    // const newMessage: MessageDto = {
+    //   messageDirection: MessageDirection.NEW_MESSAGE_START,
+    //   senderId: 'null'
+    // };
+    // this.messageMap.get(threadId)?.unshift(newMessage);
     this.messageMap.get(threadId)?.unshift(message);
   }
 }

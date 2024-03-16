@@ -6,7 +6,7 @@
         <!-- contact lists -->
         <div fxLayout="column">
             <cdk-virtual-scroll-viewport itemSize="10" class="contacts-scroll-viewport">
-                <mat-card class="m-2 contact-tile" *cdkVirtualFor="let chatThread of chatThreads;let i = index">
+                <mat-card class="m-2" [class.highlighted-card]="false" *cdkVirtualFor="let chatThread of chatThreads;let i = index">
                     <mat-card-header (click)="onClickThreadTile(chatThread.threadId)">
                         <div mat-card-avatar>
                             <img class="contact-tile-image" [src]="chatThread.profileImage" />
@@ -16,6 +16,9 @@
                                 <p class="mr-5">{{ chatThread.conversationName }}</p>
                                 <div *ngIf="chatThread.conversationType === 'ONE_TO_ONE'" class="circle online mr-5"
                                     matTooltip="online"></div>
+                                <!-- penbding message cnt component -->
+                                <div *ngIf="chatThread.pendingToReadMessageCnt > 0" class="pending-message-circle ml-30">
+                                {{ chatThread.pendingToReadMessageCnt }}</div>
                             </div>
                         </mat-card-title>
                         <mat-card-subtitle>
