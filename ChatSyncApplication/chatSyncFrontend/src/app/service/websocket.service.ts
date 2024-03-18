@@ -70,6 +70,13 @@ export class WebsocketService {
         break;
       case WSNotificationTypes.RECEIVE_ONE_TO_ONE_TEXT_MESSAGE:
         this.processOneToOneReceivedMessage(respObject.eventObject);
+        break;
+      case WSNotificationTypes.RECEIVE_GROUP_TEXT_MESSAGE_CONFIRM:
+        this.processGroupMessageConfirm(respObject.eventObject);
+        break;
+      case WSNotificationTypes.RECEIVE_GROUP_TEXT_MESSAGE:
+        this.processGroupReceivedMessage(respObject.eventObject);
+        break;
     }
   }
 
@@ -79,8 +86,20 @@ export class WebsocketService {
     this._chatCommonService.addMessageToThread(eventObj.threadId, eventObj);
   }
 
+  processGroupMessageConfirm(eventObj: any){
+    console.log(`processGroupMessageConfirm :: start`);
+    console.log(eventObj)
+    this._chatCommonService.addMessageToThread(eventObj.threadId, eventObj);
+  }
+
   processOneToOneReceivedMessage(eventObj: any) {
     console.log(`processOneToOneReceivedMessage :: start`);
+    console.log(eventObj);
+    this._chatCommonService.addMessageToThread(eventObj.threadId, eventObj);
+  }
+
+  processGroupReceivedMessage(eventObj: any) {
+    console.log(`processGroupReceivedMessage :: start`);
     console.log(eventObj);
     this._chatCommonService.addMessageToThread(eventObj.threadId, eventObj);
   }

@@ -1,10 +1,8 @@
 package com.chatsync.chatSyncBackend.service.Impl;
 
 import com.chatsync.chatSyncBackend.dto.MessageDto;
-import com.chatsync.chatSyncBackend.model.MessageDirection;
-import com.chatsync.chatSyncBackend.model.Messages;
-import com.chatsync.chatSyncBackend.model.Threads;
-import com.chatsync.chatSyncBackend.model.User;
+import com.chatsync.chatSyncBackend.model.*;
+import com.chatsync.chatSyncBackend.model.utils.ConversationType;
 import com.chatsync.chatSyncBackend.model.utils.MessageStatus;
 import com.chatsync.chatSyncBackend.model.utils.MessageTypes;
 import com.chatsync.chatSyncBackend.repostiroy.MessagesRepository;
@@ -27,11 +25,13 @@ public class MessageServiceImpl implements MessageService {
     private UserServiceImpl userService;
     private ThreadServiceImpl threadService;
     private MessagesRepository messagesRepository;
+    private GroupServiceImpl groupService;
 
-    public MessageServiceImpl(UserServiceImpl userService, ThreadServiceImpl threadService, MessagesRepository messagesRepository) {
+    public MessageServiceImpl(UserServiceImpl userService, ThreadServiceImpl threadService, MessagesRepository messagesRepository, GroupServiceImpl groupService) {
         this.userService = userService;
         this.threadService = threadService;
         this.messagesRepository = messagesRepository;
+        this.groupService = groupService;
     }
 
     @Override
@@ -57,23 +57,44 @@ public class MessageServiceImpl implements MessageService {
         try {
             log.info("{} getMessagesForThreadService called with threadId: {}, page: {} and size : {} by userId : {}", LOG_TAG, threadId, page, size, userId);
             if (this.threadService.isThreadExistsById(threadId)) {
-                Pageable pageable = PageRequest.of(page, size);
-                Page<Messages> messages = this.messagesRepository.findByThreadOrderByCreatedAtDesc(new Threads(threadId), pageable);
-                Page<MessageDto> resp = messages.map((message) -> MessageDto.builder()
-                        .messageId(message.getMessageId())
-                        .messageType(message.getMessageType())
-                        .messageContent(message.getMessageContent())
-                        .messageDirection(getMessageDirection(message, userId))
-                        .messageStatus(message.getMessageStatus())
-                        .messageRefUrl(message.getMessageRefUrl())
-                        .receiverId(message.getReceiver().getUserId())
-                        .senderId(message.getSender().getUserId())
-                        .threadId(message.getThread().getThreadId())
-                        .createdAt(message.getCreatedAt())
-                        .updatedAt(message.getUpdatedAt())
-                        .build());
 
-                return ResponseHandler.generateResponse("Ok", HttpStatus.OK, resp);
+                ConversationType conversationType = this.threadService.getConversationTypeForThread(threadId);
+
+                if (conversationType == ConversationType.ONE_TO_ONE) {
+                    Pageable pageable = PageRequest.of(page, size);
+                    Page<Messages> messages = this.messagesRepository.findByThreadOrderByCreatedAtDesc(new Threads(threadId), pageable);
+                    Page<MessageDto> resp = messages.map((message) -> MessageDto.builder()
+                            .messageId(message.getMessageId())
+                            .messageType(message.getMessageType())
+                            .messageContent(message.getMessageContent())
+                            .messageDirection(getMessageDirection(message, userId))
+                            .messageStatus(message.getMessageStatus())
+                            .messageRefUrl(message.getMessageRefUrl())
+                            .receiverId(message.getReceiver().getUserId())
+                            .senderId(message.getSender().getUserId())
+                            .threadId(message.getThread().getThreadId())
+                            .createdAt(message.getCreatedAt())
+                            .updatedAt(message.getUpdatedAt())
+                            .build());
+                    return ResponseHandler.generateResponse("Ok", HttpStatus.OK, resp);
+                } else {
+                    Pageable pageable = PageRequest.of(page, size);
+                    Page<Messages> messages = this.messagesRepository.findByThreadOrderByCreatedAtDesc(new Threads(threadId), pageable);
+                    Page<MessageDto> resp = messages.map((message) -> MessageDto.builder()
+                            .messageId(message.getMessageId())
+                            .messageType(message.getMessageType())
+                            .messageContent(message.getMessageContent())
+                            .messageDirection(getMessageDirection(message, userId))
+                            .messageStatus(message.getMessageStatus())
+                            .messageRefUrl(message.getMessageRefUrl())
+                            .receiverGroupId(message.getReceiverGroup().getGroupId()) // groupId was giving error
+                            .senderId(message.getSender().getUserId())
+                            .threadId(message.getThread().getThreadId())
+                            .createdAt(message.getCreatedAt())
+                            .updatedAt(message.getUpdatedAt())
+                            .build());
+                    return ResponseHandler.generateResponse("Ok", HttpStatus.OK, resp);
+                }
             } else {
                 log.info("{} thread not exists with threadId : {}", LOG_TAG, threadId);
                 return ResponseHandler.generateResponse("Thread not exists with provided threadId", HttpStatus.NOT_FOUND, null);
@@ -145,6 +166,27 @@ public class MessageServiceImpl implements MessageService {
             log.info(LOG_TAG + " created Message Object to be stored : " + message);
             return this.messagesRepository.save(message);
         } else {
+            return null;
+        }
+    }
+
+    public Messages saveGroupMessage(String senderId, String receiverGroupId, String messageContent, String threadId) {
+        log.info("{} saveGroupMessage called...", LOG_TAG);
+        if (this.threadService.isThreadExistsById(threadId) && this.userService.isUserExistsById(senderId) && this.groupService.isGroupExistsById(receiverGroupId)) {
+            Messages message = Messages.builder()
+                    .messageType(MessageTypes.GROUP_TEXT)
+                    .messageContent(messageContent)
+                    .isDeleted(false)
+                    .sender(new User(senderId))
+                    .receiverGroup(new Group(receiverGroupId))
+                    .thread(new Threads(threadId))
+                    .messageStatus(MessageStatus.SENT)
+                    .build();
+
+            log.info(LOG_TAG + " created group Message Object to be stored : " + message);
+            return this.messagesRepository.save(message);
+        } else {
+            log.info("{} something wrong is request parameter...", LOG_TAG);
             return null;
         }
     }

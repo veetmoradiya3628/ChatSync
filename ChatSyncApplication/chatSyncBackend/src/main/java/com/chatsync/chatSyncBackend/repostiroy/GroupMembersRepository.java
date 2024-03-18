@@ -17,6 +17,8 @@ public interface GroupMembersRepository extends JpaRepository<GroupMembers, Stri
 
     List<GroupMembers> getGroupMembersByUser(User user);
 
+    List<GroupMembers> getGroupMembersByGroup(Group group);
+
     @Query(value = "SELECT count(*) from tbl_group_members where group_id = :groupId", nativeQuery = true)
     Integer getMembersCountForGroup(@Param("groupId") String groupId);
 }

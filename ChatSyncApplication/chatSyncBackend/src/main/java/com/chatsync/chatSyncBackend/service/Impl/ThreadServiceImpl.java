@@ -209,4 +209,7 @@ public class ThreadServiceImpl implements ThreadService {
         return this.threadRepository.findById(threadId).isPresent();
     }
 
+    public ConversationType getConversationTypeForThread(String threadId) {
+        return this.threadRepository.findById(threadId).get().getConversationType();
+    }
 }

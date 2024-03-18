@@ -372,4 +372,8 @@ public class GroupServiceImpl implements GroupService {
         logger.info(LOG_TAG + " groupIds for user : " + groupIds);
         return groupIds;
     }
+
+    public List<GroupMembers> getMembersForGroup(String groupId){
+        return this.groupMembersRepository.getGroupMembersByGroup(new Group(groupId));
+    }
 }

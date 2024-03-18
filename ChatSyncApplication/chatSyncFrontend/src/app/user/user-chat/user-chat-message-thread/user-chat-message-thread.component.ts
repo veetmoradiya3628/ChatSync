@@ -97,7 +97,20 @@ export class UserChatMessageThreadComponent implements OnInit, OnDestroy {
         this._userChatCommonService.updateThreadToPositionZero(this.selectedThreadIdx, textMessage.sentAt);
 
       } else if (this.selectedThreadInfo.conversationType == ConversationType.GROUP) {
-        console.log(`group message yet to implement`);
+        console.log(`group message thread`);
+
+        let receiverGroupId = this.selectedThreadInfo.conversationGroupId || '';
+        console.log(`receiver group Id : ${receiverGroupId}`);
+
+        let textMessage: TextMessageEvent = new TextMessageEvent(this.selectedThreadIdx, this.userId, receiverGroupId, this.newMessage, new Date(), false);
+        let messageObj: WSEvent = new WSEvent(uuidv4(), WSNotificationTypes.SENT_GROUP_TEXT_MESSAGE, textMessage);
+        console.log(messageObj)
+        this._wsService.sentMessage(messageObj)
+
+        this.newMessage = '';
+
+        // update the thread position to zero
+        this._userChatCommonService.updateThreadToPositionZero(this.selectedThreadIdx, textMessage.sentAt);
       }
     } else {
       this._generalService.openSnackBar('please provide valid message to sent!!', 'Ok');
