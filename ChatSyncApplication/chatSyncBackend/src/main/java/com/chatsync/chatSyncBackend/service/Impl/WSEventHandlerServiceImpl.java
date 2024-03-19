@@ -96,6 +96,8 @@ public class WSEventHandlerServiceImpl implements WSEventHandlerService {
         groupMembers.forEach(member -> {
             if (!member.getUser().getUserId().equals(savedMessage.getSender().getUserId())) {
                 String receiverId = member.getUser().getUserId();
+                String senderName = this.userService.getUserFullNameByUserId(savedMessage.getSender().getUserId());
+
 
                 MessageDto receiverMessageDto = MessageDto.builder()
                         .messageType(MessageTypes.GROUP_TEXT)
@@ -107,6 +109,7 @@ public class WSEventHandlerServiceImpl implements WSEventHandlerService {
                         .updatedAt(savedMessage.getUpdatedAt())
                         .messageId(savedMessage.getMessageId())
                         .threadId(savedMessage.getThread().getThreadId())
+                        .messageSenderName(senderName)
                         .build();
 
                 JSONObject receiverObj = new JSONObject();

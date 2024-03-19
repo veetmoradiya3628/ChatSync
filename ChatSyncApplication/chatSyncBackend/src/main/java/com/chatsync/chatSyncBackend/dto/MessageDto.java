@@ -21,6 +21,7 @@ public class MessageDto {
     public String threadId;
     public String receiverId;
     public String receiverGroupId;
+    public String messageSenderName;
     public MessageDirection messageDirection;
     public MessageStatus messageStatus;
     public LocalDateTime createdAt;

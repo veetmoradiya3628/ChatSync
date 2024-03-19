@@ -11,6 +11,13 @@ export interface ThreadDto {
     profileImage?: string,
     memberCnt?: number,
     pendingToReadMessageCnt?: number,
+    isReadPedning?: boolean,
     createdAt?: Date,
     updatedAt?: Date
 }
+
+const defaultThreadDto: Partial<ThreadDto> = {
+    memberCnt: 0,
+    pendingToReadMessageCnt: 0,
+    isReadPedning: false,
+};

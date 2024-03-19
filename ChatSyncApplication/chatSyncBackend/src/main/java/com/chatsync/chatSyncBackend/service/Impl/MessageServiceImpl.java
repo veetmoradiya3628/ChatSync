@@ -89,6 +89,7 @@ public class MessageServiceImpl implements MessageService {
                             .messageRefUrl(message.getMessageRefUrl())
                             .receiverGroupId(message.getReceiverGroup().getGroupId()) // groupId was giving error
                             .senderId(message.getSender().getUserId())
+                            .messageSenderName(this.userService.getUserFullNameByUserId(message.getSender().getUserId()))
                             .threadId(message.getThread().getThreadId())
                             .createdAt(message.getCreatedAt())
                             .updatedAt(message.getUpdatedAt())

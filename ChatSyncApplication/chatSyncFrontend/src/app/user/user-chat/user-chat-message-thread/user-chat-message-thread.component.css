@@ -33,3 +33,8 @@
     background: #fff; 
     padding: 0 10px; 
 }
+
+.sender-name {
+    margin-left: 3px !important;
+    margin-bottom: 3px !important;
+}
