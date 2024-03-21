@@ -18,23 +18,27 @@
     display: flex;
     align-items: center;
     text-align: center;
-    margin: 10px 0; 
+    margin: 10px 0;
 }
 
 .separator-text {
     flex: 1;
-    border-bottom: 1px solid #ccc; 
+    border-bottom: 1px solid #ccc;
     line-height: 0.1em;
-    color: #555; 
-    margin: 0 10px; 
+    color: #555;
+    margin: 0 10px;
 }
 
 .separator-text span {
-    background: #fff; 
-    padding: 0 10px; 
+    background: #fff;
+    padding: 0 10px;
 }
 
 .sender-name {
     margin-left: 3px !important;
     margin-bottom: 3px !important;
+}
+
+.sender-profile-image {
+  border-radius: 50%;
 }

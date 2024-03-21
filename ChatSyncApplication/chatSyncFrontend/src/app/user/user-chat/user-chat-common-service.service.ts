@@ -1,10 +1,13 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { MessageDirection } from 'src/app/models/enums/message_direction.enum';
-import { MessageDto } from 'src/app/models/message_dto.model';
-import { ThreadDto } from 'src/app/models/thread_dto.model';
-import { ApiService } from 'src/app/service/api.service';
-import { AuthService } from 'src/app/service/auth.service';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
+import {MessageDirection} from 'src/app/models/enums/message_direction.enum';
+import {MessageDto} from 'src/app/models/message_dto.model';
+import {ThreadDto} from 'src/app/models/thread_dto.model';
+import {ApiService} from 'src/app/service/api.service';
+import {AuthService} from 'src/app/service/auth.service';
+import {GeneralService} from "../../service/general.service";
+import {MessageTypes} from "../../models/enums/message_types.enum";
+import {MessageStatus} from "../../models/enums/message_status.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +25,7 @@ export class UserChatCommonServiceService {
   private threadsSubject = new BehaviorSubject<Array<ThreadDto>>([]);
   threads$ = this.threadsSubject.asObservable();
 
-  constructor(private _apiService: ApiService, public _authService: AuthService) {
+  constructor(private _apiService: ApiService, public _authService: AuthService, public _generalService: GeneralService) {
     this.threads = [];
     this.messageMap = new Map<string, Array<MessageDto>>;
     this.userId = this._authService.getUserId();
@@ -69,6 +72,14 @@ export class UserChatCommonServiceService {
 
   updateSelectedValue(threadId: string): void {
     this.selectedThreadIdx = threadId;
+
+    let thread: any = this.findThreadById(threadId);
+    if (thread !== undefined && thread.pendingToReadMessageCnt > 0){
+      thread.pendingToReadMessageCnt = 0;
+      thread.isReadPedning = false;
+    }
+    this.updateThread(thread);
+
     this.selectedThreadValueSubject.next(threadId);
   }
 
@@ -94,13 +105,14 @@ export class UserChatCommonServiceService {
     return this.messageMap.has(threadId);
   }
 
-  addMessageToThread(threadId: string, message: MessageDto) {
+  async addMessageToThread(threadId: string, message: MessageDto) {
     // add new message indicator
-
     if (this.selectedThreadIdx !== '' && this.selectedThreadIdx !== threadId) {
       // if messageMap not have thread with messages then first add those in message thread map
       if (!this.messageMap.has(threadId)) {
-        this.messageMap.set(threadId, [...this.getMessagesForThread(threadId)]);
+        const messages = await this.getMessagesForThread(threadId);
+        messages.shift();
+        this.messageMap.set(threadId, messages);
       }
 
       let thread: any = this.findThreadById(threadId) || {};
@@ -115,20 +127,32 @@ export class UserChatCommonServiceService {
 
       thread.pendingToReadMessageCnt = thread.pendingToReadMessageCnt + 1;
     }
+    message.messageStatus = MessageStatus.SENT;
+
     this.messageMap.get(threadId)?.unshift(message);
     this.updateThreadToPositionZero(threadId, new Date());
+
+    // message receive notification
+    if (this.selectedThreadIdx !== threadId) {
+      switch (message.messageType) {
+        case MessageTypes.ONE_TO_ONE_TEXT:
+          this._generalService.openSnackBar("One to One message received!!", 'Ok')
+          break
+        case MessageTypes.GROUP_TEXT:
+          this._generalService.openSnackBar("Group message received!!", 'Ok')
+          break
+      }
+    }
   }
 
-  public getMessagesForThread(threadId: string): Array<MessageDto> {
-    this._apiService.loadMessagesForThreadAndUser(threadId, this.userId, 0, 100).subscribe(
-      (res: any) => {
-        console.log(res);
-        return res.data.content;
-      },
-      (error: any) => {
-        console.log(error);
-      }
-    )
-    return [];
+  public async getMessagesForThread(threadId: string): Promise<Array<MessageDto>> {
+    try {
+      const res: any = await this._apiService.loadMessagesForThreadAndUser(threadId, this.userId, 0, 100).toPromise();
+      console.log(res);
+      return res.data.content;
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
   }
 }

@@ -1,17 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UserChatCommonServiceService } from '../user-chat-common-service.service';
-import { Subscription } from 'rxjs/internal/Subscription';
-import { MessageDto } from 'src/app/models/message_dto.model';
-import { ApiService } from 'src/app/service/api.service';
-import { AuthService } from 'src/app/service/auth.service';
-import { WebsocketService } from 'src/app/service/websocket.service';
-import { ThreadDto } from 'src/app/models/thread_dto.model';
-import { WSEvent } from 'src/app/models/ws_event';
-import { WSNotificationTypes } from 'src/app/models/enums/ws_notification_types.enum';
-import { TextMessageEvent } from 'src/app/models/ws-events/text-event.model';
-import { v4 as uuidv4 } from 'uuid';
-import { ConversationType } from 'src/app/models/enums/conversation_types.enum';
-import { GeneralService } from 'src/app/service/general.service';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {UserChatCommonServiceService} from '../user-chat-common-service.service';
+import {Subscription} from 'rxjs/internal/Subscription';
+import {MessageDto} from 'src/app/models/message_dto.model';
+import {ApiService} from 'src/app/service/api.service';
+import {AuthService} from 'src/app/service/auth.service';
+import {WebsocketService} from 'src/app/service/websocket.service';
+import {ThreadDto} from 'src/app/models/thread_dto.model';
+import {WSEvent} from 'src/app/models/ws_event';
+import {WSNotificationTypes} from 'src/app/models/enums/ws_notification_types.enum';
+import {TextMessageEvent} from 'src/app/models/ws-events/text-event.model';
+import {v4 as uuidv4} from 'uuid';
+import {ConversationType} from 'src/app/models/enums/conversation_types.enum';
+import {GeneralService} from 'src/app/service/general.service';
+import {MessageDirection} from "../../../models/enums/message_direction.enum";
 
 @Component({
   selector: 'app-user-chat-message-thread',
@@ -27,11 +28,13 @@ export class UserChatMessageThreadComponent implements OnInit, OnDestroy {
   public selectedThreadInfo!: ThreadDto;
   public newMessage: string = '';
 
+  @ViewChild('scrollMessageContainer') scrollMessageContainer!: ElementRef;
+
   constructor(private _userChatCommonService: UserChatCommonServiceService,
-    private _apiService: ApiService,
-    private _authService: AuthService,
-    private _wsService: WebsocketService,
-    private _generalService: GeneralService) {
+              private _apiService: ApiService,
+              private _authService: AuthService,
+              private _wsService: WebsocketService,
+              private _generalService: GeneralService) {
     this.subscription = this._userChatCommonService.selectedThreadValueSubject$.subscribe(
       (value: any) => {
         this.selectedThreadIdx = value;
@@ -58,7 +61,7 @@ export class UserChatMessageThreadComponent implements OnInit, OnDestroy {
             this.threadMessages = res.data.content;
             console.log(this.threadMessages);
             this._userChatCommonService.addThreadToMap(this.selectedThreadIdx, this.threadMessages);
-            // this.threadMessages = this.threadMessages.reverse(); 
+            // this.threadMessages = this.threadMessages.reverse();
           },
           (error: any) => {
             console.log(error);
@@ -112,6 +115,7 @@ export class UserChatMessageThreadComponent implements OnInit, OnDestroy {
         // update the thread position to zero
         this._userChatCommonService.updateThreadToPositionZero(this.selectedThreadIdx, textMessage.sentAt);
       }
+
     } else {
       this._generalService.openSnackBar('please provide valid message to sent!!', 'Ok');
     }
@@ -130,4 +134,7 @@ export class UserChatMessageThreadComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  onMessageContainerScroll() {
+    console.log(`reached at end!!`)
+  }
 }

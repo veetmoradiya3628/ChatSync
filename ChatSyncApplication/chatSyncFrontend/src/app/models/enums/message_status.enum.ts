@@ -1,4 +1,4 @@
 export enum MessageStatus {
-    SENT,
-    RECEIVED
+    SENT='SENT',
+    RECEIVED='RECEIVED'
 }
