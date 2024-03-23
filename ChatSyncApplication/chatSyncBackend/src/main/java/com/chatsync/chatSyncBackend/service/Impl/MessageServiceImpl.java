@@ -8,6 +8,7 @@ import com.chatsync.chatSyncBackend.model.utils.MessageTypes;
 import com.chatsync.chatSyncBackend.repostiroy.MessagesRepository;
 import com.chatsync.chatSyncBackend.service.MessageService;
 import com.chatsync.chatSyncBackend.utils.ResponseHandler;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 
 @Service
 @Slf4j
+@Transactional
 public class MessageServiceImpl implements MessageService {
     private final String LOG_TAG = "MessageServiceImpl";
     private UserServiceImpl userService;
@@ -172,6 +174,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     public Messages saveGroupMessage(String senderId, String receiverGroupId, String messageContent, String threadId) {
+        log.info("senderId : {}, receiverGroupId : {}, messageContent : {}, threadId : {}", senderId, receiverGroupId, messageContent, threadId);
         log.info("{} saveGroupMessage called...", LOG_TAG);
         if (this.threadService.isThreadExistsById(threadId) && this.userService.isUserExistsById(senderId) && this.groupService.isGroupExistsById(receiverGroupId)) {
             Messages message = Messages.builder()

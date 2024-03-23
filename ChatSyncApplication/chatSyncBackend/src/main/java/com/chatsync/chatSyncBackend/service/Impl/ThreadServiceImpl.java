@@ -2,9 +2,11 @@ package com.chatsync.chatSyncBackend.service.Impl;
 
 import com.chatsync.chatSyncBackend.dto.ThreadDto;
 import com.chatsync.chatSyncBackend.model.Group;
+import com.chatsync.chatSyncBackend.model.Messages;
 import com.chatsync.chatSyncBackend.model.Threads;
 import com.chatsync.chatSyncBackend.model.User;
 import com.chatsync.chatSyncBackend.model.utils.ConversationType;
+import com.chatsync.chatSyncBackend.repostiroy.MessagesRepository;
 import com.chatsync.chatSyncBackend.repostiroy.ThreadRepository;
 import com.chatsync.chatSyncBackend.service.ThreadService;
 import com.chatsync.chatSyncBackend.service.UserService;
@@ -27,11 +29,14 @@ public class ThreadServiceImpl implements ThreadService {
     private final String LOG_TAG = "ThreadServiceImpl";
 
     private ThreadRepository threadRepository;
+
+    private MessagesRepository messagesRepository;
     private GroupServiceImpl groupService;
     private UserServiceImpl userService;
 
-    public ThreadServiceImpl(ThreadRepository threadRepository, GroupServiceImpl groupService, UserServiceImpl userService) {
+    public ThreadServiceImpl(ThreadRepository threadRepository, MessagesRepository messagesRepository, GroupServiceImpl groupService, UserServiceImpl userService) {
         this.threadRepository = threadRepository;
+        this.messagesRepository = messagesRepository;
         this.groupService = groupService;
         this.userService = userService;
     }

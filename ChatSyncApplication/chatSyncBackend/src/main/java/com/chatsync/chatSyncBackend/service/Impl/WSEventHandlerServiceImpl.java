@@ -41,8 +41,10 @@ public class WSEventHandlerServiceImpl implements WSEventHandlerService {
             switch (notificationType) {
                 case SENT_ONE_TO_ONE_TEXT_MESSAGE:
                     processOneToOneTextMessageEvent(message);
+                    break;
                 case SENT_GROUP_TEXT_MESSAGE:
                     processGroupTextMessageEvent(message);
+                    break;
             }
         } catch (Exception e) {
             log.info(LOG_TAG + " Exception in handleWSMessageEvent : " + e.getMessage());

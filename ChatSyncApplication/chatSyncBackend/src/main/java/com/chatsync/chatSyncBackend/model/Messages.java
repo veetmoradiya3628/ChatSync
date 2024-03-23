@@ -4,6 +4,7 @@ import com.chatsync.chatSyncBackend.model.utils.MessageStatus;
 import com.chatsync.chatSyncBackend.model.utils.MessageTypes;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -17,7 +18,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @ToString
+@Slf4j
 public class Messages {
+
+    public static String LOG_TAG = "Messages";
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "message_id")
@@ -56,4 +61,9 @@ public class Messages {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @PostPersist
+    public void afterMessageSaved(){
+        log.info(LOG_TAG + " afterMessageSaved called with : " + this);
+    }
 }
