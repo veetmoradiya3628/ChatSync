@@ -130,6 +130,87 @@ Login / Logout:
 
 Messaging APIs:
 
+
+===
+WS event flow for below usecases
+
+tbl_messages
+tbl_notifications
+
+===
+1. One to One message sent from ClientA to ClientB 
+
+flow:
+ClientA - sender
+ClientB - receiver
+
+Client A send a message on ws endpoint
+Once server recieved the event, 
+	- it will process and store message in DB with status as SENT and confirm DR to clientA
+	- check for ClientB presence status:
+		if online:
+			send notification to clientB, then #2 on clientB
+        elif offline:
+			save notification in tbl_notifications for clientB with status as pending and pendingCnt as 3
+
+===
+2. One to One message received on ClientA sent from ClientB
+
+flow:
+ClientA - receiver
+ClientB - sender
+
+Client A receive a message on ws endpoint, will update message thread data with received message and sent DR for received message
+Once server recieved the DR event, 
+	- it will update message status in DB as delivered
+	- if sender is online then it will sent message status update event as delivered to sender, else it won't do anything as in next iteration when client will load data latest status of message will get it in the threads.
+
+===
+3. Group message sent from ClientA on GroupA
+flow:
+ClientA - sender
+GroupA - group on which client sent a message
+
+ClientA send a message on ws endpoint, 
+Once server received the message, 
+	- it will store it in messages table and sent message saved on server DR to the sender
+    - async mode server will get list of members of group, for each member of group,
+		if member is online:
+			sent message on ws to member
+		else:
+			save notification in tbl_notifications for clientB with status as pending and pendingCnt as 3
+
+===
+4. Receive message on GroupA from clientB on ClientA
+flow: as per #2 with minor change
+
+===
+5. Pending Messages available on client which are on inactive thread and then user selects that thread
+
+flow:
+client should sent read event with list of messageIds, threadId and senderId on ws endpoint,
+once server receives the event:
+	if thread type is one to one:
+		update message status as delivered for the messages & if sender is online then sent delivered DR to the sender for message
+	for each messageId:
+		remove notification from tbl_notifications if exists for that user who has sent a read confirmation on the thread.
+
+===
+6. Pending messages received to be sync to client when he was offline and becomes online
+flow:
+Once client become online / logged in then once threads are loaded then client should sent one event as present status online to ws path
+Server once it receives a event then it should get pending messages notifications from tbl_notification and sent it to the client in delay of 100 ms that will give a feel of real time sync to the user (this will be async activity).
+on receiving messages on client, after that the read flow is as #2 and #4.
+Note: Need to check for edge cases and be careful on notifications and messages
+
+===
+7. Clean up of successful delivered notifications from tbl_notifications.
+flow:
+In some periodic time interval cronjob will run and it will perform as below,
+	- check for notification status from tbl_notifications if notification is fully consumed and completed then it will be removed from tbl_notifications as part of clean up activity.
+Note: we can move it to backup table as well if required to be used for data analysis purpose.
+
+
 Get history threads for user - pagination - (50 per page)
 Get Messages for one thread - pagination (100 per page)
 Delete Message
