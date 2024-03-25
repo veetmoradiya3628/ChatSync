@@ -5,6 +5,8 @@ import { AuthService } from 'src/app/service/auth.service';
 import { CommonConfigService } from 'src/app/service/common-config.service';
 import { ConfirmationDialogService } from 'src/app/service/confirmation-dialog.service';
 import { GeneralService } from 'src/app/service/general.service';
+import {Subscription} from "rxjs";
+import {GroupTabService} from "../../service/group-tab.service";
 
 @Component({
   selector: 'app-create-new-group',
@@ -16,14 +18,24 @@ export class CreateNewGroupComponent implements OnInit {
   public userId: string;
   public contacts: Array<User> = [];
   public addedMembers: Array<User> = [];
+  private subscription: Subscription;
+
 
   constructor(private _apiService: ApiService,
     private _authService: AuthService,
     private _cdr: ChangeDetectorRef,
     private _generalService: GeneralService,
     private _confirmationDialog: ConfirmationDialogService,
-    private _commonConfig: CommonConfigService) {
+    private _commonConfig: CommonConfigService,
+              private _groupTabService: GroupTabService) {
     this.userId = this._authService.getUserId();
+    this.subscription = this._groupTabService.tabChanged$.subscribe((index) => {
+      console.log(index)
+      if (index === 1) {
+        // Reload your component method here
+        this.loadContactsForUser();
+      }
+    });
   }
 
   ngOnInit(): void {

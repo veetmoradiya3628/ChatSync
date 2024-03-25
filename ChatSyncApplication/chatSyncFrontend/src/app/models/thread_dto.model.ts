@@ -12,12 +12,16 @@ export interface ThreadDto {
     memberCnt?: number,
     pendingToReadMessageCnt?: number,
     isReadPending?: boolean,
+    lastLoadedPageNumber?: number,
+    isLastPage?: boolean,
     createdAt?: Date,
     updatedAt?: Date
 }
 
 const defaultThreadDto: Partial<ThreadDto> = {
-    memberCnt: 0,
-    pendingToReadMessageCnt: 0,
-    isReadPending: false,
+  memberCnt: 0,
+  pendingToReadMessageCnt: 0,
+  isReadPending: false,
+  lastLoadedPageNumber: 1,
+  isLastPage: false
 };

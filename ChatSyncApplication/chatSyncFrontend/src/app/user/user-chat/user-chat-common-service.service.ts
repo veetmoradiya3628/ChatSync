@@ -46,7 +46,13 @@ export class UserChatCommonServiceService {
     if (index !== -1) {
       this.threads[index] = updatedThread;
     }
+    this.threadsSubject.next(this.threads);
   }
+
+  getThreadReadStatus(threadId: string){
+    return this.findThreadById(threadId)?.isReadPending || false;
+  }
+
 
   updateThreadToPositionZero(selectedThreadIdx: string, lastMessageSentAt: Date) {
     const idx = this.threads.findIndex((thread) => thread.threadId === selectedThreadIdx);
@@ -71,16 +77,8 @@ export class UserChatCommonServiceService {
   // utility methods for thread and message mapping
 
   updateSelectedValue(threadId: string): void {
-    this.selectedThreadIdx = threadId;
-
-    let thread: any = this.findThreadById(threadId);
-    if (thread !== undefined && thread.pendingToReadMessageCnt > 0){
-      thread.pendingToReadMessageCnt = 0;
-      thread.isReadPedning = false;
-    }
-    this.updateThread(thread);
-
-    this.selectedThreadValueSubject.next(threadId);
+      this.selectedThreadIdx = threadId;
+      this.selectedThreadValueSubject.next(threadId);
   }
 
   addThreadToMap(threadId: string, messages: Array<MessageDto>) {
@@ -154,5 +152,33 @@ export class UserChatCommonServiceService {
       console.log(error);
       return [];
     }
+  }
+
+  public removeNewMessageIndicator(selectedThreadIdx: string) {
+    console.log(`going for clean up of message from thread: ${selectedThreadIdx}`)
+    let messages = this.messageMap.get(selectedThreadIdx);
+    let filteredMessages = messages?.filter(message => message.messageDirection !==  MessageDirection.NEW_MESSAGE_START) || []
+    this.messageMap.set(selectedThreadIdx, [...filteredMessages]);
+    return filteredMessages;
+  }
+
+  public markThreadInfoAsRead(threadId: string) {
+    let thread: any = this.findThreadById(threadId);
+    if (thread !== undefined && thread.pendingToReadMessageCnt > 0){
+      thread.pendingToReadMessageCnt = 0;
+      thread.isReadPedning = false;
+    }
+    this.updateThread(thread);
+  }
+
+  public async loadFirstPageMessageForThreads() {
+    console.log(`loadFirstPageMessageForThreads started...`)
+    for (const thread of this.threads) {
+      if(thread.threadId){
+        const messages = await this.getMessagesForThread(thread.threadId);
+        this.messageMap.set(thread.threadId, messages);
+      }
+    }
+    console.log(`loadFirstPageMessageForThreads finished...`)
   }
 }

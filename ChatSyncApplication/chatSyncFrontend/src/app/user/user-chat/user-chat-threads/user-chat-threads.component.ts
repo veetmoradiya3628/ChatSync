@@ -51,6 +51,8 @@ export class UserChatThreadsComponent implements OnInit, OnDestroy {
           if (this.chatThreads.length > 0) {
             this._userChatCommonService.updateSelectedValue(this.chatThreads[0].threadId || '');
             this._userChatCommonService.threads = this.chatThreads;
+
+            this._userChatCommonService.loadFirstPageMessageForThreads();
           }
         },
         (error: any) => {

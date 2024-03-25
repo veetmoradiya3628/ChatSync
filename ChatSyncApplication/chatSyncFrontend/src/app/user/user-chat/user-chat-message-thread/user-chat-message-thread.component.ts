@@ -12,7 +12,6 @@ import {TextMessageEvent} from 'src/app/models/ws-events/text-event.model';
 import {v4 as uuidv4} from 'uuid';
 import {ConversationType} from 'src/app/models/enums/conversation_types.enum';
 import {GeneralService} from 'src/app/service/general.service';
-import {MessageDirection} from "../../../models/enums/message_direction.enum";
 
 @Component({
   selector: 'app-user-chat-message-thread',
@@ -136,5 +135,12 @@ export class UserChatMessageThreadComponent implements OnInit, OnDestroy {
 
   onMessageContainerScroll() {
     console.log(`reached at end!!`)
+    // mark as read and change pending read cnt to 0
+    this._userChatCommonService.markThreadInfoAsRead(this.selectedThreadIdx);
+    // remove if any new message indicator message is present first then go ahead for next set of messages
+    this.threadMessages = [...this._userChatCommonService.removeNewMessageIndicator(this.selectedThreadIdx)];
+
+    // need to load next page of messages
+
   }
 }

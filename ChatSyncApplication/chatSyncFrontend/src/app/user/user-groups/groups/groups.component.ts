@@ -8,6 +8,8 @@ import { GroupEditComponent } from '../group-edit/group-edit.component';
 import { GroupAddMemberComponent } from '../group-add-member/group-add-member.component';
 import { ConfirmationDialogService } from 'src/app/service/confirmation-dialog.service';
 import { CommonConfigService } from 'src/app/service/common-config.service';
+import {Subscription} from "rxjs";
+import {GroupTabService} from "../../service/group-tab.service";
 
 @Component({
   selector: 'app-groups',
@@ -21,13 +23,23 @@ export class GroupsComponent implements OnInit {
   public groups: Array<UserGroupDto> = [];
   public selectedGroup: UserGroupDto | undefined;
   public selectedGroupIndex = 0;
+  private subscription: Subscription;
+
 
   constructor(private _authService: AuthService,
     private _apiService: ApiService,
     public dialog: MatDialog,
     private _confirmationDialog: ConfirmationDialogService,
-    private _commonConfig: CommonConfigService) {
+    private _commonConfig: CommonConfigService,
+              private _groupTabService: GroupTabService) {
     this.userId = this._authService.getUserId();
+    this.subscription = this._groupTabService.tabChanged$.subscribe((index) => {
+      console.log(index)
+      if (index === 0) {
+        // Reload your component method here
+        this.loadGroupsForUser();
+      }
+    });
   }
 
   ngOnInit(): void {

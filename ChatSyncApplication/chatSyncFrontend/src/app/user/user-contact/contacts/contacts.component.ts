@@ -16,7 +16,7 @@ import { CommonConfigService } from 'src/app/service/common-config.service';
   styleUrls: ['./contacts.component.css']
 })
 export class ContactsComponent implements OnInit, OnDestroy {
-  // loopCounter = Array(20).fill(0).map((x, i) => i); // Creating an array of length 10 
+  // loopCounter = Array(20).fill(0).map((x, i) => i); // Creating an array of length 10
   public userId: string = '1';
   public contacts: Array<UserDto> = [];
   public selectedContact: UserDto = {};
@@ -76,7 +76,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
     )
   }
 
-  changeSelecetdContact(userIdx: any) {
+  changeSelectedContact(userIdx: any) {
     this.selectedContactIndex = userIdx;
     this.selectedContact = this.contacts[this.selectedContactIndex];
   }
