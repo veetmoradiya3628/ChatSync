@@ -1,4 +1,4 @@
-package com.chatsync.chatSyncBackend.WSUtils;
+package com.chatsync.chatSyncBackend.utils.wsutils;
 
 import lombok.Data;
 import org.json.JSONObject;

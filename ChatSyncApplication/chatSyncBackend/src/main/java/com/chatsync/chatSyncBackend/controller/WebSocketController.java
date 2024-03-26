@@ -1,13 +1,10 @@
 package com.chatsync.chatSyncBackend.controller;
 
-import com.chatsync.chatSyncBackend.WSUtils.WSEvent;
-import com.chatsync.chatSyncBackend.dto.MessageDto;
 import com.chatsync.chatSyncBackend.service.WSEventHandlerService;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.user.SimpUser;
 import org.springframework.messaging.simp.user.SimpUserRegistry;

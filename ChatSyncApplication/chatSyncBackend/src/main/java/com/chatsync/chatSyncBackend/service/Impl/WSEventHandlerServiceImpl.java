@@ -1,9 +1,8 @@
 package com.chatsync.chatSyncBackend.service.Impl;
 
-import com.chatsync.chatSyncBackend.WSUtils.WSNotificationTypes;
+import com.chatsync.chatSyncBackend.utils.wsutils.WSNotificationTypes;
 import com.chatsync.chatSyncBackend.dto.MessageDto;
 import com.chatsync.chatSyncBackend.model.*;
-import com.chatsync.chatSyncBackend.model.utils.MessageStatus;
 import com.chatsync.chatSyncBackend.model.utils.MessageTypes;
 import com.chatsync.chatSyncBackend.service.WSEventHandlerService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,9 +10,7 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @Slf4j
@@ -131,42 +128,49 @@ public class WSEventHandlerServiceImpl implements WSEventHandlerService {
         JSONObject eventObj = (JSONObject) message.get("eventObject");
         log.info(LOG_TAG + " eventObj " + eventObj.toString());
 
+        // saving message to the database
+        Messages savedMessage = this.messageService.saveOneToOneMessage((String) eventObj.get("from"),
+                (String) eventObj.get("to"),
+                (String) eventObj.get("threadId"),
+                (String) eventObj.get("messageContent"),
+                MessageTypes.ONE_TO_ONE_TEXT);
+
+        // processing for sender confirmation event
+
         MessageDto senderMessageDto = MessageDto.builder()
                 .messageType(MessageTypes.ONE_TO_ONE_TEXT)
                 .messageDirection(MessageDirection.OUT)
-                .senderId((String) eventObj.get("from"))
-                .receiverId((String) eventObj.get("to"))
-                .messageContent((String) eventObj.get("messageContent"))
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .messageId(null)
-                .threadId((String) eventObj.get("threadId"))
-                .build();
-
-        // saving message to the database
-        Messages savedMessage = this.messageService.saveOneToOneMessage(senderMessageDto);
-        senderMessageDto.setMessageId(savedMessage.getMessageId());
-
-        MessageDto receiverMessageDto = MessageDto.builder()
-                .messageType(MessageTypes.ONE_TO_ONE_TEXT)
-                .messageDirection(MessageDirection.IN)
-                .senderId((String) eventObj.get("from"))
-                .receiverId((String) eventObj.get("to"))
-                .messageContent((String) eventObj.get("messageContent"))
+                .senderId(savedMessage.getSender().getUserId())
+                .receiverId(savedMessage.getReceiver().getUserId())
+                .messageContent(savedMessage.getMessageContent())
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .messageId(savedMessage.getMessageId())
-                .threadId((String) eventObj.get("threadId"))
+                .threadId(savedMessage.getThread().getThreadId())
                 .build();
 
         // sending confirm message to sender user
         JSONObject senderObj = new JSONObject();
         senderObj.put("txnId", message.get("txnId"));
-        senderObj.put("eventType", WSNotificationTypes.RECEIVE_ONE_TO_ONE_TEXT_CONFIRM);
+        senderObj.put("eventType", WSNotificationTypes.ONE_TO_ONE_SENT_TEXT_CONFIRM);
         senderObj.put("eventObject", new JSONObject(senderMessageDto));
 
+        log.info("{} generated sender confirmation message : {}", LOG_TAG, senderObj.toString());
         String senderId = (String) eventObj.get("from");
         this.notificationService.sendEventToUser(senderId, senderObj.toString());
+
+        // processing for message to the receiver
+        MessageDto receiverMessageDto = MessageDto.builder()
+                .messageType(MessageTypes.ONE_TO_ONE_TEXT)
+                .messageDirection(MessageDirection.IN)
+                .senderId(savedMessage.getSender().getUserId())
+                .receiverId(savedMessage.getReceiver().getUserId())
+                .messageContent(savedMessage.getMessageContent())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .messageId(savedMessage.getMessageId())
+                .threadId(savedMessage.getThread().getThreadId())
+                .build();
 
         // receiver event processing
         JSONObject receiverObj = new JSONObject();
@@ -174,6 +178,7 @@ public class WSEventHandlerServiceImpl implements WSEventHandlerService {
         receiverObj.put("eventType", WSNotificationTypes.RECEIVE_ONE_TO_ONE_TEXT_MESSAGE);
         receiverObj.put("eventObject", new JSONObject(receiverMessageDto));
 
+        log.info("{} generated message event for receiver : {}", LOG_TAG, receiverObj.toString());
         // sending to receiver user
         String receiverId = (String) eventObj.get("to");
         this.notificationService.sendEventToUser(receiverId, receiverObj.toString());

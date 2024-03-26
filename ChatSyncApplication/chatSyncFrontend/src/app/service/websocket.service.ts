@@ -65,7 +65,7 @@ export class WebsocketService {
   processOneToOneReceivedWSMessage(respObject: any) {
     let wsNotificationType: WSNotificationTypes = respObject["eventType"];
     switch (wsNotificationType) {
-      case WSNotificationTypes.RECEIVE_ONE_TO_ONE_TEXT_CONFIRM:
+      case WSNotificationTypes.ONE_TO_ONE_SENT_TEXT_CONFIRM:
         this.processOneToOneTextMessageConfirm(respObject.eventObject);
         break;
       case WSNotificationTypes.RECEIVE_ONE_TO_ONE_TEXT_MESSAGE:

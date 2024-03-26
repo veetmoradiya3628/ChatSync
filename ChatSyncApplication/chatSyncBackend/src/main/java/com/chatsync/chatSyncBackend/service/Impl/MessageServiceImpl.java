@@ -148,17 +148,14 @@ public class MessageServiceImpl implements MessageService {
         }
     }
 
-    public Messages saveOneToOneMessage(MessageDto messageDto) {
-        String senderId = messageDto.getSenderId();
-        String receiverId = messageDto.getReceiverId();
-        String threadId = messageDto.getThreadId();
+    public Messages saveOneToOneMessage(String senderId, String receiverId, String threadId, String messageContent, MessageTypes messageType) {
         if (this.userService.isUserExistsById(senderId) && this.userService.isUserExistsById(receiverId) && this.threadService.isThreadExistsById(threadId)) {
 
             // convId validation and thread, if thread not exists in that need to add new thread entry and then will have to proceed
 
             Messages message = Messages.builder()
-                    .messageType(messageDto.getMessageType())
-                    .messageContent(messageDto.getMessageContent())
+                    .messageType(messageType)
+                    .messageContent(messageContent)
                     .isDeleted(false)
                     .sender(new User(senderId))
                     .receiver(new User(receiverId))

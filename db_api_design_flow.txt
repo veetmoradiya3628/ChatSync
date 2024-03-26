@@ -266,7 +266,7 @@ server process it and
 client received RECEIVE_ONE_TO_ONE_TEXT_MESSAGE event on private topic on one thread
 
 if thread is active thread:
-	update the UI and send ONE_TO_ONE_TEXT_MESSAGE_DR to server with messageId, threadId and required info
+	update the UI and send ONE_TO_ONE_TEXT_MESSAGE_DR to server with messageId
 	once server receives that event then update message status to delivered
 		if sender is online:
 			sent RECEIVE_ONE_TO_ONE_TEXT_MESSAGE_DR event to update status of message to delivered
@@ -299,3 +299,11 @@ else:
 	on selecting the thread as active thread and onscroll to end, at that time sent event RECEIVE_GROUP_TEXT_MESSAGE_CONFIRM for pending read message to the server
 		then on server it will work as above.
 
+
+payload structure examples:
+
+ONE_TO_ONE_TEXT_MESSAGE_DR
+
+{
+	"messageId": "uuid"
+}

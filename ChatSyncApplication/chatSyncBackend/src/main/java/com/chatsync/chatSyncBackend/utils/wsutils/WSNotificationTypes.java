@@ -1,8 +1,9 @@
-package com.chatsync.chatSyncBackend.WSUtils;
+package com.chatsync.chatSyncBackend.utils.wsutils;
 
 public enum WSNotificationTypes {
     SENT_ONE_TO_ONE_TEXT_MESSAGE,
-    RECEIVE_ONE_TO_ONE_TEXT_CONFIRM,
+    ONE_TO_ONE_SENT_TEXT_CONFIRM,
+    ONE_TO_ONE_TEXT_MESSAGE_DR,
     SENT_GROUP_TEXT_MESSAGE,
     RECEIVE_ONE_TO_ONE_TEXT_MESSAGE,
     RECEIVE_GROUP_TEXT_MESSAGE,

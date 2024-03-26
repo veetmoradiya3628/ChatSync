@@ -44,8 +44,8 @@
                                     [ngClass]="{'sent': message.messageDirection === 'IN'}">
                                     <div fxLayout="column" fxLayoutAlign="start start">
                                         <div>{{ message.messageContent }}</div>
-                                        <div fxLayout="row" fxLayoutAlign="start start" class="mt-5 messate-timestamp">
-                                            {{ message.createdAt | date:'yyyy/MM/dd h:mm:ss' }}, {{ message.messageStatus }}
+                                        <div fxLayout="row" fxLayoutAlign="start start" class="mt-5 message-timestamp">
+                                            {{ message.createdAt | date:'yyyy/MM/dd h:mm:ss' }}, {{ message.messageStatus | lowercase }}
                                         </div>
                                     </div>
                                 </div>
@@ -59,8 +59,8 @@
                                 [ngClass]="{'received': message.messageDirection === 'OUT'}">
                                 <div fxLayout="column" fxLayoutAlign="start start">
                                     <div>{{ message.messageContent }}</div>
-                                    <div fxLayout="row" fxLayoutAlign="end end" class="mt-5 messate-timestamp">
-                                        {{ message.createdAt | date:'yyyy/MM/dd h:mm:ss' }}, {{ message.messageStatus }}
+                                    <div fxLayout="row" fxLayoutAlign="end end" class="mt-5 message-timestamp">
+                                        {{ message.createdAt | date:'yyyy/MM/dd h:mm:ss' }}, {{ message.messageStatus | lowercase }}
                                     </div>
                                 </div>
                             </div>
