@@ -215,3 +215,87 @@ Get history threads for user - pagination - (50 per page)
 Get Messages for one thread - pagination (100 per page)
 Delete Message
 
+
+
+====
+Below Implementation flow to be implemented...
+
+/topic/global
+/topic/private/<user-id>
+
+/app/message
+
+===
+Generic object structure for WS Notifications:
+
+{
+	txnId
+	eventType
+	eventObject
+}
+
+===
+eventType:
+
+SENT_ONE_TO_ONE_TEXT_MESSAGE
+ONE_TO_ONE_SENT_TEXT_CONFIRM
+RECEIVE_ONE_TO_ONE_TEXT_MESSAGE
+ONE_TO_ONE_TEXT_MESSAGE_DR
+RECEIVE_ONE_TO_ONE_TEXT_MESSAGE_DR
+
+SENT_GROUP_TEXT_MESSAGE
+GROUP_TEXT_MESSAGE_CONFIRM
+GROUP_TEXT_MESSAGE_DR
+RECEIVE_GROUP_TEXT_MESSAGE
+RECEIVE_GROUP_TEXT_MESSAGE_CONFIRM
+
+WS event usecases from client and server perspective:
+
+1. One to One Message sent flow
+
+client sent /app/message -> SENT_ONE_TO_ONE_TEXT_MESSAGE event
+server process it and 
+	- sent event ONE_TO_ONE_SENT_TEXT_CONFIRM to sender with required messageInfo and threadInfo as eventObject
+	- if receiver is online:
+		sent event RECEIVE_ONE_TO_ONE_TEXT_MESSAGE to receiver with required info in eventObject
+	  else
+		store message notification into tbl_notifications for receiver
+
+2. One to One Message receive flow
+
+client received RECEIVE_ONE_TO_ONE_TEXT_MESSAGE event on private topic on one thread
+
+if thread is active thread:
+	update the UI and send ONE_TO_ONE_TEXT_MESSAGE_DR to server with messageId, threadId and required info
+	once server receives that event then update message status to delivered
+		if sender is online:
+			sent RECEIVE_ONE_TO_ONE_TEXT_MESSAGE_DR event to update status of message to delivered
+
+if thread is not active thread:
+	update the thread map and required cnt variable,
+	on selecting the thread as active thread and onscroll to end, at that time sent event ONE_TO_ONE_TEXT_MESSAGE_DR for pending read message to the server
+		then on server it will work as above.
+
+3. Group message sent from ClientA on GroupA
+
+client sent /app/message -> SENT_GROUP_TEXT_MESSAGE event
+server process it as below:
+	- store message in tbl_message and sent GROUP_TEXT_MESSAGE_CONFIRM to sender as confirmation for message sent
+	- async way list the members of group then for each member 
+		if member is online:
+			sent RECEIVE_GROUP_TEXT_MESSAGE with required information and wait for confirmation
+			if confirmation event - GROUP_TEXT_MESSAGE_DR comes in N seconds, then clear it else #think
+		if member is offline:
+			create notification entry in tbl_notifications for event RECEIVE_GROUP_TEXT_MESSAGE, later once client comes online then this will sent to them
+
+4. Receive message on Group from other client
+
+client receive RECEIVE_GROUP_TEXT_MESSAGE on private topic,
+if thread is active thread:
+	update the UI and send RECEIVE_GROUP_TEXT_MESSAGE_CONFIRM to server with messageId, threadId and required info
+	once server receives that event then update notification status for the client accordingly.
+else:
+	update the thread map and required cnt variable,
+	on selecting the thread as active thread and onscroll to end, at that time sent event RECEIVE_GROUP_TEXT_MESSAGE_CONFIRM for pending read message to the server
+		then on server it will work as above.
+
