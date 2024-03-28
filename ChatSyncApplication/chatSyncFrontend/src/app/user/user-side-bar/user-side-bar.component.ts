@@ -13,6 +13,8 @@ import { WebsocketService } from 'src/app/service/websocket.service';
 })
 export class UserSideBarComponent implements OnInit, OnDestroy {
 
+  loggedInUsername: string = '';
+
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches),
@@ -20,11 +22,13 @@ export class UserSideBarComponent implements OnInit, OnDestroy {
     );
 
 
-  constructor(private breakpointObserver: BreakpointObserver, 
+  constructor(private breakpointObserver: BreakpointObserver,
               private _wsService: WebsocketService,
               private _dialogConfirmationService: ConfirmationDialogService,
               private _authService: AuthService,
-              private _router: Router) { }
+              private _router: Router) {
+    this.loggedInUsername = this._authService.getUser().firstName + ' ' + this._authService.getUser().lastName;
+  }
 
 
   ngOnInit(): void {

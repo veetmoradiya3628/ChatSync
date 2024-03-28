@@ -18,7 +18,7 @@
   <button mat-icon-button matTooltip="Profile" matTooltipPosition="below" matTooltipHideDelay="200" [routerLink]="'/user/profile'">
     <mat-icon>person_pin</mat-icon>
   </button>
-  <span>Welcome, John Doe!</span>
+  <span>{{loggedInUsername}}</span>
   <button mat-icon-button (click)="logoutUser()">
     <mat-icon>exit_to_app</mat-icon>
   </button>
