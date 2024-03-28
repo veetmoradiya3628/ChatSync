@@ -22,6 +22,6 @@ const defaultThreadDto: Partial<ThreadDto> = {
   memberCnt: 0,
   pendingToReadMessageCnt: 0,
   isReadPending: false,
-  lastLoadedPageNumber: 1,
+  lastLoadedPageNumber: 0,
   isLastPage: false
 };

@@ -26,6 +26,7 @@ export class UserChatMessageThreadComponent implements OnInit, OnDestroy {
   public threadMessages: Array<MessageDto> = [];
   public selectedThreadInfo!: ThreadDto;
   public newMessage: string = '';
+  public pageNumber = 0;
 
   @ViewChild('scrollMessageContainer') scrollMessageContainer!: ElementRef;
 
@@ -37,6 +38,7 @@ export class UserChatMessageThreadComponent implements OnInit, OnDestroy {
     this.subscription = this._userChatCommonService.selectedThreadValueSubject$.subscribe(
       (value: any) => {
         this.selectedThreadIdx = value;
+        this.pageNumber = 0;
         this.selectedThreadInfo = this._userChatCommonService.findThreadById(this.selectedThreadIdx) || {};
         console.log(`UserChatMessageThreadComponent :: threadId : ${this.selectedThreadIdx}`)
         this.loadMessagesForThread();
@@ -54,7 +56,7 @@ export class UserChatMessageThreadComponent implements OnInit, OnDestroy {
       if (this._userChatCommonService.checkMapContainsThread(this.selectedThreadIdx)) {
         this.threadMessages = this._userChatCommonService.getMessagesOfThread(this.selectedThreadIdx);
       } else {
-        this._apiService.loadMessagesForThreadAndUser(this.selectedThreadIdx, this.userId, 0, 100).subscribe(
+        this._apiService.loadMessagesForThreadAndUser(this.selectedThreadIdx, this.userId, 0, 12).subscribe(
           (res: any) => {
             console.log(res);
             this.threadMessages = res.data.content;
@@ -82,7 +84,7 @@ export class UserChatMessageThreadComponent implements OnInit, OnDestroy {
         console.log(`receiverIds : ${receiverIds}`);
 
         let receiverId = '';
-        receiverIds?.forEach(id => {
+        receiverIds?.forEach((id: string) => {
           if (id !== this.userId) {
             receiverId = id;
           }
@@ -133,7 +135,7 @@ export class UserChatMessageThreadComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  onMessageContainerScroll() {
+  async onMessageContainerScroll() {
     console.log(`reached at end!!`)
     // mark as read and change pending read cnt to 0
     this._userChatCommonService.markThreadInfoAsRead(this.selectedThreadIdx);
@@ -141,6 +143,8 @@ export class UserChatMessageThreadComponent implements OnInit, OnDestroy {
     this.threadMessages = [...this._userChatCommonService.removeNewMessageIndicator(this.selectedThreadIdx)];
 
     // need to load next page of messages
-
+    let respMessages = await this._userChatCommonService.getMessagesOfThreadPage(this.selectedThreadIdx, this.pageNumber + 1);
+    this.pageNumber = this.pageNumber + 1;
+    this.threadMessages = [...this.threadMessages, ...respMessages];
   }
 }

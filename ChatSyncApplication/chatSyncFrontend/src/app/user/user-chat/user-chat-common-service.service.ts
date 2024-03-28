@@ -49,7 +49,7 @@ export class UserChatCommonServiceService {
     this.threadsSubject.next(this.threads);
   }
 
-  getThreadReadStatus(threadId: string){
+  getThreadReadStatus(threadId: string) {
     return this.findThreadById(threadId)?.isReadPending || false;
   }
 
@@ -77,8 +77,8 @@ export class UserChatCommonServiceService {
   // utility methods for thread and message mapping
 
   updateSelectedValue(threadId: string): void {
-      this.selectedThreadIdx = threadId;
-      this.selectedThreadValueSubject.next(threadId);
+    this.selectedThreadIdx = threadId;
+    this.selectedThreadValueSubject.next(threadId);
   }
 
   addThreadToMap(threadId: string, messages: Array<MessageDto>) {
@@ -145,7 +145,7 @@ export class UserChatCommonServiceService {
 
   public async getMessagesForThread(threadId: string): Promise<Array<MessageDto>> {
     try {
-      const res: any = await this._apiService.loadMessagesForThreadAndUser(threadId, this.userId, 0, 100).toPromise();
+      const res: any = await this._apiService.loadMessagesForThreadAndUser(threadId, this.userId, 0, 12).toPromise();
       console.log(res);
       return res.data.content;
     } catch (error) {
@@ -157,14 +157,14 @@ export class UserChatCommonServiceService {
   public removeNewMessageIndicator(selectedThreadIdx: string) {
     console.log(`going for clean up of message from thread: ${selectedThreadIdx}`)
     let messages = this.messageMap.get(selectedThreadIdx);
-    let filteredMessages = messages?.filter(message => message.messageDirection !==  MessageDirection.NEW_MESSAGE_START) || []
+    let filteredMessages = messages?.filter(message => message.messageDirection !== MessageDirection.NEW_MESSAGE_START) || []
     this.messageMap.set(selectedThreadIdx, [...filteredMessages]);
     return filteredMessages;
   }
 
   public markThreadInfoAsRead(threadId: string) {
     let thread: any = this.findThreadById(threadId);
-    if (thread !== undefined && thread.pendingToReadMessageCnt > 0){
+    if (thread !== undefined && thread.pendingToReadMessageCnt > 0) {
       thread.pendingToReadMessageCnt = 0;
       thread.isReadPedning = false;
     }
@@ -174,11 +174,30 @@ export class UserChatCommonServiceService {
   public async loadFirstPageMessageForThreads() {
     console.log(`loadFirstPageMessageForThreads started...`)
     for (const thread of this.threads) {
-      if(thread.threadId){
+      if (thread.threadId) {
         const messages = await this.getMessagesForThread(thread.threadId);
         this.messageMap.set(thread.threadId, messages);
       }
     }
     console.log(`loadFirstPageMessageForThreads finished...`)
   }
+
+  async getMessagesOfThreadPage(selectedThreadIdx: string, pageNumber: number) {
+    if (!this.findThreadById(selectedThreadIdx)?.isLastPage) {
+      const res: any = await this._apiService.loadMessagesForThreadAndUser(selectedThreadIdx, this.userId, pageNumber, 12).toPromise();
+      console.log(res);
+      let messages = res.data.content;
+      let isLastPage = res.data.last;
+      let threadInfo: any = this.findThreadById(selectedThreadIdx) || {};
+      threadInfo.isLastPage = isLastPage;
+      threadInfo.lastLoadedPageNumber = pageNumber + 1;
+      this.updateThread(threadInfo);
+
+      let threadMessage = this.messageMap.get(selectedThreadIdx);
+      this.messageMap.set(selectedThreadIdx, (threadMessage || []).concat(messages));
+
+      return messages;
+    }
+  }
+
 }
