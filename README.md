@@ -29,13 +29,24 @@
     <li><a href="#features">Features</a></li>
     <li><a href="#database-design">Database Design</a></li>
     <li><a href="#application-architecture">Application Architecture</a></li>
-    <li><a href="#message-flows">Websocket Message flows</a>
+    <li><a href="#websocket-message-flows">Websocket Message flows</a>
         <ol>
             <li><a href="#one-to-one-message">One to One Message</a></li>
             <li><a href="#group-message">Group Message</a></li>
         </ol>
     </li>
-    <li><a href="#application-screenshots">Application Screenshots</a></li>
+    <li><a href="#websocket-events-screenshots">Websocket Events Screenshots</a></li>
+    <li><a href="#application-screenshots">Application Screenshots</a>
+        <ol>
+            <li><a href="#login-registration">Login & Registration</a></li>
+            <li><a href="#profile">Profile</a></li>
+            <li><a href="#contacts">Contacts</a></li>
+            <li><a href="#groups">Groups</a></li>
+            <li><a href="#chats">Chats</a></li>
+            <li><a href="#logout">Logout</a></li>
+        </ol>
+    </li>
+    <li><a href="#future-enhancements">Future Enhancements</a></li>
   </ol>
 </details>
 
@@ -144,13 +155,12 @@ To get a local copy up and running follow these simple example steps.
 ### Receive group msg event
 ![](/screen_shots/ws_events/receive_grp_text_msg.png)
 
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- Application Screenshots -->
 ## Application Screenshots
 
-### Login & Registration
-
-### Login & Registration
+### Login Registration
 
 #### Registration
 ![Registration Page](/screen_shots/UI/registration_page.png "Registration Page - This page allows users to register for an account.")
@@ -161,9 +171,13 @@ To get a local copy up and running follow these simple example steps.
 #### Activation Request
 ![Activation Request Page](/screen_shots/UI/activate_req_page.png "Activation Request Page - This page is used to request activation for an account.")
 
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 ### Profile
 
 ![Profile page](/screen_shots/UI/profile_page.png)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Contacts
 
@@ -188,6 +202,8 @@ To get a local copy up and running follow these simple example steps.
 #### global contact add confirm
 ![](/screen_shots/UI/contacts/global_contact_add_dialog.png)
 
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 ### Groups
 
 #### groups tab
@@ -211,6 +227,8 @@ To get a local copy up and running follow these simple example steps.
 #### new group filled page
 ![](/screen_shots/UI/groups/filled_new_grp.png)
 
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 ### Chats
 
 #### Chat Page default
@@ -228,8 +246,21 @@ To get a local copy up and running follow these simple example steps.
 #### Open Inactive Grp thread
 ![](/screen_shots/UI/chat_page/open_inactive_grp_thread.png)
 
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Logout
 
 #### Logout confirm
 ![](/screen_shots/UI/logout_confirm.png)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## Future Enhancements
+
+<ul>
+    <li>File & Image sharing support for one to one and group messaging</li>
+    <li>Better UI UX design</li>
+    <li>Websocket / REST APIs optimization & improvements</li>
+</ul>
+
+<p align="right">(<a href="#top">back to top</a>)</p>
