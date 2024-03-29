@@ -26,7 +26,7 @@ export class UserChatMessageThreadComponent implements OnInit, OnDestroy {
   public threadMessages: Array<MessageDto> = [];
   public selectedThreadInfo!: ThreadDto;
   public newMessage: string = '';
-  public pageNumber = 0;
+  public pageNumber: number = 0;
 
   @ViewChild('scrollMessageContainer') scrollMessageContainer!: ElementRef;
 
@@ -38,8 +38,8 @@ export class UserChatMessageThreadComponent implements OnInit, OnDestroy {
     this.subscription = this._userChatCommonService.selectedThreadValueSubject$.subscribe(
       (value: any) => {
         this.selectedThreadIdx = value;
-        this.pageNumber = 0;
         this.selectedThreadInfo = this._userChatCommonService.findThreadById(this.selectedThreadIdx) || {};
+        this.pageNumber = this.selectedThreadInfo.lastLoadedPageNumber || 0;
         console.log(`UserChatMessageThreadComponent :: threadId : ${this.selectedThreadIdx}`)
         this.loadMessagesForThread();
       }

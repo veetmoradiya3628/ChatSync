@@ -62,6 +62,7 @@ export class UserChatCommonServiceService {
       this.threads.unshift(threadToMove);
 
       this.threadsSubject.next(this.threads);
+      this.selectedThreadValueSubject.next(this.selectedThreadIdx);
     }
   }
 
@@ -200,4 +201,14 @@ export class UserChatCommonServiceService {
     }
   }
 
+  startNewConversationOnThread(data: ThreadDto) {
+    console.log(`startNewConversationOnThread called with threadID: ${data.threadId}`)
+    if(this.threads.some(obj => obj["threadId"] = data.threadId)){
+      this.updateThreadToPositionZero(data.threadId || '', new Date())
+    }else{
+      this.threads.unshift(data);
+      this.threadsSubject.next(this.threads);
+      this.selectedThreadValueSubject.next(data.threadId || '');
+    }
+  }
 }

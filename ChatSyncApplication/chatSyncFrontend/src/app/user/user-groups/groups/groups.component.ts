@@ -10,6 +10,9 @@ import { ConfirmationDialogService } from 'src/app/service/confirmation-dialog.s
 import { CommonConfigService } from 'src/app/service/common-config.service';
 import {Subscription} from "rxjs";
 import {GroupTabService} from "../../service/group-tab.service";
+import {GeneralService} from "../../../service/general.service";
+import {UserChatCommonServiceService} from "../../user-chat/user-chat-common-service.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-groups',
@@ -31,7 +34,10 @@ export class GroupsComponent implements OnInit {
     public dialog: MatDialog,
     private _confirmationDialog: ConfirmationDialogService,
     private _commonConfig: CommonConfigService,
-              private _groupTabService: GroupTabService) {
+              private _groupTabService: GroupTabService,
+               private _generalService: GeneralService,
+               private _userChatService: UserChatCommonServiceService,
+              private _router: Router) {
     this.userId = this._authService.getUserId();
     this.subscription = this._groupTabService.tabChanged$.subscribe((index) => {
       console.log(index)
@@ -117,6 +123,29 @@ export class GroupsComponent implements OnInit {
     this._confirmationDialog.openConfirmationDialog('Are you sure want to start chat ?').then((result) => {
       if (result) {
         console.log(`clicked yes for groupId : ${groupId}`)
+
+        let reqObj: any = {};
+        reqObj['conversationGroupId'] = groupId;
+        reqObj['conversationType'] = "GROUP";
+
+        console.log(reqObj)
+
+        this._apiService.createChatThreadAPI(reqObj).subscribe(
+          (res: any) => {
+            console.log(res)
+            this._generalService.openSnackBar("chat started successfully!!", "Ok");
+            this._userChatService.startNewConversationOnThread(res.data);
+
+            setTimeout(() => {
+              this._router.navigate(["/user/chat"])
+            }, 1000)
+
+          },
+          (error : any) => {
+            console.log(error)
+          }
+        )
+
       } else {
         console.log(`clicked no`);
         return;

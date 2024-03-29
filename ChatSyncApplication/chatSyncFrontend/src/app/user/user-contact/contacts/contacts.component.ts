@@ -9,6 +9,8 @@ import { Subscription } from 'rxjs';
 import { ContactTabService } from '../../service/contact-tab.service';
 import { GeneralService } from 'src/app/service/general.service';
 import { CommonConfigService } from 'src/app/service/common-config.service';
+import {UserChatCommonServiceService} from "../../user-chat/user-chat-common-service.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-contacts',
@@ -29,7 +31,9 @@ export class ContactsComponent implements OnInit, OnDestroy {
     private _confirmationDialog: ConfirmationDialogService,
     private _generalService: GeneralService,
     private _contactTabService: ContactTabService,
-    private _commonConfig: CommonConfigService) {
+    private _commonConfig: CommonConfigService,
+    private _userChatService: UserChatCommonServiceService,
+              private _router: Router) {
     this.userId = this._authService.getUserId();
     this.subscription = this._contactTabService.tabChanged$.subscribe((index) => {
       if (index === 0) {
@@ -97,6 +101,29 @@ export class ContactsComponent implements OnInit, OnDestroy {
     this._confirmationDialog.openConfirmationDialog('Are you sure want to start chat ?').then((result) => {
       if (result) {
         console.log(`clicked yes for userId : ${userId}`)
+
+        let reqObj: any = {};
+        reqObj['userA'] = userId;
+        reqObj['userB'] = this.userId;
+        reqObj['conversationType'] = "ONE_TO_ONE";
+
+        console.log(reqObj)
+
+        this._apiService.createChatThreadAPI(reqObj).subscribe(
+          (res: any) => {
+            console.log(res)
+            this._generalService.openSnackBar("chat started successfully!!", "Ok");
+            this._userChatService.startNewConversationOnThread(res.data);
+
+            setTimeout(() => {
+              this._router.navigate(["/user/chat"])
+            }, 1000)
+
+          },
+          (error : any) => {
+            console.log(error)
+          }
+        )
       } else {
         console.log(`clicked no`);
         return;

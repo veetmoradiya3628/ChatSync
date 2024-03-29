@@ -113,4 +113,9 @@ export class ApiService {
 
     return this.http.post(url, formData);
   }
+
+  createChatThreadAPI(reqObj: any): Observable<any> {
+    const url = this.BASE_URL + '/thread/create-new-thread';
+    return this.http.post(url, reqObj);
+  }
 }
