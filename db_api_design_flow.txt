@@ -261,6 +261,9 @@ server process it and
 	  else
 		store message notification into tbl_notifications for receiver
 
+
+topic: /topic/private/<userid>, event: RECEIVE_ONE_TO_ONE_TEXT_MESSAGE
+
 2. One to One Message receive flow
 
 client received RECEIVE_ONE_TO_ONE_TEXT_MESSAGE event on private topic on one thread
@@ -298,12 +301,22 @@ else:
 	update the thread map and required cnt variable,
 	on selecting the thread as active thread and onscroll to end, at that time sent event RECEIVE_GROUP_TEXT_MESSAGE_CONFIRM for pending read message to the server
 		then on server it will work as above.
+		
 
 
-payload structure examples:
+===
+Activities
 
-ONE_TO_ONE_TEXT_MESSAGE_DR
+1. on scroll pagination with messages loading & running - done
+4. UI top bar logged in username - done
+5. new message thread addition from contact / group screen - done
 
-{
-	"messageId": "uuid"
-}
+8. Presence status to be updated on every page based on info available in cache DB
+9. reset password functionality to be implemented
+10. User & Group page functionality to be added
+3. registration, welcome and activation mail 
+
+6. on login only load messages with completed notification, pending message status notification should not go to user, once login success then one cron should deliver those pending messages in 100ms delay to simulate the real time update on UI
+7. DR for read message on client side (active + inactive thread)
+2. inactive pending notification entry in tbl_notifications for inactive user
+==
